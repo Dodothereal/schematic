@@ -44,7 +44,7 @@
 
   S.demo = ({ title, desc, body, specs = [], stage = "", cls = "", attrs = "", replay = false }) => `
     <article class="demo ${cls}" ${attrs}>
-      ${replay ? `<button class="btn btn-ghost btn-sm btn-icon demo-replay" data-replay data-tip="Replay">${S.icon("refresh")}</button>` : ""}
+      ${replay ? `<button class="btn btn-ghost btn-sm btn-icon demo-replay" data-replay data-tip="Replay" aria-label="Replay ${S.esc(title)}">${S.icon("refresh")}</button>` : ""}
       <div class="demo-stage ${stage}">${body}</div>
       <footer class="demo-foot">
         <div><div class="demo-title">${title}</div>${desc ? `<div class="demo-desc">${desc}</div>` : ""}</div>
@@ -56,7 +56,7 @@
   const host = () => S.$("#page-host");
   const viewport = () => S.$("#viewport");
   const byId = (id) => pages.find((p) => p.id === id);
-  const routeFromHash = () => (location.hash.match(/^#\/([\w-]+)/)?.[1]) || pages[0]?.id;
+  const routeFromHash = () => { const id = location.hash.match(/^#\/([\w-]+)/)?.[1]; return byId(id) ? id : pages[0]?.id; };
 
   /** Build (but don't show) a page's DOM. Called on intent and during idle. */
   S.prepare = (id) => {
@@ -71,6 +71,7 @@
   };
 
   const swap = (id) => {
+    document.dispatchEvent(new CustomEvent("schematic:navigate", { detail: { id } }));
     const prev = state.current && byId(state.current);
     const prevEl = state.current && state.built.get(state.current);
     if (prevEl) { state.scroll[state.current] = viewport().scrollTop; prev.leave?.(prevEl); prevEl.hidden = true; }
@@ -87,15 +88,26 @@
     return { p, el };
   };
 
-  let navigating = null;
-  S.navigate = (id, { shared } = {}) => {
-    if (!byId(id) || id === state.current) return;
+  let navigating = null, navigationVersion = 0;
+  S.navigate = async (id, { shared } = {}) => {
+    if (!byId(id)) return;
+    const version = ++navigationVersion;
+    if (navigating) {
+      navigating.skipTransition();
+      await navigating.updateCallbackDone.catch(() => {});
+    }
+    if (version !== navigationVersion || id === state.current) return;
+    const focusContent = !!document.activeElement?.closest("#page-host");
     const from = pages.findIndex((p) => p.id === state.current), to = pages.findIndex((p) => p.id === id);
     root.style.setProperty("--dir", to >= from ? "1" : "-1");
     if (location.hash !== `#/${id}`) history[state.current ? "pushState" : "replaceState"](null, "", `#/${id}`);
     closeMobileNav();
 
-    const finish = ({ p, el }) => requestAnimationFrame(() => p.enter?.(el));
+    const finish = ({ p, el }) => requestAnimationFrame(() => {
+      if (state.current !== id) return;
+      p.enter?.(el);
+      if (focusContent) { const h = S.$("h1", el); if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); } }
+    });
     if (!document.startViewTransition || S.reduced() || !state.current) {
       const r = swap(id);
       if (state.current && !document.startViewTransition && !S.reduced()) { r.el.classList.remove("page-enter"); r.el.offsetWidth; r.el.classList.add("page-enter"); }
@@ -105,16 +117,19 @@
     navigating?.skipTransition?.();
     if (shared) shared.style.viewTransitionName = "hero-ic";
     let result;
-    navigating = document.startViewTransition(() => {
+    const transition = document.startViewTransition(() => {
       if (shared) shared.style.viewTransitionName = "";
       result = swap(id);
       if (shared) { const target = S.$(".page-head-ic", result.el); if (target) target.style.viewTransitionName = "hero-ic"; }
     });
-    navigating.updateCallbackDone.then(() => finish(result));
-    navigating.finished.finally(() => {
+    navigating = transition;
+    // ready rejects when a newer intent skips this animation; the DOM update
+    // still completes. Treat that expected cancellation as a settled outcome.
+    transition.ready.catch(() => {});
+    transition.updateCallbackDone.then(() => finish(result)).catch((e) => console.error("Navigation failed", e));
+    await transition.finished.catch(() => {});
       if (result) { const t = S.$(".page-head-ic", result.el); if (t) t.style.viewTransitionName = ""; }
-      navigating = null;
-    });
+      if (navigating === transition) navigating = null;
   };
 
   // Links: <a href="#/icons"> — intercepted so we control the transition.
@@ -126,6 +141,7 @@
     S.navigate(id, { shared: a.hasAttribute("data-shared") ? S.$(".shared-ic", a) : null });
   });
   window.addEventListener("popstate", () => S.navigate(routeFromHash()));
+  window.addEventListener("hashchange", () => { if (location.hash.startsWith("#/") && routeFromHash() !== state.current) S.navigate(routeFromHash()); });
 
   // Intent prerender: hovering, focusing or pressing a route link builds it.
   let intentT;
@@ -164,7 +180,7 @@
     if (!navPlaced) { m.offsetWidth; m.style.transition = ""; navPlaced = true; }
   };
 
-  const closeMobileNav = () => root.removeAttribute("data-nav-open");
+  const closeMobileNav = () => { root.removeAttribute("data-nav-open"); S.$("#menu-btn")?.setAttribute("aria-expanded", "false"); S.$(".sidebar")?.removeAttribute("data-keyboard-open"); };
 
   /* ===================================================================== on-this-page rail */
   let railObserver;
@@ -183,7 +199,8 @@
     links.forEach((l) => l.addEventListener("click", (e) => {
       e.preventDefault();
       const target = S.$(`#${CSS.escape(l.dataset.tocLink)}`, pageEl);
-      S.scrollTo(target.offsetTop - 24);
+      const vp = viewport();
+      S.scrollTo(vp.scrollTop + target.getBoundingClientRect().top - vp.getBoundingClientRect().top - 24);
       setActive(l.dataset.tocLink);
     }));
     const visible = new Map();

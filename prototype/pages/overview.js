@@ -40,8 +40,8 @@
         </section>
 
         <div class="ov-stats grid cols-4">
-          ${[["icons", S.iconNames.length, "Animated icons", "sparkles"], ["tokens", 64, "Design tokens", "droplet"], ["curves", 10, "Motion curves", "wave"], ["deps", 0, "Dependencies", "cube"]]
-            .map(([k, v, l, ic]) => `<div class="card ov-stat" data-ic-trigger><div class="row-between"><span class="t-caption">${l}</span><span class="ov-stat-ic">${S.icon(ic, { size: 16 })}</span></div><div class="ov-stat-val t-num" data-stat="${v}">0</div></div>`).join("")}
+          ${[["icons", S.iconNames.length, "Animated icons", "sparkles"], ["tokens", S.tokenNames().length, "Design tokens", "droplet"], ["curves", Object.keys(S.ease).length, "Motion curves", "wave"], ["deps", 0, "Dependencies", "cube"]]
+            .map(([k, v, l, ic]) => `<div class="card ov-stat" data-ic-trigger><div class="row-between"><span class="t-caption">${l}</span><span class="ov-stat-ic">${S.icon(ic, { size: 16 })}</span></div><div class="ov-stat-val t-num" data-stat="${v}">${v}</div></div>`).join("")}
         </div>
 
         ${S.section({
@@ -73,9 +73,6 @@
       </div>`,
     mount: (root) => {
       S.$("[data-open-cmdk-ov]", root).addEventListener("click", () => S.cmdk.open());
-    },
-    enter: (root) => {
-      S.$$("[data-stat]", root).forEach((el, i) => setTimeout(() => S.roll(el, el.dataset.stat), S.dur(200 + i * 80)));
     },
   });
 })();

@@ -88,6 +88,9 @@
 }
 .pop-section { display: flex; flex-direction: column; gap: var(--s-2); padding: var(--s-2) var(--s-2) var(--s-2_5); }
 .pop-section + .pop-section { border-top: 1px solid var(--border-soft); }
+.pop-section[data-accent-options] { display:grid;grid-template-rows:1fr;transition:grid-template-rows var(--d-moderate) var(--ease-out),opacity var(--d-base) var(--ease-out),padding var(--d-moderate) var(--ease-out); }
+.palette-accent-inner { display:flex;flex-direction:column;gap:var(--s-2);overflow:hidden;min-height:0; }
+[data-palette="mono"] .pop-section[data-accent-options] { grid-template-rows:0fr;opacity:0;padding-top:0;padding-bottom:0;border-top-color:transparent; }
 .pop-label { font-size: var(--t-xs); font-weight: var(--w-medium); color: var(--text-2); display: flex; justify-content: space-between; }
 
 .swatches { display: flex; gap: var(--s-1_5); }
@@ -289,9 +292,19 @@
 ::view-transition-old(hero-ic), ::view-transition-new(hero-ic) { animation-duration: var(--d-slow); height: 100%; }
 
 /* Theme switch: the new theme expands as a circle out of the toggle */
+/* Body backgrounds can propagate to the document canvas (and the embedded
+   preview makes that canvas transparent). Paint an opaque surface inside the
+   captured UI instead, without adding a grid item or intercepting input. */
+.app { position: relative; isolation: isolate; }
+.app::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--bg); pointer-events: none;
+}
 html.vt-theme .viewport, html.vt-theme .crumb-current { view-transition-name: none; }
+html.vt-theme::view-transition-group(root) { animation: none; }
+html.vt-theme::view-transition-old(root), html.vt-theme::view-transition-new(root) { mix-blend-mode: normal; }
 html.vt-theme::view-transition-old(root) { opacity: 1; animation: none; }
-html.vt-theme::view-transition-new(root) { animation: vt-reveal var(--d-slower) var(--ease-in-out); }
+html.vt-theme::view-transition-new(root) { animation: vt-reveal var(--d-slower) var(--ease-in-out) both; }
 @keyframes vt-reveal { from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0%)); } to { clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 0%)); } }
 
 /* Fallback for browsers without View Transitions */
@@ -300,3 +313,9 @@ html.vt-theme::view-transition-new(root) { animation: vt-reveal var(--d-slower) 
 /* Entrance choreography helper: children fade-rise in sequence */
 .reveal > * { animation: reveal-in var(--d-slow) var(--ease-out-expo) both; animation-delay: calc(var(--i, 0) * var(--stagger) + 80ms * var(--motion-scale)); }
 @keyframes reveal-in { from { opacity: 0; transform: translateY(10px); } }
+
+/* A motion preference suppresses ambient loops as well as page choreography. */
+html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-motion="reduced"] *::after { animation-duration:0.01ms!important;animation-delay:0ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important; }
+@media(prefers-reduced-motion:reduce) {
+  html:not([data-motion="full"]) *, html:not([data-motion="full"]) *::before, html:not([data-motion="full"]) *::after { animation-duration:0.01ms!important;animation-delay:0ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important; }
+}

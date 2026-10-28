@@ -16,13 +16,26 @@
   S.clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   S.lerp = (a, b, t) => a + (b - a) * t;
   S.token = (name) => getComputedStyle(root).getPropertyValue(name).trim();
-  S.motionScale = () => parseFloat(S.token("--motion-scale")) || 1;
+  S.motionScale = () => { const n = parseFloat(S.token("--motion-scale")); return Number.isFinite(n) ? n : 1; };
   S.reduced = () => S.motionScale() < 0.05;
   /** Scale a duration in ms by the global motion setting */
   S.dur = (ms) => ms * S.motionScale();
   S.wait = (ms) => new Promise((r) => setTimeout(r, S.dur(ms)));
   S.nextFrame = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
   S.idle = (fn) => (window.requestIdleCallback ? requestIdleCallback(fn, { timeout: 1500 }) : setTimeout(fn, 120));
+  /** Report clipboard success only after a confirmed write, including file://. */
+  S.copy = async (text) => {
+    try { await navigator.clipboard.writeText(text); return true; } catch {}
+    const active = document.activeElement;
+    const field = document.createElement("textarea");
+    field.value = text; field.setAttribute("aria-label", "Copy text");
+    field.style.cssText = "position:fixed;opacity:0;pointer-events:none";
+    document.body.append(field); field.select();
+    let ok = false;
+    try { ok = document.execCommand("copy"); } catch {}
+    field.remove(); active?.focus({ preventScroll: true });
+    return ok;
+  };
 
   /* ===================================================================== easing
      JS mirrors of the CSS tokens, for rAF tweens (charts, scroll, counters). */
@@ -102,7 +115,8 @@
      S.flip(elements, mutate, opts) — record, mutate the DOM, animate the delta.
      New elements (not present before) scale/fade in.                          */
   S.flip = (els, mutate, { duration = S.springDur.snappy, easing, stagger = 0, enter = true } = {}) => {
-    const list = [...els];
+    const list = [...(typeof els === "function" ? els() : els)];
+    list.forEach((el) => el.getAnimations().forEach((a) => a.cancel()));
     const first = new Map(list.map((el) => [el, el.getBoundingClientRect()]));
     mutate();
     const ease = easing || S.curve.springSnappy || S.curve.out;
@@ -196,10 +210,12 @@
      <div class="seg"><button class="seg-btn" data-value="a">…</button>…</div>
      The thumb springs to the chosen option. S.segmented(el, { value, onChange }) */
   S.segmented = (el, { value, onChange } = {}) => {
+    if (!el) return;
     const thumb = document.createElement("span");
     thumb.className = "seg-thumb no-move"; thumb.setAttribute("aria-hidden", "true");
     el.prepend(thumb);
     const btns = S.$$(".seg-btn", el);
+    if (!el.hasAttribute("role")) el.setAttribute("role", "group");
     const place = (btn) => {
       thumb.style.transform = `translateX(${btn.offsetLeft}px)`;
       thumb.style.width = `${btn.offsetWidth}px`;
@@ -213,6 +229,13 @@
       if (!silent) onChange?.(btn.dataset.value, btn);
     };
     btns.forEach((b) => b.addEventListener("click", () => set(b.dataset.value)));
+    el.addEventListener("keydown", (e) => {
+      const i = btns.indexOf(e.target);
+      if (i < 0 || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
+      e.preventDefault();
+      const next = e.key === "Home" ? 0 : e.key === "End" ? btns.length - 1 : (i + (e.key === "ArrowRight" ? 1 : -1) + btns.length) % btns.length;
+      btns[next].focus(); set(btns[next].dataset.value);
+    });
     const init = () => { set(value ?? (btns.find((b) => b.getAttribute("aria-pressed") === "true") || btns[0]).dataset.value, { silent: true, instant: true }); };
     if (el.isConnected && el.offsetWidth) init(); else requestAnimationFrame(init);
     new ResizeObserver(() => { const a = btns.find((b) => b.getAttribute("aria-pressed") === "true"); if (a) { thumb.classList.add("no-move"); place(a); thumb.offsetWidth; thumb.classList.remove("no-move"); } }).observe(el);
@@ -223,17 +246,20 @@
      S.popover(trigger, panel) — toggles [data-open], closes on outside click /
      Escape, and sets transform-origin so the panel grows out of its trigger.  */
   S.popover = (trigger, panel, { onOpen, onClose } = {}) => {
+    panel.inert = !panel.hasAttribute("data-open");
     const open = () => {
+      panel.inert = false;
       panel.setAttribute("data-open", ""); trigger.setAttribute("aria-expanded", "true");
       const t = trigger.getBoundingClientRect(), p = panel.getBoundingClientRect();
       panel.style.setProperty("--pop-origin", `${S.clamp(t.left + t.width / 2 - p.left, 0, p.width)}px ${t.top < p.top ? "0" : "100%"}`);
       onOpen?.();
     };
-    const close = () => { panel.removeAttribute("data-open"); trigger.setAttribute("aria-expanded", "false"); onClose?.(); };
+    const close = () => { panel.removeAttribute("data-open"); panel.inert = true; trigger.setAttribute("aria-expanded", "false"); onClose?.(); };
     const isOpen = () => panel.hasAttribute("data-open");
     trigger.addEventListener("click", (e) => { e.stopPropagation(); isOpen() ? close() : open(); });
     document.addEventListener("pointerdown", (e) => { if (isOpen() && !panel.contains(e.target) && !trigger.contains(e.target)) close(); });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen()) { close(); trigger.focus(); } });
+    document.addEventListener("schematic:navigate", close);
     return { open, close, isOpen };
   };
 

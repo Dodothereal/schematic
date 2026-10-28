@@ -13,7 +13,13 @@
     const tip = S.html(`<div class="tooltip" role="tooltip" id="schematic-tip"><div class="tooltip-inner"><span class="tip-text"></span></div></div>`);
     document.body.append(tip);
     const inner = tip.firstElementChild, text = S.$(".tip-text", tip);
-    let current = null, showT, warmT, warm = false, visible = false;
+    let current = null, describedTarget = null, showT, warmT, warm = false, visible = false;
+    const detachDescription = () => {
+      if (!describedTarget) return;
+      const rest = (describedTarget.getAttribute("aria-describedby") || "").split(/\s+/).filter((id) => id && id !== tip.id);
+      rest.length ? describedTarget.setAttribute("aria-describedby", rest.join(" ")) : describedTarget.removeAttribute("aria-describedby");
+      describedTarget = null;
+    };
 
     const position = (el) => {
       const r = el.getBoundingClientRect(), tr = inner.getBoundingClientRect();
@@ -40,6 +46,7 @@
     };
     const show = (el) => {
       clearTimeout(warmT);
+      detachDescription();
       const glide = visible && warm;
       fill(el);
       if (glide) {
@@ -49,9 +56,13 @@
       position(el);
       tip.classList.add("is-on");
       visible = true; warm = true;
+      const described = new Set((el.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean));
+      described.add(tip.id); el.setAttribute("aria-describedby", [...described].join(" "));
+      describedTarget = el;
     };
     const hide = () => {
       clearTimeout(showT);
+      detachDescription();
       tip.classList.remove("is-on");
       visible = false; current = null;
       clearTimeout(warmT);
@@ -107,6 +118,7 @@
           el.classList.toggle("is-behind", i > 0);
         }
         el.style.pointerEvents = i < (expanded ? 6 : MAX_VISIBLE) ? "auto" : "none";
+        el.inert = expanded ? i >= 6 : i > 0;
       });
       box.style.height = expanded ? `${offset}px` : `${frontH}px`;
     };
@@ -129,10 +141,12 @@
       t.started = Date.now();
       t.timer = setTimeout(() => dismiss(t), t.remaining);
     };
-    const pause = (t) => { clearTimeout(t.timer); t.remaining -= Date.now() - t.started; };
+    const pause = (t) => { if (t.timer) { clearTimeout(t.timer); t.timer = null; t.remaining = Math.max(0, t.remaining - (Date.now() - t.started)); } };
 
     box.addEventListener("pointerenter", () => { expanded = true; toasts.forEach(pause); layout(); });
     box.addEventListener("pointerleave", () => { expanded = false; toasts.forEach((t) => !t.leaving && arm(t)); layout(); });
+    box.addEventListener("focusin", () => { expanded = true; toasts.forEach(pause); layout(); });
+    box.addEventListener("focusout", (e) => { if (!box.contains(e.relatedTarget)) { expanded = false; toasts.forEach((t) => !t.leaving && arm(t)); layout(); } });
 
     S.toast = (opts = {}) => {
       const o = typeof opts === "string" ? { title: opts } : opts;

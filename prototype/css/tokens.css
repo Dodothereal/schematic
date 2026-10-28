@@ -2,14 +2,15 @@
    SCHEMATIC — DESIGN TOKENS
    The single source of truth. Every other file consumes these; nothing else
    hard-codes a colour, size, radius, duration or curve.
-   Ported 1:1 to: Tailwind theme / CSS vars (web), SwiftUI extensions, Rust consts.
+   Reference for future Tailwind/CSS, SwiftUI and Rust adapters.
    ============================================================================= */
 
 :root {
   /* ---------------------------------------------------------------- Tuning */
-  --accent-h: 262;          /* the ONE knob that retunes the brand hue      */
-  --accent-c: 0.19;         /* chroma of the accent                         */
-  --neutral-c: 0.006;       /* how much the greys lean towards the accent   */
+  --accent-h: 168;          /* forest; this knob retunes only the accent    */
+  --accent-c: 0.115;        /* restrained chroma, readable at every hue     */
+  --neutral-h: 80;          /* warm paper / graphite, independent of brand  */
+  --neutral-c: 0.008;       /* subtle warmth in the neutral surfaces        */
   --radius-scale: 1;        /* 0 = sharp, 1 = default, 1.6 = round          */
   --motion-scale: 1;        /* 1 = normal, 4 = slow-mo inspection, 0.01 = off */
 
@@ -132,68 +133,69 @@
 
 /* =============================================================================
    COLOUR — LIGHT (default)
-   All colours are OKLCH so lightness is perceptually even and the whole
-   palette re-tints when --accent-h changes.
+   OKLCH keeps lightness perceptually even. Only intent follows --accent-h;
+   paper, graphite and chart series remain independent of the brand hue.
    ============================================================================= */
 :root,
 [data-theme="light"] {
   color-scheme: light;
 
-  --bg: oklch(0.985 var(--neutral-c) var(--accent-h));
-  --bg-sunken: oklch(0.965 var(--neutral-c) var(--accent-h));
-  --surface: oklch(1 0 0);
-  --surface-2: oklch(0.977 calc(var(--neutral-c) * 0.8) var(--accent-h));
-  --surface-3: oklch(0.955 var(--neutral-c) var(--accent-h));
-  --surface-raised: oklch(1 0 0);
-  --overlay: oklch(0.2 0.02 var(--accent-h) / 0.28);
+  --bg: oklch(0.982 var(--neutral-c) var(--neutral-h));
+  --bg-sunken: oklch(0.958 var(--neutral-c) var(--neutral-h));
+  --surface: oklch(0.995 calc(var(--neutral-c) * 0.35) var(--neutral-h));
+  --surface-2: oklch(0.972 calc(var(--neutral-c) * 0.8) var(--neutral-h));
+  --surface-3: oklch(0.945 var(--neutral-c) var(--neutral-h));
+  --surface-raised: var(--surface);
+  --overlay: oklch(0.2 var(--neutral-c) var(--neutral-h) / 0.28);
 
-  --border: oklch(0.915 calc(var(--neutral-c) * 1.2) var(--accent-h));
-  --border-soft: oklch(0.94 var(--neutral-c) var(--accent-h));
-  --border-strong: oklch(0.85 calc(var(--neutral-c) * 1.4) var(--accent-h));
+  --border: oklch(0.895 calc(var(--neutral-c) * 1.2) var(--neutral-h));
+  --border-soft: oklch(0.93 var(--neutral-c) var(--neutral-h));
+  --border-strong: oklch(0.82 calc(var(--neutral-c) * 1.4) var(--neutral-h));
 
-  --text: oklch(0.2 calc(var(--neutral-c) * 2) var(--accent-h));
-  --text-2: oklch(0.44 calc(var(--neutral-c) * 2) var(--accent-h));
-  --text-3: oklch(0.58 calc(var(--neutral-c) * 1.6) var(--accent-h));
-  --text-4: oklch(0.7 var(--neutral-c) var(--accent-h));
+  --text: oklch(0.23 var(--neutral-c) var(--neutral-h));
+  --text-2: oklch(0.41 var(--neutral-c) var(--neutral-h));
+  --text-3: oklch(0.49 var(--neutral-c) var(--neutral-h));
+  --text-4: oklch(0.67 var(--neutral-c) var(--neutral-h));
   --text-inverse: oklch(0.99 0 0);
 
-  --accent: oklch(0.56 var(--accent-c) var(--accent-h));
-  --accent-hover: oklch(0.51 var(--accent-c) var(--accent-h));
-  --accent-press: oklch(0.47 var(--accent-c) var(--accent-h));
-  --accent-text: oklch(0.5 var(--accent-c) var(--accent-h));
-  --accent-contrast: oklch(0.99 0.01 var(--accent-h));
-  --accent-soft: oklch(0.56 var(--accent-c) var(--accent-h) / 0.1);
-  --accent-soft-2: oklch(0.56 var(--accent-c) var(--accent-h) / 0.16);
-  --accent-ring: oklch(0.6 var(--accent-c) var(--accent-h) / 0.38);
+  --accent: oklch(0.45 var(--accent-c) var(--accent-h));
+  --accent-hover: oklch(0.42 var(--accent-c) var(--accent-h));
+  --accent-press: oklch(0.39 var(--accent-c) var(--accent-h));
+  --accent-text: oklch(0.41 var(--accent-c) var(--accent-h));
+  --accent-contrast: oklch(0.995 0 0);
+  --accent-soft: oklch(0.45 var(--accent-c) var(--accent-h) / 0.08);
+  --accent-soft-2: oklch(0.45 var(--accent-c) var(--accent-h) / 0.13);
+  --accent-ring: oklch(0.45 var(--accent-c) var(--accent-h) / 0.42);
 
   --success: oklch(0.6 0.15 155);
   --success-soft: oklch(0.6 0.15 155 / 0.12);
-  --success-text: oklch(0.5 0.14 155);
+  --success-text: oklch(0.44 0.11 155);
   --warning: oklch(0.75 0.16 70);
   --warning-soft: oklch(0.75 0.16 70 / 0.16);
-  --warning-text: oklch(0.55 0.14 60);
-  --danger: oklch(0.6 0.21 25);
-  --danger-hover: oklch(0.55 0.21 25);
+  --warning-text: oklch(0.47 0.11 60);
+  --danger: oklch(0.51 0.19 25);
+  --danger-hover: oklch(0.46 0.19 25);
+  --danger-contrast: oklch(0.99 0 0);
   --danger-soft: oklch(0.6 0.21 25 / 0.1);
-  --danger-text: oklch(0.53 0.2 25);
+  --danger-text: oklch(0.47 0.18 25);
   --info: oklch(0.62 0.14 235);
   --info-soft: oklch(0.62 0.14 235 / 0.12);
-  --info-text: oklch(0.5 0.13 235);
+  --info-text: oklch(0.44 0.11 235);
 
-  /* Data-viz series (ordered, distinguishable, same perceived weight) */
-  --chart-1: var(--accent);
-  --chart-2: oklch(0.7 0.14 195);
-  --chart-3: oklch(0.74 0.15 75);
-  --chart-4: oklch(0.65 0.18 350);
-  --chart-5: oklch(0.66 0.14 145);
+  /* Graphs only: five independent hues, including in Mono interface mode. */
+  --chart-1: oklch(0.53 0.15 255);
+  --chart-2: oklch(0.58 0.1 185);
+  --chart-3: oklch(0.65 0.14 75);
+  --chart-4: oklch(0.58 0.17 340);
+  --chart-5: oklch(0.57 0.14 295);
   --chart-grid: var(--border-soft);
 
-  /* Elevation — layered, low-opacity, tinted by the hue */
-  --shadow-xs: 0 1px 2px oklch(0.2 0.02 var(--accent-h) / 0.06);
-  --shadow-sm: 0 1px 2px oklch(0.2 0.02 var(--accent-h) / 0.05), 0 2px 6px -1px oklch(0.2 0.02 var(--accent-h) / 0.06);
-  --shadow-md: 0 1px 2px oklch(0.2 0.02 var(--accent-h) / 0.04), 0 6px 16px -4px oklch(0.2 0.02 var(--accent-h) / 0.1);
-  --shadow-lg: 0 2px 4px oklch(0.2 0.02 var(--accent-h) / 0.04), 0 16px 40px -8px oklch(0.2 0.03 var(--accent-h) / 0.16);
-  --shadow-xl: 0 4px 8px oklch(0.2 0.02 var(--accent-h) / 0.04), 0 32px 72px -12px oklch(0.2 0.03 var(--accent-h) / 0.24);
+  /* Elevation — fixed graphite, independent of brand. */
+  --shadow-xs: 0 1px 2px oklch(0.2 0 0 / 0.06);
+  --shadow-sm: 0 1px 2px oklch(0.2 0 0 / 0.05), 0 2px 6px -1px oklch(0.2 0 0 / 0.06);
+  --shadow-md: 0 1px 2px oklch(0.2 0 0 / 0.04), 0 6px 16px -4px oklch(0.2 0 0 / 0.1);
+  --shadow-lg: 0 2px 4px oklch(0.2 0 0 / 0.04), 0 16px 40px -8px oklch(0.2 0 0 / 0.16);
+  --shadow-xl: 0 4px 8px oklch(0.2 0 0 / 0.04), 0 32px 72px -12px oklch(0.2 0 0 / 0.24);
   --inset-highlight: inset 0 1px 0 oklch(1 0 0 / 0.7);
   --btn-primary-highlight: inset 0 1px 0 oklch(1 0 0 / 0.22), inset 0 -1px 0 oklch(0 0 0 / 0.12);
 }
@@ -204,32 +206,32 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --bg: oklch(0.155 calc(var(--neutral-c) * 1.4) var(--accent-h));
-  --bg-sunken: oklch(0.135 calc(var(--neutral-c) * 1.4) var(--accent-h));
-  --surface: oklch(0.19 calc(var(--neutral-c) * 1.6) var(--accent-h));
-  --surface-2: oklch(0.215 calc(var(--neutral-c) * 1.7) var(--accent-h));
-  --surface-3: oklch(0.25 calc(var(--neutral-c) * 1.8) var(--accent-h));
-  --surface-raised: oklch(0.225 calc(var(--neutral-c) * 1.8) var(--accent-h));
-  --overlay: oklch(0.08 0.01 var(--accent-h) / 0.6);
+  --bg: oklch(0.17 var(--neutral-c) var(--neutral-h));
+  --bg-sunken: oklch(0.15 var(--neutral-c) var(--neutral-h));
+  --surface: oklch(0.205 var(--neutral-c) var(--neutral-h));
+  --surface-2: oklch(0.23 var(--neutral-c) var(--neutral-h));
+  --surface-3: oklch(0.265 var(--neutral-c) var(--neutral-h));
+  --surface-raised: oklch(0.24 var(--neutral-c) var(--neutral-h));
+  --overlay: oklch(0.08 var(--neutral-c) var(--neutral-h) / 0.6);
 
-  --border: oklch(0.28 calc(var(--neutral-c) * 2) var(--accent-h));
-  --border-soft: oklch(0.24 calc(var(--neutral-c) * 1.8) var(--accent-h));
-  --border-strong: oklch(0.36 calc(var(--neutral-c) * 2.2) var(--accent-h));
+  --border: oklch(0.3 var(--neutral-c) var(--neutral-h));
+  --border-soft: oklch(0.255 var(--neutral-c) var(--neutral-h));
+  --border-strong: oklch(0.38 var(--neutral-c) var(--neutral-h));
 
-  --text: oklch(0.965 calc(var(--neutral-c) * 0.6) var(--accent-h));
-  --text-2: oklch(0.74 calc(var(--neutral-c) * 1.6) var(--accent-h));
-  --text-3: oklch(0.58 calc(var(--neutral-c) * 1.6) var(--accent-h));
-  --text-4: oklch(0.45 calc(var(--neutral-c) * 1.6) var(--accent-h));
-  --text-inverse: oklch(0.16 0.01 var(--accent-h));
+  --text: oklch(0.965 calc(var(--neutral-c) * 0.6) var(--neutral-h));
+  --text-2: oklch(0.77 var(--neutral-c) var(--neutral-h));
+  --text-3: oklch(0.68 var(--neutral-c) var(--neutral-h));
+  --text-4: oklch(0.47 var(--neutral-c) var(--neutral-h));
+  --text-inverse: oklch(0.16 var(--neutral-c) var(--neutral-h));
 
-  --accent: oklch(0.66 var(--accent-c) var(--accent-h));
-  --accent-hover: oklch(0.71 var(--accent-c) var(--accent-h));
-  --accent-press: oklch(0.62 var(--accent-c) var(--accent-h));
-  --accent-text: oklch(0.76 calc(var(--accent-c) * 0.8) var(--accent-h));
-  --accent-contrast: oklch(0.99 0.01 var(--accent-h));
-  --accent-soft: oklch(0.66 var(--accent-c) var(--accent-h) / 0.14);
-  --accent-soft-2: oklch(0.66 var(--accent-c) var(--accent-h) / 0.22);
-  --accent-ring: oklch(0.7 var(--accent-c) var(--accent-h) / 0.45);
+  --accent: oklch(0.73 var(--accent-c) var(--accent-h));
+  --accent-hover: oklch(0.78 var(--accent-c) var(--accent-h));
+  --accent-press: oklch(0.69 var(--accent-c) var(--accent-h));
+  --accent-text: oklch(0.8 calc(var(--accent-c) * 0.8) var(--accent-h));
+  --accent-contrast: oklch(0.14 0 0);
+  --accent-soft: oklch(0.73 var(--accent-c) var(--accent-h) / 0.12);
+  --accent-soft-2: oklch(0.73 var(--accent-c) var(--accent-h) / 0.18);
+  --accent-ring: oklch(0.73 var(--accent-c) var(--accent-h) / 0.45);
 
   --success: oklch(0.7 0.15 155);
   --success-soft: oklch(0.7 0.15 155 / 0.14);
@@ -237,18 +239,20 @@
   --warning: oklch(0.8 0.15 75);
   --warning-soft: oklch(0.8 0.15 75 / 0.14);
   --warning-text: oklch(0.84 0.13 80);
-  --danger: oklch(0.66 0.2 25);
-  --danger-hover: oklch(0.71 0.2 25);
+  --danger: oklch(0.69 0.18 25);
+  --danger-hover: oklch(0.74 0.18 25);
+  --danger-contrast: oklch(0.14 0 0);
   --danger-soft: oklch(0.66 0.2 25 / 0.15);
   --danger-text: oklch(0.76 0.16 25);
   --info: oklch(0.7 0.13 235);
   --info-soft: oklch(0.7 0.13 235 / 0.15);
   --info-text: oklch(0.8 0.11 235);
 
-  --chart-2: oklch(0.76 0.13 195);
-  --chart-3: oklch(0.8 0.14 80);
-  --chart-4: oklch(0.72 0.17 350);
-  --chart-5: oklch(0.74 0.14 145);
+  --chart-1: oklch(0.73 0.13 255);
+  --chart-2: oklch(0.76 0.11 185);
+  --chart-3: oklch(0.8 0.13 80);
+  --chart-4: oklch(0.74 0.15 340);
+  --chart-5: oklch(0.75 0.13 295);
 
   --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.3);
   --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3), 0 2px 6px -1px oklch(0 0 0 / 0.3);
@@ -257,6 +261,55 @@
   --shadow-xl: 0 4px 8px oklch(0 0 0 / 0.3), 0 32px 80px -12px oklch(0 0 0 / 0.65);
   --inset-highlight: inset 0 1px 0 oklch(1 0 0 / 0.05);
   --btn-primary-highlight: inset 0 1px 0 oklch(1 0 0 / 0.25), inset 0 -1px 0 oklch(0 0 0 / 0.15);
+}
+
+/* =============================================================================
+   MONO — neutral interface, with chart colours reserved for data.
+   Meaning still comes from the existing status labels and icons.
+   ============================================================================= */
+[data-palette="mono"] {
+  --neutral-c: 0;
+  --accent-c: 0;
+  --accent: oklch(0.25 0 0);
+  --accent-hover: oklch(0.2 0 0);
+  --accent-press: oklch(0.15 0 0);
+  --accent-text: oklch(0.25 0 0);
+  --accent-contrast: oklch(0.995 0 0);
+  --accent-soft: oklch(0.25 0 0 / 0.07);
+  --accent-soft-2: oklch(0.25 0 0 / 0.12);
+  --accent-ring: oklch(0.25 0 0 / 0.42);
+
+  --success: oklch(0.42 0 0);
+  --warning: oklch(0.49 0 0);
+  --info: oklch(0.45 0 0);
+  --danger: oklch(0.32 0 0);
+  --danger-hover: oklch(0.25 0 0);
+  --danger-contrast: oklch(0.995 0 0);
+  --success-text: var(--text-2);
+  --warning-text: var(--text-2);
+  --info-text: var(--text-2);
+  --danger-text: var(--text);
+  --success-soft: var(--accent-soft);
+  --warning-soft: var(--accent-soft);
+  --info-soft: var(--accent-soft);
+  --danger-soft: var(--accent-soft-2);
+}
+
+[data-theme="dark"][data-palette="mono"] {
+  --accent: oklch(0.9 0 0);
+  --accent-hover: oklch(0.95 0 0);
+  --accent-press: oklch(0.84 0 0);
+  --accent-text: oklch(0.9 0 0);
+  --accent-contrast: oklch(0.14 0 0);
+  --accent-soft: oklch(0.9 0 0 / 0.1);
+  --accent-soft-2: oklch(0.9 0 0 / 0.16);
+  --accent-ring: oklch(0.9 0 0 / 0.45);
+  --success: oklch(0.77 0 0);
+  --warning: oklch(0.82 0 0);
+  --info: oklch(0.79 0 0);
+  --danger: oklch(0.85 0 0);
+  --danger-hover: oklch(0.92 0 0);
+  --danger-contrast: oklch(0.14 0 0);
 }
 
 /* =============================================================================

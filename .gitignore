@@ -1,0 +1,15 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Local recovery material, browser profiles and verification captures.
+/RECOVERY.md
+/scratch/
+/dist/preview.html
+*.log
+
+# Editor state.
+.idea/
+.vscode/

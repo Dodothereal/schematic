@@ -113,7 +113,7 @@
 
   /** Play an icon's animation once, to completion. Re-entrant safe. */
   S.playIcon = (svg) => {
-    if (!svg || svg.classList.contains("is-anim")) return;
+    if (!svg || S.reduced?.() || svg.classList.contains("is-anim")) return;
     svg.classList.add("is-anim");
     const anims = svg.getAnimations ? svg.getAnimations({ subtree: true }) : [];
     if (!anims.length) { svg.classList.remove("is-anim"); return; }

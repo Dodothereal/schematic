@@ -12,23 +12,50 @@
 
   /* ===================================================================== theme
      The new theme grows as a circle out of whatever triggered it.           */
-  S.setTheme = (theme, origin) => {
-    if (theme === root.dataset.theme) return;
+  let themeTransition = null, themeTarget = null, themeVersion = 0;
+  S.setTheme = async (theme, origin) => {
+    const version = ++themeVersion;
+    themeTarget = theme;
+    // A skipped transition still runs its update callback. Drain that update
+    // before taking another snapshot; stale callbacks must not apply a theme.
+    const previous = themeTransition;
+    if (previous) {
+      previous.skipTransition();
+      await previous.updateCallbackDone.catch(() => {});
+    }
+    if (version !== themeVersion) return;
+    const finish = () => {
+      if (version !== themeVersion) return;
+      themeTransition = null;
+      themeTarget = null;
+      root.classList.remove("vt-theme");
+    };
+    if (theme === root.dataset.theme) { finish(); return; }
     const apply = () => { root.dataset.theme = theme; store.set("theme", theme); };
-    if (!document.startViewTransition || S.reduced()) { apply(); return; }
+    if (!document.startViewTransition || S.reduced()) { apply(); finish(); return; }
     const r = origin?.getBoundingClientRect();
     const x = r ? r.left + r.width / 2 : innerWidth / 2, y = r ? r.top + r.height / 2 : 0;
     root.style.setProperty("--vt-x", `${x}px`);
     root.style.setProperty("--vt-y", `${y}px`);
     root.style.setProperty("--vt-r", `${Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))}px`);
     root.classList.add("vt-theme");
-    const vt = document.startViewTransition(apply);
-    vt.finished.finally(() => root.classList.remove("vt-theme"));
+    let vt;
+    try {
+      vt = document.startViewTransition(() => { if (version === themeVersion) apply(); });
+    } catch {
+      apply(); finish(); return;
+    }
+    themeTransition = vt;
+    // Cancellation can reject ready/finished; callers may safely await this API.
+    vt.ready.catch(() => {});
+    vt.updateCallbackDone.catch(() => {});
+    await vt.finished.catch(() => {});
+    finish();
   };
-  S.toggleTheme = (origin) => S.setTheme(root.dataset.theme === "dark" ? "light" : "dark", origin);
+  S.toggleTheme = (origin) => S.setTheme((themeTarget ?? root.dataset.theme) === "dark" ? "light" : "dark", origin);
 
   /* ===================================================================== tuning */
-  const HUES = [262, 290, 330, 18, 55, 150, 195, 235];
+  const HUES = [168, 195, 55, 18, 235, 290, 330, 0];
   S.setHue = (h) => { root.style.setProperty("--accent-h", h); store.set("hue", h); syncTune(); };
   S.setRadius = (v) => { v === "default" ? delete root.dataset.radius : (root.dataset.radius = v); store.set("radius", v); };
   S.setMotion = (v) => { v === "full" ? (root.dataset.motion = "full") : (root.dataset.motion = v); store.set("motion", v); requestAnimationFrame(S._loadSprings); };
@@ -36,7 +63,7 @@
   let syncTune = () => {};
   const initTune = () => {
     const btn = S.$("#tune-btn"), panel = S.$("#tune-pop");
-    const hue = () => parseFloat(getComputedStyle(root).getPropertyValue("--accent-h")) || 262;
+    const hue = () => { const n = parseFloat(getComputedStyle(root).getPropertyValue("--accent-h")); return Number.isFinite(n) ? n : 168; };
     panel.innerHTML = `
       <div class="pop-section">
         <div class="pop-label"><span>Accent</span><span class="faint t-mono" id="hue-val"></span></div>
@@ -61,7 +88,8 @@
       </div>`;
     const range = S.$("#hue-range", panel), val = S.$("#hue-val", panel);
     syncTune = () => {
-      const h = Math.round(parseFloat(root.style.getPropertyValue("--accent-h")) || hue());
+      const n = parseFloat(root.style.getPropertyValue("--accent-h"));
+      const h = Math.round(Number.isFinite(n) ? n : hue());
       range.value = h; range.style.setProperty("--p", `${(h / 359) * 100}%`); val.textContent = `${h}°`;
       S.$$(".swatch", panel).forEach((s) => s.setAttribute("aria-pressed", String(+s.dataset.hue === h)));
     };
@@ -95,8 +123,8 @@
     const dlg = S.html(`
       <dialog class="cmdk" aria-label="Command palette">
         <div class="cmdk-panel">
-          <div class="cmdk-input-row">${S.icon("search", { size: 20 })}<input class="cmdk-input" placeholder="Search pages, actions, settings…" aria-label="Search" autocomplete="off" spellcheck="false"><kbd class="kbd">esc</kbd></div>
-          <div class="cmdk-list-wrap"><div class="cmdk-list" role="listbox"></div></div>
+          <div class="cmdk-input-row">${S.icon("search", { size: 20 })}<input class="cmdk-input" role="combobox" aria-controls="command-results" aria-autocomplete="list" aria-expanded="true" placeholder="Search pages, actions, settings…" aria-label="Search" autocomplete="off" spellcheck="false"><kbd class="kbd">esc</kbd></div>
+          <div class="cmdk-list-wrap"><div class="cmdk-list" id="command-results" role="listbox" aria-label="Commands"></div></div>
           <div class="cmdk-foot"><span><kbd class="kbd">↑</kbd><kbd class="kbd">↓</kbd> navigate</span><span><kbd class="kbd">↵</kbd> open</span><span style="margin-left:auto">Schematic</span></div>
         </div>
       </dialog>`);
@@ -111,7 +139,7 @@
       { group: "Actions", label: "Show a toast", icon: "bell", run: () => S.toast({ title: "Hello from the palette", desc: "Toasts stack, fan out on hover and swipe away.", tone: "success" }) },
       { group: "Actions", label: "Slow-motion mode", icon: "clock", run: () => S.setMotion("slow") },
       { group: "Actions", label: "Full motion", icon: "bolt", run: () => S.setMotion("full") },
-      ...[["Indigo", 262], ["Violet", 290], ["Pink", 330], ["Red", 18], ["Amber", 55], ["Green", 150], ["Teal", 195], ["Blue", 235]]
+      ...[["Forest", 168], ["Teal", 195], ["Ochre", 55], ["Clay", 18], ["Blue", 235], ["Violet", 290], ["Rose", 330], ["Red", 0]]
         .map(([n, h]) => ({ group: "Accent", label: `Accent: ${n}`, icon: "droplet", run: () => S.setHue(h) })),
     ];
 
@@ -126,7 +154,7 @@
       list.querySelectorAll(".cmdk-group-label, .cmdk-item, .cmdk-empty").forEach((n) => n.remove());
       let i = 0;
       list.insertAdjacentHTML("beforeend", flat.length ? groups.map(([g, arr]) => `<div class="cmdk-group-label t-eyebrow">${g}</div>` +
-        arr.map((c) => `<div class="cmdk-item ${fresh || q ? "is-new" : ""}" role="option" data-idx="${i}" style="--i:${Math.min(i++, 12)}">${S.icon(c.icon)}<span>${c.m.html}</span>${c.hint ? `<span class="cmdk-item-hint">${c.hint}</span>` : ""}</div>`).join("")).join("")
+        arr.map((c) => `<div class="cmdk-item ${fresh || q ? "is-new" : ""}" id="command-option-${i}" role="option" data-idx="${i}" style="--i:${Math.min(i++, 12)}">${S.icon(c.icon)}<span>${c.m.html}</span>${c.hint ? `<span class="cmdk-item-hint">${c.hint}</span>` : ""}</div>`).join("")).join("")
         : `<div class="cmdk-empty">No results for “${S.esc(q)}”</div>`);
       // animate the list height between result sets
       wrap.style.height = "auto";
@@ -136,9 +164,10 @@
     };
     const select = (i, instant = false) => {
       const els = S.$$(".cmdk-item", list);
-      if (!els.length) { glide.hide(); return; }
+      if (!els.length) { glide.hide(); input.removeAttribute("aria-activedescendant"); return; }
       sel = (i + els.length) % els.length;
       els.forEach((el, k) => el.setAttribute("aria-selected", String(k === sel)));
+      input.setAttribute("aria-activedescendant", els[sel].id);
       glide.moveTo(els[sel], { instant });
       els[sel].scrollIntoView({ block: "nearest" });
     };
@@ -184,7 +213,24 @@
 
     S.$("#theme-btn").addEventListener("click", (e) => S.toggleTheme(e.currentTarget));
     S.$$("[data-open-cmdk]").forEach((b) => b.addEventListener("click", () => S.cmdk.open()));
-    S.$("#menu-btn")?.addEventListener("click", () => root.toggleAttribute("data-nav-open"));
+    const menu = S.$("#menu-btn"), sidebar = S.$(".sidebar"), mobile = matchMedia("(max-width: 900px)");
+    const syncSidebar = () => { sidebar.inert = mobile.matches && !root.hasAttribute("data-nav-open"); };
+    menu?.addEventListener("click", () => {
+      const open = root.toggleAttribute("data-nav-open"); menu.setAttribute("aria-expanded", String(open)); syncSidebar();
+      if (open) { sidebar.setAttribute("data-keyboard-open", ""); sidebar.querySelector("a")?.focus(); }
+    });
+    const navObserver = new MutationObserver(syncSidebar); navObserver.observe(root, { attributes: true, attributeFilter: ["data-nav-open"] });
+    mobile.addEventListener("change", syncSidebar); syncSidebar();
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && root.hasAttribute("data-nav-open")) { shell.closeMobileNav(); menu.focus(); }
+      if (e.key === "Tab" && mobile.matches && root.hasAttribute("data-nav-open")) {
+        const nodes = S.$$("a[href],button:not(:disabled),input:not(:disabled)", sidebar).filter((el) => el.offsetParent !== null);
+        const first = nodes[0], last = nodes[nodes.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    document.addEventListener("pointerdown", (e) => { if (mobile.matches && !sidebar.contains(e.target) && !menu.contains(e.target)) shell.closeMobileNav(); });
     S.$("#viewport").addEventListener("pointerdown", () => shell.closeMobileNav());
 
     const vp = S.$("#viewport"), bar = S.$("#topbar");

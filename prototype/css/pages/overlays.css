@@ -1,0 +1,224 @@
+.pg-overlays { display: flex; flex-direction: column; gap: var(--s-16); }
+.pg-overlays .ov-tight { gap: var(--s-1_5); }
+.pg-overlays .ov-mini-spec { display: flex; flex-direction: column; align-items: center; gap: var(--s-4); text-align: center; width: 100%; }
+.pg-overlays .ov-symbol { display: inline-grid; place-items: center; width: var(--s-12); height: var(--s-12); flex: none; border-radius: var(--r-lg); background: var(--accent-soft); color: var(--accent-text); }
+.pg-overlays .ov-danger { background: var(--danger-soft); color: var(--danger-text); }
+.pg-overlays .ov-key-note { display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--s-1_5); font-size: var(--t-xs); color: var(--text-2); }
+.pg-overlays .ov-sr-only { position: absolute; width: var(--s-px); height: var(--s-px); padding: 0; margin: calc(-1 * var(--s-px)); overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.pg-overlays .ov-morph-demo .demo-stage { padding: var(--s-8); }
+.pg-overlays .ov-origin-scene { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: var(--s-6) var(--s-10); width: 100%; max-width: 800px; }
+.pg-overlays .ov-scene-heading { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: var(--s-3); }
+.pg-overlays .ov-project { display: flex; flex-direction: column; overflow: hidden; text-align: left; width: 100%; background: var(--surface); border-radius: var(--r-xl); box-shadow: inset 0 0 0 var(--s-px) var(--border), var(--shadow-md); transition: box-shadow var(--d-base) var(--ease-out), background var(--d-fast) var(--ease-out); }
+.pg-overlays .ov-project:hover { box-shadow: inset 0 0 0 var(--s-px) var(--accent-ring), var(--shadow-md); }
+.pg-overlays .ov-project-art { display: block; position: relative; overflow: hidden; width: 100%; padding: var(--s-6) var(--s-4); background: var(--accent-soft); color: var(--accent-text); }
+.pg-overlays .ov-project-art svg { width: 100%; height: auto; }
+.pg-overlays .ov-art-grid { stroke: var(--accent-ring); stroke-width: .5; }
+.pg-overlays .ov-art-back { fill: var(--accent-soft-2); stroke: var(--accent-ring); }
+.pg-overlays .ov-art-front { fill: var(--surface); stroke: var(--accent-ring); }
+.pg-overlays .ov-art-lines { stroke: var(--text-3); stroke-width: 3; stroke-linecap: round; }
+.pg-overlays .ov-art-accent { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.pg-overlays .ov-project-open { position: absolute; top: var(--s-3); right: var(--s-3); display: grid; place-items: center; width: var(--s-8); height: var(--s-8); border-radius: var(--r-full); background: var(--surface); opacity: 0; clip-path: inset(20% round var(--r-full)); transition: opacity var(--d-fast) var(--ease-out), clip-path var(--d-base) var(--ease-out); }
+.pg-overlays .ov-project:is(:hover, :focus-visible) .ov-project-open { opacity: 1; clip-path: inset(0 round var(--r-full)); }
+.pg-overlays .ov-project-info { display: flex; justify-content: space-between; align-items: center; gap: var(--s-3); padding: var(--s-4); }
+.pg-overlays .ov-project-info > span:first-child { display: flex; flex-direction: column; gap: var(--s-1); }
+.pg-overlays .ov-project-info strong { font-weight: var(--w-semibold); }
+.pg-overlays .ov-origin-aside { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-3); }
+.pg-overlays .ov-origin-aside p { max-width: 28ch; }
+.pg-overlays .ov-edge-preview { display: flex; width: min(100%, 280px); height: 120px; border-radius: var(--r-lg); background: var(--surface-2); box-shadow: inset 0 0 0 var(--s-px) var(--border); overflow: hidden; }
+.pg-overlays .ov-preview-lines { flex: 1; display: flex; flex-direction: column; gap: var(--s-3); padding: var(--s-5); }
+.pg-overlays .ov-preview-lines span { display: block; width: 85%; height: var(--s-1); border-radius: var(--r-full); background: var(--border); }
+.pg-overlays .ov-preview-lines span:last-child { width: 55%; }
+.pg-overlays .ov-preview-drawer { display: flex; flex-direction: column; gap: var(--s-3); width: 36%; padding: var(--s-4); border-left: var(--s-px) solid var(--accent-ring); background: var(--surface); color: var(--accent-text); box-shadow: var(--shadow-md); }
+.pg-overlays .ov-preview-drawer span { height: var(--s-1); border-radius: var(--r-full); background: var(--accent-soft-2); }
+.pg-overlays .ov-sheet-preview { width: min(100%, 280px); padding: var(--s-3) var(--s-5) var(--s-5); border-radius: var(--r-xl) var(--r-xl) 0 0; background: var(--surface); box-shadow: inset 0 0 0 var(--s-px) var(--border), var(--shadow-md); }
+.pg-overlays .ov-preview-grip { display: block; width: var(--s-8); height: var(--s-1); margin: 0 auto var(--s-5); border-radius: var(--r-full); background: var(--border-strong); }
+.pg-overlays .ov-sheet-preview > div { display: flex; align-items: center; gap: var(--s-3); color: var(--text-2); }
+.pg-overlays #ov-surfaces .demo-stage { flex-direction: column; gap: var(--s-6); }
+
+/* Dialogs remain descendants of the page, even while the browser puts them in the top layer. */
+.pg-overlays .ov-dialog { position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh; max-width: none; max-height: none; padding: var(--s-6); margin: 0; border: 0; background: transparent; color: var(--text); overflow: auto; overscroll-behavior: contain; }
+.pg-overlays .ov-dialog[open] { display: grid; place-items: center; }
+.pg-overlays .ov-dialog::backdrop { background: var(--overlay); backdrop-filter: blur(var(--s-1)); animation: ov-backdrop-in var(--d-moderate) var(--ease-out); }
+.pg-overlays .ov-dialog[data-closing]::backdrop { animation: ov-backdrop-out var(--d-base) var(--ease-in) forwards; }
+.pg-overlays .ov-dialog-panel { position: relative; display: flex; flex-direction: column; gap: var(--s-5); width: min(100%, 480px); max-height: calc(100dvh - var(--s-12)); overflow-y: auto; overscroll-behavior: contain; padding: var(--s-6); border-radius: var(--r-2xl); background: var(--surface-raised); box-shadow: inset 0 0 0 var(--s-px) var(--border), var(--shadow-xl); transform-origin: center; }
+.pg-overlays .ov-dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-3); }
+.pg-overlays .ov-dialog-head > .btn { flex: none; }
+.pg-overlays .ov-dialog-actions { display: flex; align-items: center; justify-content: flex-end; gap: var(--s-2); flex-wrap: wrap; padding-top: var(--s-3); border-top: var(--s-px) solid var(--border-soft); }
+.pg-overlays .ov-field { display: flex; flex-direction: column; gap: var(--s-2); font-size: var(--t-sm); font-weight: var(--w-medium); }
+.pg-overlays .ov-field input { width: 100%; min-height: var(--control-lg); padding: var(--s-2) var(--s-3); border: var(--s-px) solid var(--border-strong); border-radius: var(--r-md); color: var(--text); background: var(--surface); }
+.pg-overlays .ov-dialog-danger .ov-dialog-head .t-eyebrow { color: var(--danger-text); }
+.pg-overlays .ov-delete-summary { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-4); border: var(--s-px) solid var(--border); border-radius: var(--r-lg); background: var(--surface-2); }
+.pg-overlays .ov-delete-summary > .ic { flex: none; color: var(--text-3); }
+.pg-overlays .ov-delete-summary .t-caption { margin-top: var(--s-1); }
+.pg-overlays .ov-dialog-morph .ov-dialog-panel { width: min(100%, 600px); }
+.pg-overlays .ov-project-detail-art { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s-4); min-height: 180px; padding: var(--s-6); border-radius: var(--r-lg); background-color: var(--accent-soft); background-image: linear-gradient(var(--accent-soft-2) var(--s-px), transparent var(--s-px)), linear-gradient(90deg, var(--accent-soft-2) var(--s-px), transparent var(--s-px)); background-size: var(--s-6) var(--s-6); color: var(--accent-text); }
+.pg-overlays .ov-project-detail-art .t-mono { font-size: var(--t-2xs); text-align: center; }
+.pg-overlays .ov-detail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-4); }
+.pg-overlays .ov-detail-grid > div { display: flex; flex-direction: column; gap: var(--s-2); }
+.pg-overlays .ov-detail-grid strong { font-weight: var(--w-medium); }
+.pg-overlays .ov-dialog-drawer { padding: 0; }
+.pg-overlays .ov-dialog-drawer[open] { place-items: stretch end; }
+.pg-overlays .ov-dialog-drawer .ov-dialog-panel { width: min(100%, 420px); max-height: 100dvh; height: 100%; border-radius: var(--r-xl) 0 0 var(--r-xl); padding: var(--s-6); }
+.pg-overlays .ov-drawer-form { display: flex; flex: 1; flex-direction: column; gap: var(--s-6); }
+.pg-overlays .ov-drawer-form .ov-dialog-actions { margin-top: auto; }
+.pg-overlays .ov-inspector-section { display: flex; flex-direction: column; gap: var(--s-3); border: 0; padding: 0; min-width: 0; }
+.pg-overlays .ov-inspector-section legend { margin-bottom: var(--s-3); }
+.pg-overlays .ov-radio { display: flex; gap: var(--s-3); align-items: flex-start; padding: var(--s-4); border: var(--s-px) solid var(--border); border-radius: var(--r-lg); cursor: pointer; transition: border-color var(--d-fast) var(--ease-out), background var(--d-fast) var(--ease-out); }
+.pg-overlays .ov-radio:has(:checked) { border-color: var(--accent-ring); background: var(--accent-soft); }
+.pg-overlays .ov-radio input { margin-top: var(--s-1); accent-color: var(--accent); width: var(--s-4); height: var(--s-4); flex: none; }
+.pg-overlays .ov-radio span { display: flex; flex-direction: column; gap: var(--s-1); }
+.pg-overlays .ov-radio small { font-size: var(--t-xs); color: var(--text-2); }
+.pg-overlays .ov-checkbox { display: flex; gap: var(--s-2); align-items: center; font-size: var(--t-sm); cursor: pointer; }
+.pg-overlays .ov-checkbox input { accent-color: var(--accent); width: var(--s-4); height: var(--s-4); }
+.pg-overlays .ov-dialog-sheet { padding: var(--s-4) var(--s-4) 0; overflow: hidden; }
+.pg-overlays .ov-dialog-sheet[open] { place-items: end center; }
+.pg-overlays .ov-dialog-sheet .ov-dialog-panel { width: min(100%, 560px); max-height: calc(100dvh - var(--s-8)); padding-top: var(--s-10); padding-bottom: max(var(--s-6), env(safe-area-inset-bottom)); border-radius: var(--r-2xl) var(--r-2xl) 0 0; }
+.pg-overlays .ov-sheet-handle { position: absolute; top: 0; left: calc(50% - var(--s-10)); display: grid; place-items: center; width: var(--s-20); height: var(--s-8); border-radius: var(--r-md); cursor: grab; touch-action: none; }
+.pg-overlays .ov-sheet-handle span { display: block; width: var(--s-10); height: var(--s-1); border-radius: var(--r-full); background: var(--border-strong); transition: background var(--d-fast) var(--ease-out); }
+.pg-overlays .ov-sheet-handle:hover span { background: var(--accent); }
+.pg-overlays .ov-sheet-handle:active { cursor: grabbing; }
+.pg-overlays .ov-dialog-panel.is-dragging { user-select: none; }
+.pg-overlays .ov-sheet-options { display: flex; flex-direction: column; gap: var(--s-2); }
+.pg-overlays .ov-sheet-option { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-3); text-align: left; width: 100%; border-radius: var(--r-lg); transition: background var(--d-fast) var(--ease-out); }
+.pg-overlays .ov-sheet-option:hover { background: var(--surface-3); }
+.pg-overlays .ov-sheet-option > span:nth-child(2) { display: flex; flex-direction: column; flex: 1; gap: var(--s-1); }
+.pg-overlays .ov-sheet-option strong { font-size: var(--t-sm); font-weight: var(--w-medium); }
+.pg-overlays .ov-sheet-option small { font-size: var(--t-xs); color: var(--text-2); }
+.pg-overlays .ov-sheet-option > .ic { flex: none; color: var(--text-3); }
+.pg-overlays .ov-dialog-sheet .ov-dialog-actions { justify-content: space-between; }
+
+/* Explicitly unclipped wrappers; native popovers also escape ancestor overflow. */
+.pg-overlays .ov-flyouts .demo { overflow: visible; }
+.pg-overlays .ov-flyouts .demo-stage { border-radius: var(--r-xl) var(--r-xl) 0 0; min-height: 220px; }
+.pg-overlays .ov-flyouts .demo-foot { border-radius: 0 0 var(--r-xl) var(--r-xl); }
+.pg-overlays .ov-menu { position: fixed; inset: auto; display: none; flex-direction: column; gap: var(--s-0_5); width: min(240px, calc(100vw - var(--s-6))); max-height: calc(100dvh - var(--s-6)); overflow-y: auto; margin: 0; padding: var(--s-1_5); border: var(--s-px) solid var(--border); border-radius: var(--r-lg); background: var(--surface-raised); color: var(--text); box-shadow: var(--shadow-lg); z-index: var(--z-popover); }
+.pg-overlays .ov-menu[data-open] { display: flex; }
+.pg-overlays .ov-menu-item { display: flex; align-items: center; width: 100%; gap: var(--s-2_5); padding: var(--s-2) var(--s-2_5); border-radius: var(--r-sm); text-align: left; font-size: var(--t-sm); color: var(--text-2); transition: background var(--d-fast) var(--ease-out), color var(--d-fast) var(--ease-out); }
+.pg-overlays .ov-menu-item > span { flex: 1; }
+.pg-overlays .ov-menu-item > .ic { flex: none; }
+.pg-overlays .ov-menu-item:is(:hover, :focus) { background: var(--accent-soft); color: var(--accent-text); }
+.pg-overlays .ov-menu-item[data-menu-action="delete"] { color: var(--danger-text); }
+.pg-overlays .ov-menu-item[data-menu-action="delete"]:is(:hover, :focus) { background: var(--danger-soft); }
+.pg-overlays .ov-menu-divider { border: 0; height: var(--s-px); background: var(--border-soft); margin: var(--s-1) var(--s-2); }
+.pg-overlays .ov-menu-result { min-height: var(--s-8); max-width: 32ch; }
+.pg-overlays .ov-context-target { position: relative; display: flex; flex-direction: column; gap: var(--s-3); justify-content: center; align-items: center; width: 100%; min-height: 160px; padding: var(--s-5); border: var(--s-px) dashed var(--border-strong); border-radius: var(--r-lg); background: var(--surface-2); text-align: center; }
+.pg-overlays .ov-context-cross { position: absolute; top: var(--s-2); left: var(--s-3); color: var(--text-3); font-family: var(--font-mono); }
+.pg-overlays .ov-byline { display: flex; align-items: center; gap: var(--s-3); }
+.pg-overlays .ov-avatar { display: grid; place-items: center; width: var(--s-10); height: var(--s-10); flex: none; border-radius: var(--r-full); font-size: var(--t-xs); font-weight: var(--w-semibold); color: var(--accent-text); background: var(--accent-soft-2); border: var(--s-px) solid var(--accent-ring); }
+.pg-overlays .ov-avatar-lg { width: var(--s-12); height: var(--s-12); font-size: var(--t-md); }
+.pg-overlays .ov-person { font-weight: var(--w-semibold); color: var(--accent-text); text-decoration: underline; text-decoration-color: var(--accent-ring); text-underline-offset: var(--s-1); border-radius: var(--r-xs); }
+.pg-overlays .ov-person:hover { text-decoration-color: var(--accent-text); }
+.pg-overlays .ov-hovercard { position: fixed; inset: auto; display: none; flex-direction: column; gap: var(--s-4); width: min(300px, calc(100vw - var(--s-6))); max-height: calc(100dvh - var(--s-6)); overflow-y: auto; margin: 0; padding: var(--s-5); border: var(--s-px) solid var(--border); border-radius: var(--r-xl); background: var(--surface-raised); color: var(--text); box-shadow: var(--shadow-lg); z-index: var(--z-popover); }
+.pg-overlays .ov-hovercard[data-open] { display: flex; }
+.pg-overlays .ov-profile-stats { display: flex; flex-wrap: wrap; gap: var(--s-4); padding: var(--s-3) 0; border-block: var(--s-px) solid var(--border-soft); font-size: var(--t-xs); color: var(--text-2); }
+.pg-overlays .ov-profile-stats strong { color: var(--text); }
+.pg-overlays .ov-toolbar { display: flex; padding: var(--s-1); gap: var(--s-1); border-radius: var(--r-lg); background: var(--surface); border: var(--s-px) solid var(--border); box-shadow: var(--shadow-sm); }
+.pg-overlays .ov-toolbar [aria-pressed="true"] { color: var(--accent-text); background: var(--accent-soft); }
+
+.pg-overlays .ov-tone-buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
+.pg-overlays .ov-tone-dot { display: inline-flex; color: var(--ov-tone); }
+.pg-overlays .ov-tone-success { --ov-tone: var(--success-text); --ov-tint: var(--success-soft); }
+.pg-overlays .ov-tone-info { --ov-tone: var(--info-text); --ov-tint: var(--info-soft); }
+.pg-overlays .ov-tone-warning { --ov-tone: var(--warning-text); --ov-tint: var(--warning-soft); }
+.pg-overlays .ov-tone-danger { --ov-tone: var(--danger-text); --ov-tint: var(--danger-soft); }
+.pg-overlays .ov-alerts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
+.pg-overlays .ov-alert { display: flex; gap: var(--s-3); align-items: flex-start; padding: var(--s-4); border-radius: var(--r-lg); background: var(--ov-tint); border: var(--s-px) solid color-mix(in oklch, var(--ov-tone) 20%, transparent); }
+.pg-overlays .ov-alert > span { color: var(--ov-tone); padding-top: var(--s-0_5); flex: none; }
+.pg-overlays .ov-alert strong { font-size: var(--t-sm); color: var(--ov-tone); font-weight: var(--w-semibold); }
+.pg-overlays .ov-alert p { font-size: var(--t-xs); line-height: var(--lh-sm); color: var(--text-2); margin-top: var(--s-1); }
+.pg-overlays .ov-banner-wrap { display: flex; flex-direction: column; gap: var(--s-3); }
+.pg-overlays .ov-banner { display: flex; align-items: center; gap: var(--s-4); padding: var(--s-4); background: var(--accent-soft); border: var(--s-px) solid var(--accent-ring); border-radius: var(--r-lg); }
+.pg-overlays .ov-banner > div { flex: 1; }
+.pg-overlays .ov-banner > .btn { flex: none; }
+.pg-overlays .ov-banner strong { font-size: var(--t-sm); font-weight: var(--w-semibold); }
+
+.pg-overlays .ov-accordion { width: 100%; }
+.pg-overlays .ov-acc-item + .ov-acc-item { border-top: var(--s-px) solid var(--border-soft); }
+.pg-overlays .ov-acc-trigger { display: flex; align-items: center; gap: var(--s-3); width: 100%; padding: var(--s-4) var(--s-1); text-align: left; font-size: var(--t-sm); line-height: var(--lh-sm); font-weight: var(--w-medium); border-radius: var(--r-sm); transition: color var(--d-fast) var(--ease-out); }
+.pg-overlays .ov-acc-trigger:hover { color: var(--accent-text); }
+.pg-overlays .ov-acc-trigger > span:nth-child(2) { flex: 1; }
+.pg-overlays .ov-acc-index { color: var(--text-3); font-size: var(--t-2xs); font-weight: var(--w-regular); }
+.pg-overlays .ov-acc-trigger > .ic { flex: none; color: var(--text-3); transition: transform var(--d-base) var(--ease-in-out), color var(--d-fast) var(--ease-out); }
+.pg-overlays .ov-acc-trigger[aria-expanded="true"] > .ic { transform: rotate(180deg); color: var(--accent-text); }
+.pg-overlays .ov-collapse { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows var(--d-moderate) var(--ease-in-out), opacity var(--d-base) var(--ease-in); }
+.pg-overlays .ov-collapse.is-open { grid-template-rows: 1fr; opacity: 1; transition: grid-template-rows var(--d-slow) var(--ease-in-out), opacity var(--d-moderate) var(--ease-out); }
+.pg-overlays .ov-collapse-inner { min-height: 0; overflow: hidden; }
+.pg-overlays .ov-acc-copy { padding: 0 var(--s-5) var(--s-5) var(--s-8); font-size: var(--t-sm); line-height: var(--lh-md); color: var(--text-2); }
+.pg-overlays #ov-disclosure .demo-stage { justify-content: flex-start; }
+.pg-overlays .ov-disclosure { width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-2); }
+.pg-overlays .ov-disclosure .ov-collapse { width: 100%; }
+.pg-overlays .ov-more-copy { padding: var(--s-4) 0 var(--s-2); max-width: 72ch; color: var(--text-2); font-size: var(--t-sm); }
+.pg-overlays [data-show-more] .ic { transition: transform var(--d-base) var(--ease-in-out); }
+.pg-overlays [data-show-more][aria-expanded="true"] .ic { transform: rotate(180deg); }
+
+.pg-overlays .ov-loading-demo .demo-stage { padding: var(--s-8); }
+.pg-overlays .ov-loading-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.2fr); align-items: center; gap: var(--s-8); width: 100%; }
+.pg-overlays .ov-loading-preview { position: relative; min-width: 0; min-height: calc(var(--s-24) * 3); padding: var(--s-4); border: var(--s-px) solid var(--border); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-sm); }
+.pg-overlays .ov-skeleton { display: flex; flex-direction: column; gap: var(--s-3); }
+.pg-overlays .ov-skeleton-art { height: 140px; border-radius: var(--r-md); background: var(--surface-3); }
+.pg-overlays .ov-skeleton-line { height: var(--s-3); border-radius: var(--r-xs); background: var(--surface-3); }
+.pg-overlays .ov-skeleton-line:first-of-type { height: var(--s-4); }
+.pg-overlays .ov-w-60 { width: 60%; }
+.pg-overlays .ov-w-90 { width: 90%; }
+.pg-overlays .ov-w-75 { width: 75%; }
+.pg-overlays .ov-skeleton-footer { display: flex; gap: var(--s-2); padding-top: var(--s-2); }
+.pg-overlays .ov-skeleton-footer span { height: var(--s-5); width: var(--s-16); border-radius: var(--r-full); background: var(--surface-3); }
+.pg-overlays .ov-skeleton :is(.ov-skeleton-art, .ov-skeleton-line, .ov-skeleton-footer span) { position: relative; overflow: hidden; }
+.pg-overlays .ov-skeleton :is(.ov-skeleton-art, .ov-skeleton-line, .ov-skeleton-footer span)::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, var(--accent-soft), transparent); }
+.pg-overlays[data-visible][data-progress-running] .ov-skeleton :is(.ov-skeleton-art, .ov-skeleton-line, .ov-skeleton-footer span)::after { animation: ov-skeleton-scan calc(var(--d-glacial) * 1.8) var(--ease-in-out) infinite; }
+.pg-overlays .ov-loaded { display: flex; flex-direction: column; gap: var(--s-3); }
+.pg-overlays .ov-loaded-art { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s-3); height: 140px; border-radius: var(--r-md); background: var(--success-soft); color: var(--success-text); }
+.pg-overlays .ov-loaded-art .t-mono { font-size: var(--t-2xs); }
+.pg-overlays .ov-progress-panel { display: flex; flex-direction: column; gap: var(--s-4); min-width: 0; }
+.pg-overlays .ov-progress-heading { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); }
+.pg-overlays .ov-progress-heading strong { font-size: var(--t-lg); font-weight: var(--w-medium); }
+.pg-overlays .ov-progress-heading output { font-family: var(--font-mono); color: var(--accent-text); }
+.pg-overlays .ov-progress-track { height: var(--s-1_5); overflow: hidden; background: var(--surface-3); border-radius: var(--r-full); }
+.pg-overlays .ov-progress-track span { display: block; height: 100%; width: 100%; background: var(--accent); border-radius: inherit; transform: scaleX(0); transform-origin: left; transition: transform var(--d-base) var(--ease-out); }
+.pg-overlays .ov-progress-steps { list-style: none; display: flex; flex-direction: column; gap: var(--s-3); padding: var(--s-1) 0; }
+.pg-overlays .ov-progress-steps li { display: flex; gap: var(--s-2_5); align-items: center; color: var(--text-3); font-size: var(--t-sm); transition: color var(--d-base) var(--ease-out); }
+.pg-overlays .ov-step-marker { display: grid; place-items: center; width: var(--s-5); height: var(--s-5); flex: none; border-radius: var(--r-full); background: var(--surface-3); font-family: var(--font-mono); font-size: var(--t-2xs); }
+.pg-overlays .ov-step-marker .ic { display: none; }
+.pg-overlays .ov-progress-steps .is-current { color: var(--text); }
+.pg-overlays .ov-progress-steps .is-current .ov-step-marker { color: var(--accent-text); background: var(--accent-soft-2); box-shadow: 0 0 0 var(--s-px) var(--accent-ring); }
+.pg-overlays .ov-progress-steps .is-done { color: var(--success-text); }
+.pg-overlays .ov-progress-steps .is-done .ov-step-marker { background: var(--success-soft); }
+.pg-overlays .ov-progress-steps .is-done .ov-step-marker .ic { display: block; }
+.pg-overlays .ov-progress-steps .is-done .ov-step-marker > span { display: none; }
+.pg-overlays .ov-loading-controls { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-2); }
+.pg-overlays .ov-speed-label { display: inline-flex; }
+.pg-overlays .ov-speed-label select { min-height: var(--control-sm); border: var(--s-px) solid var(--border-strong); border-radius: var(--r-sm); padding: var(--s-1) var(--s-2); background: var(--surface); font-size: var(--t-xs); }
+.pg-overlays [data-progress-status] { min-height: var(--s-8); line-height: var(--lh-sm); }
+
+@keyframes ov-backdrop-in { from { opacity: 0; } }
+@keyframes ov-backdrop-out { to { opacity: 0; } }
+@keyframes ov-skeleton-scan { to { transform: translateX(100%); } }
+
+@media (max-width: 720px) {
+  .pg-overlays .ov-origin-scene { grid-template-columns: 1fr; gap: var(--s-5); }
+  .pg-overlays .ov-origin-aside { display: none; }
+  .pg-overlays .ov-scene-heading { flex-direction: column; gap: var(--s-1); }
+  .pg-overlays .ov-project-info { flex-wrap: wrap; }
+  .pg-overlays .ov-morph-demo .demo-stage { padding: var(--s-6); }
+  .pg-overlays .ov-loading-layout { grid-template-columns: 1fr; gap: var(--s-6); }
+  .pg-overlays .ov-loading-preview { max-width: 360px; width: 100%; margin-inline: auto; }
+  .pg-overlays .ov-loading-demo .demo-stage { padding: var(--s-6); }
+  .pg-overlays .ov-alerts { grid-template-columns: 1fr; }
+  .pg-overlays .ov-banner { gap: var(--s-3); align-items: flex-start; }
+  .pg-overlays .ov-banner > .ov-symbol { display: none; }
+  .pg-overlays .ov-dialog { padding: var(--s-4); }
+  .pg-overlays .ov-dialog-panel { max-height: calc(100dvh - var(--s-8)); padding: var(--s-5); }
+  .pg-overlays .ov-dialog-drawer { padding: 0; }
+  .pg-overlays .ov-dialog-sheet { padding: var(--s-3) var(--s-3) 0; }
+  .pg-overlays .ov-dialog-head .t-h2 { font-size: var(--t-xl); }
+  .pg-overlays .ov-dialog-actions .btn { flex: 1; }
+  .pg-overlays .ov-detail-grid { gap: var(--s-2); }
+  .pg-overlays .ov-detail-grid strong { font-size: var(--t-sm); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-overlays .ov-skeleton :is(.ov-skeleton-art, .ov-skeleton-line, .ov-skeleton-footer span)::after { animation: none !important; }
+  .pg-overlays .ov-progress-track span { transition: none; }
+}
+.pg-overlays[data-reduced] .ov-dialog::backdrop { animation: none; }
+.pg-overlays[data-reduced] .ov-skeleton :is(.ov-skeleton-art, .ov-skeleton-line, .ov-skeleton-footer span)::after { animation: none; }
+.pg-overlays[data-reduced] .ov-progress-track span { transition: none; }

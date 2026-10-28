@@ -76,7 +76,7 @@
               body: `<button class="btn btn-primary">${S.icon("send")} Send</button><button class="btn btn-secondary">${S.icon("download")} Export</button><button class="btn btn-ghost btn-icon" data-tip="Notifications">${S.icon("bell")}</button><button class="btn btn-ghost btn-icon" data-tip="Delete">${S.icon("trash")}</button>`,
             })}
             ${S.demo({
-              title: "Snippet", desc: "Ported 1:1 to React (<Icon name/>), SwiftUI (custom Shape + phaseAnimator) and Rust (svg! macro).",
+              title: "Snippet", desc: "The SVG reference can inform React, SwiftUI and Rust adapters. Framework ports are planned.",
               specs: ["S.icon(name, {size})"], stage: "is-plain",
               body: `<pre class="ic-code"><code><span class="faint">// vanilla</span>
 el.innerHTML = S.icon(<span class="accent-text">"bell"</span>, { size: 18 });
@@ -130,7 +130,8 @@ S.playIcon(el.querySelector(<span class="accent-text">".ic"</span>));</code></pr
       grid.addEventListener("click", async (e) => {
         const t = e.target.closest(".ic-tile"); if (!t) return;
         const snippet = `S.icon("${t.dataset.name}")`;
-        try { await navigator.clipboard.writeText(snippet); } catch {}
+        const copied = await S.copy(snippet);
+        if (!copied) { S.toast({ title: "Clipboard unavailable", desc: snippet, tone: "warning", duration: 6000 }); return; }
         t.classList.remove("is-copied"); t.offsetWidth; t.classList.add("is-copied");
         S.toast({ title: "Copied to clipboard", desc: snippet, tone: "success", duration: 2200 });
       });

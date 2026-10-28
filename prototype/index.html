@@ -1,18 +1,21 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" data-palette="color">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Schematic</title>
   <meta name="description" content="Schematic — a unified, motion-first design system prototype.">
   <meta name="color-scheme" content="light dark">
-  <!-- Apply saved preferences before first paint: no theme flash, no hue jump. -->
+  <!-- Apply palette and explicit preferences before first paint. -->
   <script>
     (() => {
       const g = (k) => { try { return localStorage.getItem("schematic:" + k); } catch { return null; } };
       const r = document.documentElement;
       r.dataset.theme = g("theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-      const h = g("hue"); if (h) r.style.setProperty("--accent-h", h);
+      const palette = g("palette");
+      r.dataset.palette = palette === "mono" || palette === "color" ? palette : r.dataset.palette || "color";
+      const h = g("hue");
+      if (h !== null && h.trim() !== "" && Number.isFinite(Number(h))) r.style.setProperty("--accent-h", h);
       const rad = g("radius"); if (rad && rad !== "default") r.dataset.radius = rad;
       const m = g("motion"); if (m) r.dataset.motion = m;
     })();
@@ -21,6 +24,7 @@
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/icons.css">
   <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/onboarding.css">
   <!-- page-scoped styles: every selector is prefixed with the page's own class -->
   <link rel="stylesheet" href="css/pages/overview.css">
   <link rel="stylesheet" href="css/pages/foundations.css">
@@ -31,11 +35,14 @@
   <link rel="stylesheet" href="css/pages/data.css">
   <link rel="stylesheet" href="css/pages/overlays.css">
 
+  <script defer src="js/token-names.js"></script>
   <script defer src="js/icons.js"></script>
   <script defer src="js/core.js"></script>
   <script defer src="js/feedback.js"></script>
   <script defer src="js/shell.js"></script>
   <script defer src="js/app.js"></script>
+  <script defer src="js/palette.js"></script>
+  <script defer src="js/onboarding.js"></script>
   <!-- pages: each file registers itself with Schematic.page({...}) -->
   <script defer src="pages/overview.js"></script>
   <script defer src="pages/foundations.js"></script>
@@ -47,8 +54,9 @@
   <script defer src="pages/overlays.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#page-host">Skip to content</a>
   <div class="app">
-    <aside class="sidebar" aria-label="Primary">
+    <aside class="sidebar" id="primary-sidebar" aria-label="Primary">
       <a class="brand" href="#/overview">
         <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8.5 12 4.5l7 4v7l-7 4-7-4z"/><path d="M12 12.5v7M5 8.5l7 4 7-4"/></svg></span>
         <span class="brand-name">Schematic</span>
@@ -68,7 +76,7 @@
 
     <div class="main">
       <header class="topbar" id="topbar">
-        <button class="btn btn-ghost btn-icon menu-btn" id="menu-btn" aria-label="Menu">
+        <button class="btn btn-ghost btn-icon menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="primary-sidebar">
           <svg class="ic" data-i="menu" data-anim viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h10"/></svg>
         </button>
         <nav class="crumbs" aria-label="Breadcrumb">
@@ -77,6 +85,10 @@
           <span class="crumb-current" id="crumb-current">Overview</span>
         </nav>
         <div class="topbar-actions">
+          <button type="button" class="btn btn-ghost btn-sm onboarding-launch" id="guide-btn" aria-haspopup="dialog" aria-controls="schematic-guide">
+            <svg class="ic" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5.5C9 3.8 5.8 4 3 5v14c2.8-1 6-1.2 9 .5 3-1.7 6.2-1.5 9-.5V5c-2.8-1-6-1.2-9 .5ZM12 5.5v14"/></svg>
+            Guide
+          </button>
           <div style="position:relative">
             <button class="btn btn-ghost btn-icon" id="tune-btn" aria-label="Tune design tokens" aria-expanded="false" data-tip="Tune tokens" data-tip-side="bottom">
               <svg class="ic" data-i="sliders" data-anim viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle class="k1" cx="8" cy="7" r="2.2" fill="currentColor" stroke="none"/><circle class="k2" cx="16" cy="17" r="2.2" fill="currentColor" stroke="none"/></svg>
@@ -99,7 +111,7 @@
 
       <div class="viewport" id="viewport">
         <div class="page-wrap">
-          <main class="page-host" id="page-host"></main>
+          <main class="page-host" id="page-host" tabindex="-1"></main>
           <aside class="rail" id="rail" aria-label="On this page"></aside>
         </div>
       </div>
