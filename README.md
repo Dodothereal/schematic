@@ -116,7 +116,9 @@ npm run test:browser
 
 The build generates the portable HTML files and token-name manifest. Structural
 checks catch missing assets and stale output. Browser checks launch an isolated
-Chrome profile and exercise the actual interface. Set `SCHEMATIC_CHROME` to an
+Chrome profile and exercise the actual interface, including normal-speed guide
+frames, interrupted transitions and keyboard access on narrow screens.
+Set `SCHEMATIC_CHROME` to an
 installed Chrome/Chromium executable if automatic discovery cannot find it.
 
 [Verification notes](VERIFICATION.md) describe the checked scope and limits.

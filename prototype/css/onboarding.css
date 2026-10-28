@@ -17,22 +17,27 @@
   box-shadow: var(--shadow-xl);
   overflow: hidden;
 }
-.onboarding-dialog[open] { display: flex; flex-direction: column; animation: onboarding-enter var(--d-moderate) var(--ease-out-expo); }
+.onboarding-dialog[open] { display: flex; flex-direction: column; }
 .onboarding-dialog::backdrop { background: var(--overlay); }
-.onboarding-dialog[open]::backdrop { animation: onboarding-fade var(--d-moderate) var(--ease-out); }
 .onboarding-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); padding: var(--s-4) var(--s-5) var(--s-3); flex: none; }
 .onboarding-head .btn { gap: var(--s-1_5); }
 .onboarding-progress-head { display: flex; justify-content: space-between; gap: var(--s-3); padding: 0 var(--s-6) var(--s-2); flex: none; }
 .onboarding-progress { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; gap: var(--s-2); padding: 0 var(--s-6) var(--s-5); flex: none; }
-.onboarding-progress li { display: flex; flex-direction: column; gap: var(--s-1_5); color: var(--text-3); font-size: var(--t-2xs); line-height: var(--lh-2xs); }
-.onboarding-progress li::before { content: ""; height: var(--s-0_5); background: var(--border); border-radius: var(--r-full); transition: background var(--d-fast) var(--ease-out); }
+.onboarding-progress li { position: relative; display: flex; flex-direction: column; gap: var(--s-1_5); color: var(--text-3); font-size: var(--t-2xs); line-height: var(--lh-2xs); transition: color var(--d-base) var(--ease-out); }
+.onboarding-progress li::before { content: ""; height: var(--s-0_5); background: var(--border); border-radius: var(--r-full); }
+.onboarding-progress li::after { content: ""; position: absolute; inset: 0 0 auto; height: var(--s-0_5); border-radius: var(--r-full); background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform var(--d-slow) var(--ease-in-out); }
 .onboarding-progress li[aria-current="step"] { font-weight: var(--w-semibold); color: var(--accent-text); }
-.onboarding-progress li[aria-current="step"]::before, .onboarding-progress li[data-past]::before { background: var(--accent); }
-.onboarding-body { padding: var(--s-2) var(--s-6) var(--s-6); overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+.onboarding-progress li[aria-current="step"]::after, .onboarding-progress li[data-past]::after { transform: scaleX(1); }
+.onboarding-body { padding: var(--s-2) var(--s-6) var(--s-6); overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; min-height: 0; scrollbar-gutter: stable; }
+/* Every step contributes its natural height. The frame and navigation stay
+   anchored while only the reading surface travels between steps. */
+.onboarding-stage { display: grid; align-items: start; isolation: isolate; }
+.onboarding-panel { grid-area: 1 / 1; min-width: 0; visibility: hidden; opacity: 0; }
+.onboarding-panel[data-active] { visibility: visible; opacity: 1; }
 .onboarding-body h2 { max-width: 25ch; }
 .onboarding-body h2:focus { outline: none; animation: none; }
 .onboarding-desc { margin-top: var(--s-3); font-size: var(--t-md); line-height: var(--lh-md); color: var(--text-2); }
-.onboarding-content { display: flex; flex-direction: column; gap: var(--s-4); padding-top: var(--s-6); min-height: 280px; }
+.onboarding-content { padding-top: var(--s-6); }
 .onboarding-step { display: flex; flex-direction: column; gap: var(--s-4); }
 .onboarding-map { display: flex; flex-direction: column; border: var(--s-px) solid var(--border-soft); background: var(--surface-2); border-radius: var(--r-xl); padding: 0 var(--s-4); }
 .onboarding-map > div { display: flex; align-items: flex-start; gap: var(--s-3); padding: var(--s-4) 0; }
@@ -63,9 +68,7 @@
 .onboarding-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-4) var(--s-6); border-top: var(--s-px) solid var(--border-soft); background: var(--surface-2); flex: none; }
 .onboarding-actions { display: flex; gap: var(--s-2); margin-left: auto; }
 .onboarding-actions .btn { min-width: var(--s-20); }
-
-@keyframes onboarding-enter { from { opacity: 0; transform: translateY(8px); } }
-@keyframes onboarding-fade { from { opacity: 0; } }
+.onboarding-actions [data-guide-next] { min-width: calc(var(--s-16) * 2); justify-content: space-between; }
 
 @media (max-width: 1100px) { .onboarding-launch[data-guide-new] .onboarding-nudge { display: none; } }
 @media (max-width: 480px) {
@@ -79,7 +82,7 @@
   .onboarding-foot { padding: var(--s-3) var(--s-4); }
   .onboarding-foot > p { width: 100%; }
 }
-html[data-motion="reduced"] .onboarding-dialog *, html[data-motion="reduced"] .onboarding-dialog { animation: none; transition: none; }
+html[data-motion="reduced"] .onboarding-dialog *, html[data-motion="reduced"] .onboarding-dialog *::before, html[data-motion="reduced"] .onboarding-dialog *::after, html[data-motion="reduced"] .onboarding-dialog { animation: none; transition: none; }
 @media (prefers-reduced-motion: reduce) {
-  html:not([data-motion="full"]) .onboarding-dialog *, html:not([data-motion="full"]) .onboarding-dialog { animation: none; transition: none; }
+  html:not([data-motion="full"]) .onboarding-dialog *, html:not([data-motion="full"]) .onboarding-dialog *::before, html:not([data-motion="full"]) .onboarding-dialog *::after, html:not([data-motion="full"]) .onboarding-dialog { animation: none; transition: none; }
 }

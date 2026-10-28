@@ -39,6 +39,10 @@ Overlays & Feedback. Navigation preserves page state and scroll position.
 
 Use Tab to reach controls, Enter or Space to activate buttons, and Escape to
 dismiss dialogs. Guide provides Back / Next, step progress and a Finish button.
+Its frame and navigation stay anchored while complete steps travel forward or
+back. You can reverse direction mid-transition or reopen while it is closing;
+the motion continues from the displayed frame. Reduced motion changes steps
+immediately.
 Closing it early does not mark it complete; Finish hides the first-visit nudge.
 Palette changes remain saved even if you close early. Clearing browser site
 storage resets preferences and completion. Uploads, async actions and live
