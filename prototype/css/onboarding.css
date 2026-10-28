@@ -68,7 +68,7 @@
 .onboarding-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-4) var(--s-6); border-top: var(--s-px) solid var(--border-soft); background: var(--surface-2); flex: none; }
 .onboarding-actions { display: flex; gap: var(--s-2); margin-left: auto; }
 .onboarding-actions .btn { min-width: var(--s-20); }
-.onboarding-actions [data-guide-next] { min-width: calc(var(--s-16) * 2); justify-content: space-between; }
+.onboarding-actions [data-guide-next] { width: calc(var(--s-16) * 2 + var(--s-4)); flex: none; justify-content: space-between; }
 
 @media (max-width: 1100px) { .onboarding-launch[data-guide-new] .onboarding-nudge { display: none; } }
 @media (max-width: 480px) {

@@ -186,7 +186,7 @@ async function mobileChecks(b, width, height) {
       await key(b, "Tab", "Tab", 9);
     }
     keyboard &&= expected.every((control) => visited.includes(control));
-    details.push({ step: step + 1, expected, visited });
+    details.push({ step: step + 1, expected, visited, dialog: current.dialog, footer: current.footer, next: current.next });
     if (step < 3) {
       const change = await trace(b, "guideMotionQA.next()");
       traces[`mobile-${width}-step-${step + 2}`] = change;
@@ -195,8 +195,8 @@ async function mobileChecks(b, width, height) {
         && rectNear(anchor.footer, frame.footer) && rectNear(anchor.next, frame.next));
     }
   }
-  check(`${width}x${height}: all four steps keep dialog and navigation inside the viewport`, geometry);
-  check(`${width}x${height}: keyboard reaches every current control and scrolls it into view`, keyboard, details);
+  check(`${width}x${height}: all four steps keep dialog and navigation inside the viewport`, geometry, geometry ? undefined : details);
+  check(`${width}x${height}: keyboard reaches every current control and scrolls it into view`, keyboard, keyboard ? undefined : details);
   check(`${width}x${height}: Tab never enters a retained inactive panel or the page behind`, hiddenSkipped);
   await b.evaluate("guideMotionQA.focusNext()");
   await key(b, "Tab", "Tab", 9);
@@ -262,9 +262,13 @@ try {
   })()`);
   check("Rapid alternating navigation obeys the latest intent", settledOn(lastFrame(rapid.settle), 2)
     && rapid.frames.every((frame) => frame.activeCount === 1));
-  check("Rapid navigation leaves the frame and actions anchored", [...rapid.frames, ...allFrames(rapid.settle)].every((frame) =>
+  const rapidAnchored = [...rapid.frames, ...allFrames(rapid.settle)].every((frame) =>
     rectNear(opening.frames.at(-1).dialog, frame.dialog) && rectNear(opening.frames.at(-1).footer, frame.footer)
-      && rectNear(opening.frames.at(-1).next, frame.next)));
+      && rectNear(opening.frames.at(-1).next, frame.next));
+  check("Rapid navigation leaves the frame and actions anchored", rapidAnchored, rapidAnchored ? undefined : {
+    anchor: { dialog: lastFrame(opening).dialog, footer: lastFrame(opening).footer, next: lastFrame(opening).next },
+    samples: rapid.frames.map(({ active, dialog, footer, next }) => ({ active, dialog, footer, next })),
+  });
 
   const reopening = traces.reopen = await b.evaluate(`(async()=>{
     const q=guideMotionQA;

@@ -27,7 +27,7 @@ The harness creates its own browser profile, closes its browser process and remo
 ## Walkthrough media
 
 - The video records real controls in the generated offline application.
-- The walkthrough was recorded for v0.1.0. The same four-step guide in v0.1.1 has refined transitions and a stable frame.
+- The walkthrough was recorded for v0.1.0. The same four-step guide in v0.1.2 has refined transitions and a stable frame.
 - H.264 video, 1440 x 1008 at 30 fps; AAC narration at 48 kHz.
 - Runtime: approximately 3 minutes 22 seconds; 13 seekable chapters.
 - English captions and a written transcript accompany the recording.
@@ -36,8 +36,8 @@ The harness creates its own browser profile, closes its browser process and remo
 
 ## Artifact integrity
 
-- `dist/schematic.html` — 540,213 bytes; SHA-256 `99f80307cbd474fa3e2e19899185b79c52696158bf44fcbf1d6fa42af8993997`.
-- `dist/schematic-mono.html` — 540,212 bytes; SHA-256 `c8be88e331b71fdd8380cb591399666196fe696d68a3b1c58fa0af3089c33438`.
+- `dist/schematic.html` — 540,234 bytes; SHA-256 `a0dc31f970adf12d51ae94f14660691ab6402344f379e2fe455706c6a80973ee`.
+- `dist/schematic-mono.html` — 540,233 bytes; SHA-256 `6c7d460495b3bc3d4a5e11f9bd86116310696183a6bab7e24f81482fa2b9b096`.
 - `docs/assets/schematic-walkthrough.mp4` — 15,439,994 bytes; SHA-256 `d8fe271e635ba477192e9410ac35bde7c08a17bd1bb42be51393117acd28331d`.
 
 ## Limits
