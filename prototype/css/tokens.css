@@ -1,0 +1,272 @@
+/* =============================================================================
+   SCHEMATIC — DESIGN TOKENS
+   The single source of truth. Every other file consumes these; nothing else
+   hard-codes a colour, size, radius, duration or curve.
+   Ported 1:1 to: Tailwind theme / CSS vars (web), SwiftUI extensions, Rust consts.
+   ============================================================================= */
+
+:root {
+  /* ---------------------------------------------------------------- Tuning */
+  --accent-h: 262;          /* the ONE knob that retunes the brand hue      */
+  --accent-c: 0.19;         /* chroma of the accent                         */
+  --neutral-c: 0.006;       /* how much the greys lean towards the accent   */
+  --radius-scale: 1;        /* 0 = sharp, 1 = default, 1.6 = round          */
+  --motion-scale: 1;        /* 1 = normal, 4 = slow-mo inspection, 0.01 = off */
+
+  /* ---------------------------------------------------------------- Spacing
+     4px base grid. Never use a value outside this scale.                   */
+  --s-0: 0px;
+  --s-px: 1px;
+  --s-0_5: 2px;
+  --s-1: 4px;
+  --s-1_5: 6px;
+  --s-2: 8px;
+  --s-2_5: 10px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --s-24: 96px;
+
+  /* ---------------------------------------------------------------- Radius */
+  --r-xs: calc(4px * var(--radius-scale));
+  --r-sm: calc(6px * var(--radius-scale));
+  --r-md: calc(8px * var(--radius-scale));
+  --r-lg: calc(12px * var(--radius-scale));
+  --r-xl: calc(16px * var(--radius-scale));
+  --r-2xl: calc(22px * var(--radius-scale));
+  --r-full: 999px;
+
+  /* ---------------------------------------------------------------- Type */
+  --font-sans: "Inter", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-display: "SF Pro Display", "Inter Display", "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, "Cascadia Code", Menlo, monospace;
+
+  --t-2xs: 11px;  --lh-2xs: 16px;
+  --t-xs: 12px;   --lh-xs: 16px;
+  --t-sm: 13px;   --lh-sm: 20px;
+  --t-md: 14px;   --lh-md: 22px;   /* body */
+  --t-lg: 16px;   --lh-lg: 24px;
+  --t-xl: 18px;   --lh-xl: 26px;
+  --t-2xl: 22px;  --lh-2xl: 30px;
+  --t-3xl: 28px;  --lh-3xl: 34px;
+  --t-4xl: 36px;  --lh-4xl: 42px;
+  --t-5xl: 48px;  --lh-5xl: 52px;
+  --t-6xl: 64px;  --lh-6xl: 66px;
+
+  --w-regular: 420;
+  --w-medium: 520;
+  --w-semibold: 600;
+  --w-bold: 680;
+
+  --tracking-tight: -0.022em;
+  --tracking-display: -0.035em;
+  --tracking-wide: 0.06em;
+
+  /* ---------------------------------------------------------------- Sizing */
+  --control-xs: 24px;
+  --control-sm: 28px;
+  --control-md: 34px;
+  --control-lg: 40px;
+  --control-xl: 48px;
+
+  --icon-sm: 16px;
+  --icon-md: 18px;
+  --icon-lg: 20px;
+  --icon-xl: 24px;
+  --ic-stroke: 1.6;
+
+  --sidebar-w: 248px;
+  --topbar-h: 56px;
+  --content-max: 1080px;
+  --rail-w: 196px;
+
+  /* ---------------------------------------------------------------- Motion
+     Durations are multiplied by --motion-scale so the whole system can be
+     slowed down for inspection, or switched off for reduced-motion users.  */
+  --d-instant: calc(80ms * var(--motion-scale));   /* press feedback          */
+  --d-fast: calc(140ms * var(--motion-scale));     /* hover, colour, opacity  */
+  --d-base: calc(220ms * var(--motion-scale));     /* small moves, toggles    */
+  --d-moderate: calc(320ms * var(--motion-scale)); /* popovers, menus         */
+  --d-slow: calc(460ms * var(--motion-scale));     /* page, dialog, layout    */
+  --d-slower: calc(650ms * var(--motion-scale));   /* data viz, choreography  */
+  --d-glacial: calc(1000ms * var(--motion-scale)); /* ambient / hero only     */
+
+  /* Curves. Rule of thumb:
+       entering / responding to the user  -> out
+       leaving the screen                 -> in  (and ~30% faster)
+       moving something already on screen -> in-out
+       physical / playful / confirmation  -> spring                        */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);            /* quint, the default */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);        /* big, decisive entrances */
+  --ease-out-soft: cubic-bezier(0.25, 0.8, 0.25, 1);     /* colour & opacity */
+  --ease-in: cubic-bezier(0.64, 0, 0.78, 0);             /* exits */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);         /* on-screen travel */
+  --ease-overshoot: cubic-bezier(0.34, 1.56, 0.64, 1);   /* pop-ins, badges */
+  --ease-anticipate: cubic-bezier(0.68, -0.4, 0.32, 1.4);/* wind-up then go */
+
+  /* Springs, pre-baked as linear() from a real mass-spring simulation.
+     Pair them with their natural duration token below.                    */
+  --spring-smooth: linear(0, 0.0198, 0.0597, 0.1221, 0.1858, 0.2639, 0.3334, 0.4115, 0.477, 0.5388, 0.604, 0.656, 0.7095, 0.7512, 0.7933, 0.8255, 0.8537, 0.8814, 0.9021, 0.9222, 0.937, 0.9511, 0.9613, 0.9709, 0.9778, 0.9834, 0.9885, 0.992, 0.9952, 0.9973, 0.9991, 1.0003, 1.0012, 1.0018, 1.0021, 1.0024, 1.0025, 1.0024, 1.0024, 1.0022, 1.0021, 1.0019, 1.0017, 1.0015, 1.0014, 1.0012, 1.001, 1.0009, 1);
+  --spring-snappy: linear(0, 0.0203, 0.0681, 0.1343, 0.212, 0.2954, 0.3803, 0.4635, 0.5425, 0.6159, 0.6721, 0.733, 0.7868, 0.8334, 0.8732, 0.9067, 0.9345, 0.9571, 0.9752, 0.9893, 0.9984, 1.0067, 1.0126, 1.0165, 1.0188, 1.0199, 1.02, 1.0195, 1.0184, 1.0172, 1.0157, 1.014, 1.0123, 1.0106, 1.009, 1.0076, 1.0062, 1.0051, 1.004, 1.0033, 1.0025, 1.0018, 1.0013, 1.0008, 1.0005, 1.0002, 1, 0.9998, 1);
+  --spring-bouncy: linear(0, 0.0584, 0.1975, 0.3806, 0.5604, 0.7473, 0.9084, 1.0253, 1.116, 1.1696, 1.1903, 1.1879, 1.1669, 1.1375, 1.1004, 1.0633, 1.0325, 1.0048, 0.9842, 0.9718, 0.9647, 0.9632, 0.9655, 0.9708, 0.9776, 0.9843, 0.9911, 0.997, 1.0012, 1.0045, 1.0063, 1.007, 1.0069, 1.0061, 1.005, 1.0036, 1.0022, 1.0011, 1.0001, 0.9994, 0.9989, 0.9987, 0.9986, 0.9987, 0.9989, 0.9992, 0.9994, 0.9997, 1);
+  --d-spring-smooth: calc(600ms * var(--motion-scale));
+  --d-spring-snappy: calc(470ms * var(--motion-scale));
+  --d-spring-bouncy: calc(930ms * var(--motion-scale));
+
+  --stagger: calc(32ms * var(--motion-scale));  /* delay step for lists */
+
+  /* ---------------------------------------------------------------- Z */
+  --z-sticky: 10;
+  --z-sidebar: 20;
+  --z-popover: 50;
+  --z-toast: 70;
+  --z-dialog: 80;
+  --z-tooltip: 90;
+}
+
+/* =============================================================================
+   COLOUR — LIGHT (default)
+   All colours are OKLCH so lightness is perceptually even and the whole
+   palette re-tints when --accent-h changes.
+   ============================================================================= */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: oklch(0.985 var(--neutral-c) var(--accent-h));
+  --bg-sunken: oklch(0.965 var(--neutral-c) var(--accent-h));
+  --surface: oklch(1 0 0);
+  --surface-2: oklch(0.977 calc(var(--neutral-c) * 0.8) var(--accent-h));
+  --surface-3: oklch(0.955 var(--neutral-c) var(--accent-h));
+  --surface-raised: oklch(1 0 0);
+  --overlay: oklch(0.2 0.02 var(--accent-h) / 0.28);
+
+  --border: oklch(0.915 calc(var(--neutral-c) * 1.2) var(--accent-h));
+  --border-soft: oklch(0.94 var(--neutral-c) var(--accent-h));
+  --border-strong: oklch(0.85 calc(var(--neutral-c) * 1.4) var(--accent-h));
+
+  --text: oklch(0.2 calc(var(--neutral-c) * 2) var(--accent-h));
+  --text-2: oklch(0.44 calc(var(--neutral-c) * 2) var(--accent-h));
+  --text-3: oklch(0.58 calc(var(--neutral-c) * 1.6) var(--accent-h));
+  --text-4: oklch(0.7 var(--neutral-c) var(--accent-h));
+  --text-inverse: oklch(0.99 0 0);
+
+  --accent: oklch(0.56 var(--accent-c) var(--accent-h));
+  --accent-hover: oklch(0.51 var(--accent-c) var(--accent-h));
+  --accent-press: oklch(0.47 var(--accent-c) var(--accent-h));
+  --accent-text: oklch(0.5 var(--accent-c) var(--accent-h));
+  --accent-contrast: oklch(0.99 0.01 var(--accent-h));
+  --accent-soft: oklch(0.56 var(--accent-c) var(--accent-h) / 0.1);
+  --accent-soft-2: oklch(0.56 var(--accent-c) var(--accent-h) / 0.16);
+  --accent-ring: oklch(0.6 var(--accent-c) var(--accent-h) / 0.38);
+
+  --success: oklch(0.6 0.15 155);
+  --success-soft: oklch(0.6 0.15 155 / 0.12);
+  --success-text: oklch(0.5 0.14 155);
+  --warning: oklch(0.75 0.16 70);
+  --warning-soft: oklch(0.75 0.16 70 / 0.16);
+  --warning-text: oklch(0.55 0.14 60);
+  --danger: oklch(0.6 0.21 25);
+  --danger-hover: oklch(0.55 0.21 25);
+  --danger-soft: oklch(0.6 0.21 25 / 0.1);
+  --danger-text: oklch(0.53 0.2 25);
+  --info: oklch(0.62 0.14 235);
+  --info-soft: oklch(0.62 0.14 235 / 0.12);
+  --info-text: oklch(0.5 0.13 235);
+
+  /* Data-viz series (ordered, distinguishable, same perceived weight) */
+  --chart-1: var(--accent);
+  --chart-2: oklch(0.7 0.14 195);
+  --chart-3: oklch(0.74 0.15 75);
+  --chart-4: oklch(0.65 0.18 350);
+  --chart-5: oklch(0.66 0.14 145);
+  --chart-grid: var(--border-soft);
+
+  /* Elevation — layered, low-opacity, tinted by the hue */
+  --shadow-xs: 0 1px 2px oklch(0.2 0.02 var(--accent-h) / 0.06);
+  --shadow-sm: 0 1px 2px oklch(0.2 0.02 var(--accent-h) / 0.05), 0 2px 6px -1px oklch(0.2 0.02 var(--accent-h) / 0.06);
+  --shadow-md: 0 1px 2px oklch(0.2 0.02 var(--accent-h) / 0.04), 0 6px 16px -4px oklch(0.2 0.02 var(--accent-h) / 0.1);
+  --shadow-lg: 0 2px 4px oklch(0.2 0.02 var(--accent-h) / 0.04), 0 16px 40px -8px oklch(0.2 0.03 var(--accent-h) / 0.16);
+  --shadow-xl: 0 4px 8px oklch(0.2 0.02 var(--accent-h) / 0.04), 0 32px 72px -12px oklch(0.2 0.03 var(--accent-h) / 0.24);
+  --inset-highlight: inset 0 1px 0 oklch(1 0 0 / 0.7);
+  --btn-primary-highlight: inset 0 1px 0 oklch(1 0 0 / 0.22), inset 0 -1px 0 oklch(0 0 0 / 0.12);
+}
+
+/* =============================================================================
+   COLOUR — DARK
+   ============================================================================= */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: oklch(0.155 calc(var(--neutral-c) * 1.4) var(--accent-h));
+  --bg-sunken: oklch(0.135 calc(var(--neutral-c) * 1.4) var(--accent-h));
+  --surface: oklch(0.19 calc(var(--neutral-c) * 1.6) var(--accent-h));
+  --surface-2: oklch(0.215 calc(var(--neutral-c) * 1.7) var(--accent-h));
+  --surface-3: oklch(0.25 calc(var(--neutral-c) * 1.8) var(--accent-h));
+  --surface-raised: oklch(0.225 calc(var(--neutral-c) * 1.8) var(--accent-h));
+  --overlay: oklch(0.08 0.01 var(--accent-h) / 0.6);
+
+  --border: oklch(0.28 calc(var(--neutral-c) * 2) var(--accent-h));
+  --border-soft: oklch(0.24 calc(var(--neutral-c) * 1.8) var(--accent-h));
+  --border-strong: oklch(0.36 calc(var(--neutral-c) * 2.2) var(--accent-h));
+
+  --text: oklch(0.965 calc(var(--neutral-c) * 0.6) var(--accent-h));
+  --text-2: oklch(0.74 calc(var(--neutral-c) * 1.6) var(--accent-h));
+  --text-3: oklch(0.58 calc(var(--neutral-c) * 1.6) var(--accent-h));
+  --text-4: oklch(0.45 calc(var(--neutral-c) * 1.6) var(--accent-h));
+  --text-inverse: oklch(0.16 0.01 var(--accent-h));
+
+  --accent: oklch(0.66 var(--accent-c) var(--accent-h));
+  --accent-hover: oklch(0.71 var(--accent-c) var(--accent-h));
+  --accent-press: oklch(0.62 var(--accent-c) var(--accent-h));
+  --accent-text: oklch(0.76 calc(var(--accent-c) * 0.8) var(--accent-h));
+  --accent-contrast: oklch(0.99 0.01 var(--accent-h));
+  --accent-soft: oklch(0.66 var(--accent-c) var(--accent-h) / 0.14);
+  --accent-soft-2: oklch(0.66 var(--accent-c) var(--accent-h) / 0.22);
+  --accent-ring: oklch(0.7 var(--accent-c) var(--accent-h) / 0.45);
+
+  --success: oklch(0.7 0.15 155);
+  --success-soft: oklch(0.7 0.15 155 / 0.14);
+  --success-text: oklch(0.78 0.14 155);
+  --warning: oklch(0.8 0.15 75);
+  --warning-soft: oklch(0.8 0.15 75 / 0.14);
+  --warning-text: oklch(0.84 0.13 80);
+  --danger: oklch(0.66 0.2 25);
+  --danger-hover: oklch(0.71 0.2 25);
+  --danger-soft: oklch(0.66 0.2 25 / 0.15);
+  --danger-text: oklch(0.76 0.16 25);
+  --info: oklch(0.7 0.13 235);
+  --info-soft: oklch(0.7 0.13 235 / 0.15);
+  --info-text: oklch(0.8 0.11 235);
+
+  --chart-2: oklch(0.76 0.13 195);
+  --chart-3: oklch(0.8 0.14 80);
+  --chart-4: oklch(0.72 0.17 350);
+  --chart-5: oklch(0.74 0.14 145);
+
+  --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.3);
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3), 0 2px 6px -1px oklch(0 0 0 / 0.3);
+  --shadow-md: 0 1px 2px oklch(0 0 0 / 0.3), 0 8px 20px -4px oklch(0 0 0 / 0.45);
+  --shadow-lg: 0 2px 4px oklch(0 0 0 / 0.3), 0 18px 44px -8px oklch(0 0 0 / 0.55);
+  --shadow-xl: 0 4px 8px oklch(0 0 0 / 0.3), 0 32px 80px -12px oklch(0 0 0 / 0.65);
+  --inset-highlight: inset 0 1px 0 oklch(1 0 0 / 0.05);
+  --btn-primary-highlight: inset 0 1px 0 oklch(1 0 0 / 0.25), inset 0 -1px 0 oklch(0 0 0 / 0.15);
+}
+
+/* =============================================================================
+   ACCESSIBILITY OVERRIDES
+   ============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) { --motion-scale: 0.01; }
+}
+[data-motion="reduced"] { --motion-scale: 0.01; }
+[data-motion="slow"] { --motion-scale: 4; }
+
+[data-radius="sharp"] { --radius-scale: 0.35; }
+[data-radius="round"] { --radius-scale: 1.6; }

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Schematic</title>
+  <meta name="description" content="Schematic — a unified, motion-first design system prototype.">
+  <meta name="color-scheme" content="light dark">
+  <!-- Apply saved preferences before first paint: no theme flash, no hue jump. -->
+  <script>
+    (() => {
+      const g = (k) => { try { return localStorage.getItem("schematic:" + k); } catch { return null; } };
+      const r = document.documentElement;
+      r.dataset.theme = g("theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const h = g("hue"); if (h) r.style.setProperty("--accent-h", h);
+      const rad = g("radius"); if (rad && rad !== "default") r.dataset.radius = rad;
+      const m = g("motion"); if (m) r.dataset.motion = m;
+    })();
+  </script>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/icons.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <!-- page-scoped styles: every selector is prefixed with the page's own class -->
+  <link rel="stylesheet" href="css/pages/overview.css">
+  <link rel="stylesheet" href="css/pages/foundations.css">
+  <link rel="stylesheet" href="css/pages/motion.css">
+  <link rel="stylesheet" href="css/pages/icons.css">
+  <link rel="stylesheet" href="css/pages/components.css">
+  <link rel="stylesheet" href="css/pages/forms.css">
+  <link rel="stylesheet" href="css/pages/data.css">
+  <link rel="stylesheet" href="css/pages/overlays.css">
+
+  <script defer src="js/icons.js"></script>
+  <script defer src="js/core.js"></script>
+  <script defer src="js/feedback.js"></script>
+  <script defer src="js/shell.js"></script>
+  <script defer src="js/app.js"></script>
+  <!-- pages: each file registers itself with Schematic.page({...}) -->
+  <script defer src="pages/overview.js"></script>
+  <script defer src="pages/foundations.js"></script>
+  <script defer src="pages/motion.js"></script>
+  <script defer src="pages/icons.js"></script>
+  <script defer src="pages/components.js"></script>
+  <script defer src="pages/forms.js"></script>
+  <script defer src="pages/data.js"></script>
+  <script defer src="pages/overlays.js"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Primary">
+      <a class="brand" href="#/overview">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8.5 12 4.5l7 4v7l-7 4-7-4z"/><path d="M12 12.5v7M5 8.5l7 4 7-4"/></svg></span>
+        <span class="brand-name">Schematic</span>
+        <span class="badge brand-ver">v0.1</span>
+      </a>
+      <button class="search-trigger" data-open-cmdk aria-label="Open command palette">
+        <svg class="ic" data-i="search" data-anim viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="a"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></g></svg>
+        <span>Search…</span>
+        <span class="kbd-group"><kbd class="kbd">⌘</kbd><kbd class="kbd">K</kbd></span>
+      </button>
+      <nav class="nav" id="nav"></nav>
+      <div class="sidebar-foot">
+        <span class="badge badge-success badge-dot">Live</span>
+        <span>Prototype · HTML</span>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar" id="topbar">
+        <button class="btn btn-ghost btn-icon menu-btn" id="menu-btn" aria-label="Menu">
+          <svg class="ic" data-i="menu" data-anim viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h10"/></svg>
+        </button>
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <span id="crumb-group">Schematic</span>
+          <svg class="ic" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg>
+          <span class="crumb-current" id="crumb-current">Overview</span>
+        </nav>
+        <div class="topbar-actions">
+          <div style="position:relative">
+            <button class="btn btn-ghost btn-icon" id="tune-btn" aria-label="Tune design tokens" aria-expanded="false" data-tip="Tune tokens" data-tip-side="bottom">
+              <svg class="ic" data-i="sliders" data-anim viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle class="k1" cx="8" cy="7" r="2.2" fill="currentColor" stroke="none"/><circle class="k2" cx="16" cy="17" r="2.2" fill="currentColor" stroke="none"/></svg>
+            </button>
+            <div class="pop" id="tune-pop" style="right:0;top:calc(100% + 8px);width:288px"></div>
+          </div>
+          <button class="btn btn-ghost btn-icon" id="theme-btn" aria-label="Toggle theme" data-tip="Toggle theme" data-tip-kbd="⇧ ⌘ L" data-tip-side="bottom">
+            <svg class="theme-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <mask id="tm-mask"><rect width="24" height="24" fill="#fff"/><circle class="tm-cut" cx="17" cy="7" r="6" fill="#000"/></mask>
+              <circle class="tm-core" cx="12" cy="12" r="8" fill="currentColor" stroke="none" mask="url(#tm-mask)"/>
+              <g class="tm-rays"><path d="M12 1.8v1.8M12 20.4v1.8M4.8 4.8 6 6M18 18l1.2 1.2M1.8 12h1.8M20.4 12h1.8M4.8 19.2 6 18M18 6l1.2-1.2"/></g>
+            </svg>
+          </button>
+          <button class="btn btn-secondary btn-sm" data-open-cmdk style="margin-left:4px">
+            <svg class="ic" data-i="command" data-anim viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="a" d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></svg>
+            Commands
+          </button>
+        </div>
+      </header>
+
+      <div class="viewport" id="viewport">
+        <div class="page-wrap">
+          <main class="page-host" id="page-host"></main>
+          <aside class="rail" id="rail" aria-label="On this page"></aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
