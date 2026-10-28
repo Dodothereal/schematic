@@ -1,47 +1,55 @@
 #!/usr/bin/env node
-/* Tiny headless-Chrome harness (no deps, Node 22+).
-   usage: node tools/shot.mjs <url> <out.png> [--w=1440 --h=900 --wait=1500 --dark --eval="js" --full]
-   Prints console messages + uncaught exceptions, saves a screenshot.          */
-import { spawn } from "node:child_process";
-import { writeFileSync, mkdtempSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
+// No dependencies. Node 22.13+, installed Chrome/Chromium or SCHEMATIC_CHROME.
+// node tools/shot.mjs <url> [out.png] [--w=1440 --h=900 --wait=1500 --dark --eval="js" --after=1200 --full]
+import { writeFile } from "node:fs/promises";
+import { browser, delay } from "./browser.mjs";
 
-const [url, out = "shot.png", ...rest] = process.argv.slice(2);
-const opt = Object.fromEntries(rest.map((a) => { const [k, ...v] = a.replace(/^--/, "").split("="); return [k, v.length ? v.join("=") : true]; }));
-const W = +(opt.w || 1440), H = +(opt.h || 900), WAIT = +(opt.wait || 1500);
-const port = 9300 + Math.floor(Math.random() * 500);
-const chrome = spawn("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", [
-  "--headless=new", `--remote-debugging-port=${port}`, `--user-data-dir=${mkdtempSync(join(tmpdir(), "shot-"))}`,
-  "--hide-scrollbars", "--no-first-run", `--window-size=${W},${H}`, "about:blank",
-], { stdio: "ignore" });
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-let ws;
-try {
-  let target;
-  for (let i = 0; i < 50 && !target; i++) { try { target = (await (await fetch(`http://127.0.0.1:${port}/json`)).json()).find((t) => t.type === "page"); } catch { await sleep(100); } }
-  ws = new WebSocket(target.webSocketDebuggerUrl);
-  await new Promise((r) => (ws.onopen = r));
-  let id = 0; const pending = new Map();
-  ws.onmessage = (m) => {
-    const d = JSON.parse(m.data);
-    if (d.id && pending.has(d.id)) { pending.get(d.id)(d); pending.delete(d.id); }
-    if (d.method === "Runtime.consoleAPICalled") console.log(`[console.${d.params.type}]`, d.params.args.map((a) => a.value ?? a.description).join(" "));
-    if (d.method === "Runtime.exceptionThrown") console.log("[EXCEPTION]", d.params.exceptionDetails.exception?.description || d.params.exceptionDetails.text, "@", d.params.exceptionDetails.url, d.params.exceptionDetails.lineNumber);
-    if (d.method === "Log.entryAdded" && d.params.entry.level !== "verbose") console.log(`[log.${d.params.entry.level}]`, d.params.entry.text, d.params.entry.url || "");
-  };
-  const send = (method, params = {}) => new Promise((r) => { const i = ++id; pending.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); });
-  await send("Runtime.enable"); await send("Log.enable"); await send("Page.enable");
-  await send("Emulation.setDeviceMetricsOverride", { width: W, height: H, deviceScaleFactor: 1, mobile: false });
-  if (opt.dark) await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-color-scheme", value: "dark" }] });
-  await send("Page.navigate", { url });
-  await sleep(WAIT);
-  if (opt.eval) {
-    const r = await send("Runtime.evaluate", { expression: opt.eval, awaitPromise: true, returnByValue: true });
-    console.log("[eval]", JSON.stringify(r.result?.result?.value ?? r.result?.exceptionDetails?.exception?.description));
-    await sleep(+(opt.after || 1200));
+const usage = "Usage: node tools/shot.mjs <url> [out.png] [--w=1440 --h=900 --wait=1500 --dark --eval=\"js\" --after=1200 --full]";
+let b, eventIndex = 0;
+function printEvents() {
+  for (const event of b?.events.slice(eventIndex) || []) {
+    if (event.method === "Runtime.consoleAPICalled") console.log(`[console.${event.params.type}]`, event.params.args.map((a) => a.value ?? a.description).join(" "));
+    if (event.method === "Runtime.exceptionThrown") console.log("[EXCEPTION]", event.params.exceptionDetails.exception?.description || event.params.exceptionDetails.text, "@", event.params.exceptionDetails.url, event.params.exceptionDetails.lineNumber);
+    if (event.method === "Log.entryAdded" && event.params.entry.level !== "verbose") console.log(`[log.${event.params.entry.level}]`, event.params.entry.text, event.params.entry.url || "");
   }
-  const shot = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: !!opt.full });
-  writeFileSync(out, Buffer.from(shot.result.data, "base64"));
-  console.log("saved", out);
-} finally { ws?.close(); chrome.kill(); }
+  eventIndex = b?.events.length || 0;
+}
+try {
+  const args = process.argv.slice(2);
+  if (args.includes("--help")) { console.log(usage); }
+  else {
+    const positional = [], options = {};
+    for (const arg of args) {
+      if (!arg.startsWith("--")) { positional.push(arg); continue; }
+      const [name, ...parts] = arg.slice(2).split("=");
+      if (!["w", "h", "wait", "dark", "eval", "after", "full"].includes(name)) throw new Error(`Unknown option: --${name}`);
+      if (!["dark", "full"].includes(name) && !parts.length) throw new Error(`--${name} requires a value: --${name}=...`);
+      options[name] = parts.length ? parts.join("=") : true;
+    }
+    const [url, out = "shot.png"] = positional;
+    if (!url || positional.length > 2) throw new Error(usage);
+    new URL(url);
+    const number = (name, fallback, positive = false) => {
+      const value = Number(options[name] ?? fallback);
+      if (!Number.isInteger(value) || value < (positive ? 1 : 0)) throw new Error(`--${name} must be ${positive ? "a positive" : "a nonnegative"} integer`);
+      return value;
+    };
+    const width = number("w", 1440, true), height = number("h", 900, true), wait = number("wait", 1500), after = number("after", 1200);
+    b = await browser({ width, height, dark: !!options.dark && options.dark !== "false" });
+    const navigation = await b.send("Page.navigate", { url });
+    if (navigation.errorText) throw new Error(`Could not open ${url}: ${navigation.errorText}`);
+    await delay(wait); printEvents();
+    if (options.eval) { console.log("[eval]", JSON.stringify(await b.evaluate(options.eval))); await delay(after); printEvents(); }
+    const full = !!options.full && options.full !== "false";
+    const params = { format: "png", captureBeyondViewport: full };
+    if (full) {
+      const layout = await b.send("Page.getLayoutMetrics");
+      const { x, y, width, height } = layout.cssContentSize;
+      params.clip = { x, y, width, height, scale: 1 };
+    }
+    const shot = await b.send("Page.captureScreenshot", params);
+    await writeFile(out, Buffer.from(shot.data, "base64"));
+    printEvents(); console.log("saved", out);
+  }
+} catch (error) { console.error(error.message); process.exitCode = 1; }
+finally { printEvents(); await b?.close(); }

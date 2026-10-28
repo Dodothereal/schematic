@@ -1,0 +1,81 @@
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.repository == 'Dodothereal/schematic' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Cancel obsolete builds without interrupting a deployment already in flight.
+    concurrency:
+      group: pages-build-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      # Official release refs; no inferred commit hashes.
+      # https://github.com/actions/checkout/releases/tag/v7.0.1
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      # https://github.com/actions/setup-node/releases/tag/v6.4.0
+      - uses: actions/setup-node@v6.4.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Check release structure
+        run: npm run check -- --strict
+      - name: Build offline HTML
+        run: node tools/bundle.mjs
+      - name: Stage static site
+        shell: bash
+        run: |
+          site="$RUNNER_TEMP/schematic-pages"
+          mkdir -p "$site/dist"
+          for file in schematic.html schematic-mono.html; do
+            cp "dist/$file" "$site/$file"
+            cp "dist/$file" "$site/dist/$file"
+          done
+          cp dist/schematic.html "$site/index.html"
+          cp dist/schematic-mono.html "$site/mono.html"
+          # Preserve repository-relative download and quickstart source links.
+          cp -R prototype "$site/prototype"
+          if [ -d docs ]; then
+            cp -R docs "$site/docs"
+          fi
+          cp -R docs/watch "$site/watch"
+          cp -R docs/assets "$site/assets"
+          for doc in README.md QUICKSTART.md DESIGN_GUIDE.md CONTRIBUTING.md ROADMAP.md LICENSE; do
+            if [ -f "$doc" ]; then cp "$doc" "$site/$doc"; fi
+          done
+          touch "$site/.nojekyll"
+      # Pages must be enabled by the maintainer; this workflow does not enable it.
+      # https://github.com/actions/upload-pages-artifact/releases/tag/v5.0.0
+      - uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: ${{ runner.temp }}/schematic-pages
+          retention-days: 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy static site
+        id: deployment
+        # https://github.com/actions/deploy-pages/releases/tag/v5.0.1
+        uses: actions/deploy-pages@v5.0.1

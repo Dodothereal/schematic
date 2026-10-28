@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+import { browser, delay } from "./browser.mjs";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { mkdir, writeFile } from "node:fs/promises";
+const workspace=resolve(dirname(fileURLToPath(import.meta.url)),".."),b=await browser(),checks=[];
+const check=async(name,expression)=>{const pass=await b.evaluate(expression);checks.push({name,pass:pass===true});console.log(`${pass===true?'PASS':'FAIL'} ${name}`);};
+const key=async(k,code,n,modifiers=0)=>{await b.send('Input.dispatchKeyEvent',{type:'keyDown',key:k,code,windowsVirtualKeyCode:n,modifiers});await b.send('Input.dispatchKeyEvent',{type:'keyUp',key:k,code,windowsVirtualKeyCode:n,modifiers});};
+const open=async()=>{await b.evaluate("document.querySelector('#guide-btn').focus();Schematic.onboarding.open()");await delay(60);};
+try{
+ await b.open(pathToFileURL(join(workspace,'dist/schematic.html')).href);await b.evaluate("Schematic.setMotion('reduced')");
+ await check('Guide is optional at startup',"!document.querySelector('#schematic-guide').open&&!!document.querySelector('#guide-btn')");
+ await b.evaluate("Schematic.navigate('forms')");await delay(50);await open();
+ await check('Opening preserves route and focuses the guide',"Schematic._shell.state.current==='forms'&&document.querySelector('#schematic-guide').open&&document.activeElement.id==='onboarding-title'");
+ await check('The first step has a disabled Back action',"document.querySelector('[data-guide-back]').disabled&&document.querySelector('[data-guide-count]').textContent==='1 / 4'");
+ await b.evaluate("document.querySelector('[data-guide-next]').click()");
+ await check('Next moves to the palette step',"document.querySelector('[data-guide-count]').textContent==='2 / 4'");
+ await b.evaluate("document.querySelector('#schematic-guide [data-value=mono]').click()");
+ await check('Guide changes the actual persisted palette',"document.documentElement.dataset.palette==='mono'&&localStorage.getItem('schematic:palette')==='mono'");
+ await b.evaluate("document.querySelector('#schematic-guide [data-value=color]').click();document.querySelector('[data-guide-next]').click();document.querySelector('[data-guide-motion]').click()");
+ await check('Motion sample changes an announced state',"document.querySelector('[data-guide-motion]').getAttribute('aria-pressed')==='true'&&document.querySelector('[data-guide-motion-status]').textContent.includes('Selected')");
+ await b.evaluate("document.querySelector('[data-guide-back]').click()");
+ await check('Back returns without losing the chosen palette',"document.querySelector('[data-guide-count]').textContent==='2 / 4'&&document.documentElement.dataset.palette==='color'");
+ await key('Escape','Escape',27);await delay(50);
+ await check('Escape closes and restores focus to Guide',"!document.querySelector('#schematic-guide').open&&document.activeElement.id==='guide-btn'");
+ await check('Closing early does not mark completion',"localStorage.getItem('schematic:guide-completed')!== '1'");
+ await open();await b.evaluate("document.querySelector('[data-guide-next]').focus()");await key('Tab','Tab',9);
+ await check('Tab wraps inside the modal',"document.activeElement.hasAttribute('data-guide-close')");
+ await key('Tab','Tab',9,8);
+ await check('Shift-Tab wraps back to the last control',"document.activeElement.hasAttribute('data-guide-next')");
+ await b.evaluate("document.querySelector('[data-guide-next]').click();document.querySelector('[data-guide-next]').click();document.querySelector('[data-guide-next]').click();document.querySelector('[data-guide-next]').click()");await delay(50);
+ await check('Finishing persists completion and removes the nudge',"localStorage.getItem('schematic:guide-completed')==='1'&&!document.querySelector('#guide-btn').hasAttribute('data-guide-new')&&!document.querySelector('#schematic-guide').open");
+ await b.open(pathToFileURL(join(workspace,'dist/schematic.html')).href);await b.evaluate("Schematic.setMotion('reduced')");
+ await check('Completion survives a reload',"!document.querySelector('#guide-btn').hasAttribute('data-guide-new')");
+ await b.size(390,844);await open();
+ await check('Guide can reopen on a narrow screen',"document.querySelector('#schematic-guide').open&&document.querySelector('[data-guide-count]').textContent==='1 / 4'&&document.querySelector('#schematic-guide').getBoundingClientRect().right<=innerWidth");
+ await b.evaluate("Schematic.onboarding.close();Schematic.cmdk.open()");
+ await check('Guide avoids stacking on another native dialog',"Schematic.onboarding.open()===false&&!document.querySelector('#schematic-guide').open");
+ if(b.failures.length)throw Error(b.failures.join('; '));
+}catch(error){checks.push({name:'Guide checks completed',pass:false,detail:error.stack});console.error(error.stack);}finally{await b.close();}
+await mkdir(join(workspace,'scratch/qa'),{recursive:true});await writeFile(join(workspace,'scratch/qa/onboarding.json'),JSON.stringify({date:new Date().toISOString(),checks},null,2));
+const failed=checks.filter(c=>!c.pass).length;console.log(`${checks.length-failed} passed, ${failed} failed`);process.exitCode=failed?1:0;

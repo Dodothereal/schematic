@@ -1,0 +1,30 @@
+{
+  "name": "schematic",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "author": "Dodothereal",
+  "description": "An offline design system reference with Color and Mono palettes.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "homepage": "https://dodothereal.github.io/schematic/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dodothereal/schematic.git"
+  },
+  "scripts": {
+    "build": "node tools/bundle.mjs",
+    "check": "node tools/check.mjs",
+    "check:partial": "node tools/check.mjs --defer-missing",
+    "test": "npm run check -- --strict && npm run test:browser",
+    "test:browser": "npm run test:verify && npm run test:interactions && npm run test:refinements && npm run test:onboarding",
+    "test:verify": "node tools/verify.mjs",
+    "test:interactions": "node tools/interactions.mjs",
+    "test:refinements": "node tools/refinements.mjs",
+    "test:onboarding": "node tools/onboarding-checks.mjs",
+    "record:walkthrough": "node tools/record-walkthrough.mjs && node tools/make-watch-page.mjs",
+    "shot": "node tools/shot.mjs"
+  }
+}

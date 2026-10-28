@@ -1,0 +1,93 @@
+[
+  {
+    "id": "welcome",
+    "title": "One feel for every project",
+    "subtitle": "A working reference. Not a collection of static screenshots.",
+    "start": 0.002,
+    "duration": 14.935
+  },
+  {
+    "id": "guide",
+    "title": "A minute to make it yours",
+    "subtitle": "Optional onboarding. Reopen it any time from Guide.",
+    "start": 14.937,
+    "duration": 14.002
+  },
+  {
+    "id": "foundations",
+    "title": "Start with the language",
+    "subtitle": "Semantic colour. Consistent type. One spacing scale.",
+    "start": 28.939,
+    "duration": 17.154
+  },
+  {
+    "id": "motion",
+    "title": "Motion with a reason",
+    "subtitle": "Inspect a curve. Tune a spring. Keep the response interruptible.",
+    "start": 46.093,
+    "duration": 14.816
+  },
+  {
+    "id": "icons",
+    "title": "Icons that act",
+    "subtitle": "Seventy SVG icons. Each animation follows its verb.",
+    "start": 60.909,
+    "duration": 14.447
+  },
+  {
+    "id": "components",
+    "title": "Actions that follow through",
+    "subtitle": "Pending. Resolved. Failed. Retried. Deliberately confirmed.",
+    "start": 75.355,
+    "duration": 18.001
+  },
+  {
+    "id": "forms",
+    "title": "Forms that explain themselves",
+    "subtitle": "Labels stay visible. Feedback stays beside the field.",
+    "start": 93.357,
+    "duration": 17.825
+  },
+  {
+    "id": "charts",
+    "title": "Draw the story",
+    "subtitle": "The finished geometry traces into view. A range change draws again.",
+    "start": 111.181,
+    "duration": 15.003
+  },
+  {
+    "id": "inspect",
+    "title": "Make the relationship tangible",
+    "subtitle": "Hover, focus and pin the same underlying values.",
+    "start": 126.185,
+    "duration": 15.001
+  },
+  {
+    "id": "table",
+    "title": "Details you can work with",
+    "subtitle": "The whole row is a target. The checkbox draws its state.",
+    "start": 141.186,
+    "duration": 15.837
+  },
+  {
+    "id": "overlays",
+    "title": "A pause, with a clear way back",
+    "subtitle": "Origin-aware dialogs. Native focus. Sheets, menus and feedback.",
+    "start": 157.023,
+    "duration": 17.002
+  },
+  {
+    "id": "themes",
+    "title": "One system, four appearances",
+    "subtitle": "Color and Mono. Light and dark. Background included.",
+    "start": 174.025,
+    "duration": 13.809
+  },
+  {
+    "id": "finish",
+    "title": "Start with the reference",
+    "subtitle": "github.com/Dodothereal/schematic",
+    "start": 187.833,
+    "duration": 13.684
+  }
+]

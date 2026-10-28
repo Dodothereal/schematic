@@ -1,0 +1,138 @@
+# Schematic
+
+**One feel for every project.** A working design reference for interfaces with
+consistent spacing, thoughtful controls, and motion that explains what changed.
+
+[Try the live reference](https://dodothereal.github.io/schematic/) ·
+[Quick start](docs/QUICKSTART.md) ·
+[Watch the walkthrough](https://dodothereal.github.io/schematic/watch/) ·
+[MIT license](LICENSE)
+
+[![Watch the narrated Schematic walkthrough: the real interface, with chapter labels and captions.](docs/assets/walkthrough-poster.png)](https://dodothereal.github.io/schematic/watch/)
+
+The walkthrough shows the actual offline application: the guide, foundations,
+motion lab, icons, components, forms, charts, table, overlays and both palettes.
+[Watch with captions and chapters](https://dodothereal.github.io/schematic/watch/),
+[download the MP4](docs/assets/schematic-walkthrough.mp4), or
+[read the transcript](docs/WALKTHROUGH.md).
+
+## Open it. No setup.
+
+Download [schematic.html](https://github.com/Dodothereal/schematic/releases/latest/download/schematic.html)
+and open it in a current browser. Everything is in that file: no installation,
+server, account, CDN or network request.
+
+Prefer black and white? Download
+[schematic-mono.html](https://github.com/Dodothereal/schematic/releases/latest/download/schematic-mono.html).
+The interface stays neutral while chart series keep distinct colours.
+
+Or work from the source:
+
+```sh
+git clone https://github.com/Dodothereal/schematic.git
+cd schematic
+# Open prototype/index.html in your browser.
+```
+
+**Start with Guide in the top bar.** The optional four-step tour lets you choose
+a palette, try a motion and find the reuse path. It never interrupts a first
+visit with an automatic modal. You can close and reopen it at any time.
+
+## What is inside
+
+| Area | What you can actually do |
+| --- | --- |
+| **Foundations** | Inspect semantic colours, type, spacing and surfaces; export a resolved token snapshot. |
+| **Motion Lab** | Compare and scrub easing curves, tune a physical spring, copy its sampled curve and replay choreography. |
+| **Icons** | Search 70 animated SVG icons, change size and stroke, play a wave and copy usage. |
+| **Components** | Try pending/success/retry states, cancel a hold, switch tabs, select chips and operate menus with a keyboard. |
+| **Forms & Inputs** | Validate fields, reveal a password, paste an OTP, manipulate ranges and edit a composed profile. |
+| **Data & Charts** | Watch plots draw into view, change ranges, inspect linked values, pin details and export selected table rows. |
+| **Overlays & Feedback** | Open origin-aware dialogs, drawers and sheets; try menus, tooltips, toasts and loading states. |
+
+The reference has eight routes including Overview. Pages prepare on intent and
+during idle time, retain their DOM and restore scroll position on return.
+Cmd/Ctrl-K opens the command palette.
+
+## A language, not just a resting state
+
+- **Meaningful motion.** Hover reveals intent or information. Icons perform their
+  verb. Graphs trace their final geometry instead of growing from zero. A new
+  range starts a fresh, interruptible draw.
+- **A shared rhythm.** Semantic tokens govern colours, a 4px spacing scale,
+  typography, radii, control sizes, durations and curves.
+- **Four appearances.** Warm paper and graphite with a restrained forest accent,
+  or Mono; each supports light and dark. Theme reveals include the background.
+- **Useful interaction details.** Whole-row selection, animated checkmarks,
+  keyboard chart inspection, linked legends, focus restoration and local state.
+- **Motion preferences.** System reduced motion applies unless Full is explicitly
+  selected. Slow-mo lets you inspect timing. A confirmation hold still takes
+  the same amount of real time.
+- **Small, direct technology.** Vanilla HTML, CSS, JavaScript and SVG. No runtime
+  packages, web fonts, tracking, stock footage or external asset service.
+
+## Bring it into a project
+
+Start with [the quick start](docs/QUICKSTART.md), then
+[the design guide](DESIGN_GUIDE.md). Reuse the semantic tokens and the specific
+styles, SVG paths and behavior your interface needs.
+
+```text
+prototype/
+  css/tokens.css     the design source of truth
+  css/base.css      layout, type, controls and application shell
+  css/ui.css        shared interaction styles
+  js/               icons, motion helpers, feedback, routing and preferences
+  pages/            working examples
+  css/pages/        styles scoped to each page
+dist/
+  schematic.html        offline reference
+  schematic-mono.html   offline Mono entry
+docs/
+  QUICKSTART.md     first run and reuse guide
+  watch/            accessible walkthrough player
+  assets/           recording, poster, captions and chapter metadata
+```
+
+Page authors should read [the page contract](prototype/CONTRACT.md). It defines
+registration, pure rendering, mounting, entry and cleanup. The showcase pages
+are complete examples to adapt; they are not packaged drop-in components.
+
+**Implemented:** the HTML/CSS/JavaScript reference.
+**Planned:** React/Next.js, SwiftUI and Rust adapters. Native colour, motion,
+layout and accessibility need real mapping and runtime verification.
+
+## Build and verify
+
+Node 22.13+ is needed for tooling. There are no npm dependencies to install.
+
+```sh
+npm run build
+npm run check
+npm run test:browser
+```
+
+The build generates the portable HTML files and token-name manifest. Structural
+checks catch missing assets and stale output. Browser checks launch an isolated
+Chrome profile and exercise the actual interface. Set `SCHEMATIC_CHROME` to an
+installed Chrome/Chromium executable if automatic discovery cannot find it.
+
+[Verification notes](VERIFICATION.md) describe the checked scope and limits.
+[Contributing](CONTRIBUTING.md) explains how to keep new work consistent.
+[The roadmap](ROADMAP.md) prioritises reusable recipes, broader runtime coverage
+and the first measured framework adapter.
+
+## Scope and honesty
+
+Async actions, uploads, profile saves and analytics are explicitly local demos.
+They do not contact a backend or upload file contents. Preferences use local
+browser storage when available; moving a local HTML file may reset them.
+Product composition and real service integration belong to your application.
+
+The recording uses the real interface with local synthetic narration. Captions,
+chapter controls and a written transcript accompany it. The optional recording
+tool uses Chrome, FFmpeg and the macOS speech synthesizer; the app itself does
+not need any of them.
+
+Created by [Dodothereal](https://github.com/Dodothereal). Released under the
+[MIT license](LICENSE).

@@ -1,0 +1,201 @@
+WEBVTT
+
+1
+00:00:00.002 --> 00:00:05.477
+Meet Schematic: a shared design language for interfaces that feel considered.
+
+2
+00:00:05.477 --> 00:00:08.463
+This is the real, offline reference.
+
+3
+00:00:08.463 --> 00:00:14.437
+We will explore its foundations, motion, icons, controls, forms, charts, and feedback.
+
+4
+00:00:14.937 --> 00:00:15.666
+New here?
+
+5
+00:00:15.666 --> 00:00:18.221
+Open Guide for a short, optional introduction.
+
+6
+00:00:18.221 --> 00:00:23.330
+Choose your palette, try a meaningful motion, and learn where the reusable pieces live.
+
+7
+00:00:23.330 --> 00:00:28.439
+You can close the guide at any point and return whenever you need it.
+
+8
+00:00:28.939 --> 00:00:31.189
+Foundations makes the decisions visible.
+
+9
+00:00:31.189 --> 00:00:36.140
+Colour, typography, space, corners, and elevation share one set of tokens.
+
+10
+00:00:36.140 --> 00:00:41.542
+The default is warm paper and graphite, with a restrained forest accent.
+
+11
+00:00:41.542 --> 00:00:45.593
+Mono keeps the interface neutral and chart series distinguishable.
+
+12
+00:00:46.093 --> 00:00:51.896
+The Motion Lab lets you replay and scrub a curve, then adjust a physical spring.
+
+13
+00:00:51.896 --> 00:00:54.992
+Entry, exit, travel, and confirmation have different jobs.
+
+14
+00:00:54.992 --> 00:01:00.409
+Reduced motion preserves the same information, and slow motion helps you inspect the details.
+
+15
+00:01:00.909 --> 00:01:04.678
+Seventy hand-built SVG icons share a grid and stroke weight.
+
+16
+00:01:04.678 --> 00:01:08.070
+A bell rings, a lid opens, a copy separates.
+
+17
+00:01:08.070 --> 00:01:12.217
+Search the collection, adjust its size, or play the complete set.
+
+18
+00:01:12.217 --> 00:01:14.855
+Click an icon to copy its usage.
+
+19
+00:01:15.355 --> 00:01:19.040
+Components includes the states between idle and done.
+
+20
+00:01:19.040 --> 00:01:22.724
+These local simulations show success, failure, and retry.
+
+21
+00:01:22.724 --> 00:01:26.869
+A deliberate hold can be cancelled before it completes.
+
+22
+00:01:26.869 --> 00:01:32.857
+Tabs, switches, chips, and menus keep their meaning when you use a keyboard.
+
+23
+00:01:33.357 --> 00:01:36.822
+Forms combines familiar native inputs with useful feedback.
+
+24
+00:01:36.822 --> 00:01:38.987
+Validation explains what needs attention.
+
+25
+00:01:38.987 --> 00:01:42.019
+Pasted verification codes fill all six cells.
+
+26
+00:01:42.019 --> 00:01:47.216
+The composed profile updates locally, and reset restores your last demo save.
+
+27
+00:01:47.216 --> 00:01:50.681
+File progress is clearly labelled as a simulation.
+
+28
+00:01:51.181 --> 00:01:54.157
+Charts draw when the actual plot enters view.
+
+29
+00:01:54.157 --> 00:01:56.760
+The line leads and its area follows.
+
+30
+00:01:56.760 --> 00:02:02.710
+Change the period for a fresh trace, or inspect a day with the pointer or keyboard.
+
+31
+00:02:02.710 --> 00:02:05.685
+All data here is generated for the reference.
+
+32
+00:02:06.185 --> 00:02:12.456
+Hover a bucket to compare its values, then pin it with a click or a key.
+
+33
+00:02:12.456 --> 00:02:14.023
+Channel rows reveal contribution.
+
+34
+00:02:14.023 --> 00:02:16.767
+Donut arcs and their legend respond together.
+
+35
+00:02:16.767 --> 00:02:20.686
+Progress rings reveal what remains, without hiding their exact targets.
+
+36
+00:02:21.186 --> 00:02:23.742
+Customer activity is a working table.
+
+37
+00:02:23.742 --> 00:02:29.706
+Filter the generated accounts and select anywhere in a row, including its empty space.
+
+38
+00:02:29.706 --> 00:02:31.410
+The checkmark draws in.
+
+39
+00:02:31.410 --> 00:02:36.523
+Keyboard selection, sorting, pagination, and a local CSV export complete the flow.
+
+40
+00:02:37.023 --> 00:02:40.497
+Overlays preserves context when an interface interrupts you.
+
+41
+00:02:40.497 --> 00:02:43.102
+A card expands into its dialog.
+
+42
+00:02:43.102 --> 00:02:46.142
+Drawers and sheets start at their edge.
+
+43
+00:02:46.142 --> 00:02:53.525
+Native modality contains focus, Escape brings you back, and toasts acknowledge an action without stopping the work.
+
+44
+00:02:54.025 --> 00:02:56.306
+Both palettes support light and dark.
+
+45
+00:02:56.306 --> 00:03:00.489
+A theme change reveals the complete surface, including the empty background.
+
+46
+00:03:00.489 --> 00:03:03.150
+The command palette reaches every page quickly.
+
+47
+00:03:03.150 --> 00:03:07.333
+The same offline file keeps your page state while you explore.
+
+48
+00:03:07.833 --> 00:03:12.960
+Download a single HTML file, or clone the source and make it your own.
+
+49
+00:03:12.960 --> 00:03:15.890
+Read the quick start for the reuse path.
+
+50
+00:03:15.890 --> 00:03:21.017
+Schematic is the working web reference; React, SwiftUI, and Rust adapters are future work.

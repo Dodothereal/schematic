@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # https://github.com/actions/checkout/releases/tag/v7.0.1
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      # https://github.com/actions/setup-node/releases/tag/v6.4.0
+      - uses: actions/setup-node@v6.4.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      # Check before building so regenerated files cannot hide stale artifacts.
+      - name: Check syntax, offline assets, tokens, docs and committed dist
+        run: npm run check -- --strict
+      - name: Build standalone artifacts
+        run: npm run build
+      - name: Locate the runner's installed Chrome
+        shell: bash
+        run: |
+          chrome="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          if [ -z "$chrome" ]; then
+            echo 'Chrome/Chromium is missing from this runner image.' >&2
+            exit 1
+          fi
+          "$chrome" --version
+          echo "SCHEMATIC_CHROME=$chrome" >> "$GITHUB_ENV"
+      - name: Browser verification, interactions and refinements
+        run: npm run test:browser
