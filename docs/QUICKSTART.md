@@ -33,8 +33,13 @@ together. Use a current browser for native dialogs, OKLCH colors and modern CSS.
 ## Find the right example
 
 Use the sidebar, or **Menu** on a narrow window. **Commands** or **Cmd/Ctrl-K**
-searches pages and settings. Start with Foundations for tokens and typography,
-then explore Motion Lab, Icons, Components, Forms & Inputs, Data & Charts, and
+searches pages and settings. Overview has a live interaction playground and a
+searchable catalog of the actual specimens. Press **/** there to reach search;
+choose a result to open and focus the working example. Filter by family or use
+Show more to explore the collection.
+
+Start with Foundations for tokens and typography, then explore Motion Lab,
+Icons, Components, Primitives, Navigation, Forms & Inputs, Data & Charts, and
 Overlays & Feedback. Navigation preserves page state and scroll position.
 
 Use Tab to reach controls, Enter or Space to activate buttons, and Escape to

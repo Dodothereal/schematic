@@ -1,6 +1,6 @@
 # Schematic
 
-**One feel for every project.** A working design reference for interfaces with
+**Interfaces, with feeling.** A working design reference for interfaces with
 consistent spacing, thoughtful controls, and motion that explains what changed.
 
 [Try the live reference](http://dodothereal.me/schematic/) ·
@@ -12,8 +12,9 @@ consistent spacing, thoughtful controls, and motion that explains what changed.
 
 [![Watch the narrated Schematic walkthrough: the real interface, with chapter labels and captions.](docs/assets/walkthrough-poster.png)](http://dodothereal.me/schematic/watch/)
 
-The walkthrough shows the actual offline application: the guide, foundations,
-motion lab, icons, components, forms, charts, table, overlays and both palettes.
+The walkthrough shows the actual offline application: the home playground,
+guide, foundations, motion lab, icons, components, the new Primitives and
+Navigation collections, forms, charts, table, overlays and both palettes.
 [Watch with captions and chapters](http://dodothereal.me/schematic/watch/),
 [download the MP4](docs/assets/schematic-walkthrough.mp4), or
 [read the transcript](docs/WALKTHROUGH.md).
@@ -48,13 +49,23 @@ visit with an automatic modal. You can close and reopen it at any time.
 | **Motion Lab** | Compare and scrub easing curves, tune a physical spring, copy its sampled curve and replay choreography. |
 | **Icons** | Search 70 animated SVG icons, change size and stroke, play a wave and copy usage. |
 | **Components** | Try pending/success/retry states, cancel a hold, switch tabs, select chips and operate menus with a keyboard. |
+| **Primitives** | Expand disclosures, pin and reorder lists, change text and numbers, flip a card and reveal more context. |
+| **Navigation** | Operate a moving menu, searchable combobox, breadcrumbs, pagination, file tree, dock, validated steps and carousel. |
 | **Forms & Inputs** | Validate fields, reveal a password, paste an OTP, manipulate ranges and edit a composed profile. |
 | **Data & Charts** | Watch plots draw into view, change ranges, inspect linked values, pin details and export selected table rows. |
 | **Overlays & Feedback** | Open origin-aware dialogs, drawers and sheets; try menus, tooltips, toasts and loading states. |
 
-The reference has eight routes including Overview. Pages prepare on intent and
+The reference has ten routes including Overview. Its redesigned home has a live
+Select / Arrange / Reveal playground and a searchable catalog derived from the
+actual specimens. Results open and focus their working example. Pages prepare on intent and
 during idle time, retain their DOM and restore scroll position on return.
 Cmd/Ctrl-K opens the command palette.
+
+Version 0.2 adds sixteen working specimens across Primitives and Navigation.
+Their motion studies take inspiration from
+[Animate UI](https://animate-ui.com/docs/primitives), with original vanilla
+implementations using Schematic's own tokens and runtime.
+[Design notes](docs/DESIGN_NOTES.md) explain the visual and interaction choices.
 
 ## A language, not just a resting state
 

@@ -16,8 +16,8 @@
       body: () => `
         <div class="onboarding-map">
           <div><span class="onboarding-map-num">01</span><div><strong>Find your foundation</strong><p>Tokens, type and color in Foundations.</p></div></div>
-          <div><span class="onboarding-map-num">02</span><div><strong>Try the real interactions</strong><p>Components, forms, charts and overlays.</p></div></div>
-          <div><span class="onboarding-map-num">03</span><div><strong>Jump straight there</strong><p>Use the sidebar, or search with <kbd class="kbd">Cmd / Ctrl K</kbd>.</p></div></div>
+          <div><span class="onboarding-map-num">02</span><div><strong>Try the real interactions</strong><p>Primitives, navigation, forms, charts and overlays.</p></div></div>
+          <div><span class="onboarding-map-num">03</span><div><strong>Jump straight there</strong><p>Search the library on Overview, or use <kbd class="kbd">Cmd / Ctrl K</kbd>.</p></div></div>
         </div>`,
     },
     {

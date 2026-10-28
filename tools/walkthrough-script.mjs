@@ -1,7 +1,7 @@
 // The walkthrough is recorded from the real offline build, not mockup slides.
 export const chapters = [
-  { id: "welcome", title: "One feel for every project", subtitle: "A working reference. Not a collection of static screenshots.", min: 10,
-    narration: "Meet Schematic: a shared design language for interfaces that feel considered. This is the real, offline reference. We will explore its foundations, motion, icons, controls, forms, charts, and feedback." },
+  { id: "welcome", title: "Interfaces, with feeling", subtitle: "Touch the working reference. Find the right detail.", min: 14,
+    narration: "Meet Schematic: a working design reference for interfaces with feeling. Try the live interaction studies, then search the actual collection. Every result opens its working example. We will explore ten collections, including sixteen new animated primitives and navigation patterns." },
   { id: "guide", title: "A minute to make it yours", subtitle: "Optional onboarding. Reopen it any time from Guide.", min: 14,
     narration: "New here? Open Guide for a short, optional introduction. Choose your palette, try a meaningful motion, and learn where the reusable pieces live. You can close the guide at any point and return whenever you need it." },
   { id: "foundations", title: "Start with the language", subtitle: "Semantic colour. Consistent type. One spacing scale.", min: 14,
@@ -12,6 +12,10 @@ export const chapters = [
     narration: "Seventy hand-built SVG icons share a grid and stroke weight. A bell rings, a lid opens, a copy separates. Search the collection, adjust its size, or play the complete set. Click an icon to copy its usage." },
   { id: "components", title: "Actions that follow through", subtitle: "Pending. Resolved. Failed. Retried. Deliberately confirmed.", min: 18,
     narration: "Components includes the states between idle and done. These local simulations show success, failure, and retry. A deliberate hold can be cancelled before it completes. Tabs, switches, chips, and menus keep their meaning when you use a keyboard." },
+  { id: "primitives", title: "The moving parts", subtitle: "Disclosure. Reordering. Type. Surfaces with another side.", min: 18,
+    narration: "Primitives adds eight new working studies. Accordion content opens in place. Pin a document and its neighbours make room. Reorder a plan with a keyboard, change a message, roll a number, or turn a card. Each motion follows your choice, and can change direction halfway through." },
+  { id: "navigation", title: "A clear way through", subtitle: "Menus, search, trees and complete flows.", min: 18,
+    narration: "Navigation brings eight more patterns. A shared menu surface follows its selection. Search a real list, explore a tree, change pages, or choose a dock view. The stepper validates its fields, and the carousel gives each slide its own place. Keyboard controls reach the same states." },
   { id: "forms", title: "Forms that explain themselves", subtitle: "Labels stay visible. Feedback stays beside the field.", min: 17,
     narration: "Forms combines familiar native inputs with useful feedback. Validation explains what needs attention. Pasted verification codes fill all six cells. The composed profile updates locally, and reset restores your last demo save. File progress is clearly labelled as a simulation." },
   { id: "charts", title: "Draw the story", subtitle: "The finished geometry traces into view. A range change draws again.", min: 15,

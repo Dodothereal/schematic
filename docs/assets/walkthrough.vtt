@@ -1,201 +1,245 @@
 WEBVTT
 
 1
-00:00:00.002 --> 00:00:05.477
-Meet Schematic: a shared design language for interfaces that feel considered.
+00:00:00.007 --> 00:00:04.373
+Meet Schematic: a working design reference for interfaces with feeling.
 
 2
-00:00:05.477 --> 00:00:08.463
-This is the real, offline reference.
+00:00:04.373 --> 00:00:08.739
+Try the live interaction studies, then search the actual collection.
 
 3
-00:00:08.463 --> 00:00:14.437
-We will explore its foundations, motion, icons, controls, forms, charts, and feedback.
+00:00:08.739 --> 00:00:11.358
+Every result opens its working example.
 
 4
-00:00:14.937 --> 00:00:15.666
-New here?
+00:00:11.358 --> 00:00:17.034
+We will explore ten collections, including sixteen new animated primitives and navigation patterns.
 
 5
-00:00:15.666 --> 00:00:18.221
-Open Guide for a short, optional introduction.
+00:00:17.534 --> 00:00:18.264
+New here?
 
 6
-00:00:18.221 --> 00:00:23.330
-Choose your palette, try a meaningful motion, and learn where the reusable pieces live.
+00:00:18.264 --> 00:00:20.818
+Open Guide for a short, optional introduction.
 
 7
-00:00:23.330 --> 00:00:28.439
-You can close the guide at any point and return whenever you need it.
+00:00:20.818 --> 00:00:25.927
+Choose your palette, try a meaningful motion, and learn where the reusable pieces live.
 
 8
-00:00:28.939 --> 00:00:31.189
-Foundations makes the decisions visible.
+00:00:25.927 --> 00:00:31.035
+You can close the guide at any point and return whenever you need it.
 
 9
-00:00:31.189 --> 00:00:36.140
-Colour, typography, space, corners, and elevation share one set of tokens.
+00:00:31.535 --> 00:00:33.786
+Foundations makes the decisions visible.
 
 10
-00:00:36.140 --> 00:00:41.542
-The default is warm paper and graphite, with a restrained forest accent.
+00:00:33.786 --> 00:00:38.737
+Colour, typography, space, corners, and elevation share one set of tokens.
 
 11
-00:00:41.542 --> 00:00:45.593
-Mono keeps the interface neutral and chart series distinguishable.
+00:00:38.737 --> 00:00:44.139
+The default is warm paper and graphite, with a restrained forest accent.
 
 12
-00:00:46.093 --> 00:00:51.896
-The Motion Lab lets you replay and scrub a curve, then adjust a physical spring.
+00:00:44.139 --> 00:00:48.190
+Mono keeps the interface neutral and chart series distinguishable.
 
 13
-00:00:51.896 --> 00:00:54.992
-Entry, exit, travel, and confirmation have different jobs.
+00:00:48.690 --> 00:00:54.494
+The Motion Lab lets you replay and scrub a curve, then adjust a physical spring.
 
 14
-00:00:54.992 --> 00:01:00.409
-Reduced motion preserves the same information, and slow motion helps you inspect the details.
+00:00:54.494 --> 00:00:57.589
+Entry, exit, travel, and confirmation have different jobs.
 
 15
-00:01:00.909 --> 00:01:04.678
-Seventy hand-built SVG icons share a grid and stroke weight.
+00:00:57.589 --> 00:01:03.005
+Reduced motion preserves the same information, and slow motion helps you inspect the details.
 
 16
-00:01:04.678 --> 00:01:08.070
-A bell rings, a lid opens, a copy separates.
+00:01:03.505 --> 00:01:07.275
+Seventy hand-built SVG icons share a grid and stroke weight.
 
 17
-00:01:08.070 --> 00:01:12.217
-Search the collection, adjust its size, or play the complete set.
+00:01:07.275 --> 00:01:10.667
+A bell rings, a lid opens, a copy separates.
 
 18
-00:01:12.217 --> 00:01:14.855
-Click an icon to copy its usage.
+00:01:10.667 --> 00:01:14.813
+Search the collection, adjust its size, or play the complete set.
 
 19
-00:01:15.355 --> 00:01:19.040
-Components includes the states between idle and done.
+00:01:14.813 --> 00:01:17.451
+Click an icon to copy its usage.
 
 20
-00:01:19.040 --> 00:01:22.724
-These local simulations show success, failure, and retry.
+00:01:17.951 --> 00:01:21.636
+Components includes the states between idle and done.
 
 21
-00:01:22.724 --> 00:01:26.869
-A deliberate hold can be cancelled before it completes.
+00:01:21.636 --> 00:01:25.320
+These local simulations show success, failure, and retry.
 
 22
-00:01:26.869 --> 00:01:32.857
-Tabs, switches, chips, and menus keep their meaning when you use a keyboard.
+00:01:25.320 --> 00:01:29.465
+A deliberate hold can be cancelled before it completes.
 
 23
-00:01:33.357 --> 00:01:36.822
-Forms combines familiar native inputs with useful feedback.
+00:01:29.465 --> 00:01:35.452
+Tabs, switches, chips, and menus keep their meaning when you use a keyboard.
 
 24
-00:01:36.822 --> 00:01:38.987
-Validation explains what needs attention.
+00:01:35.952 --> 00:01:38.235
+Primitives adds eight new working studies.
 
 25
-00:01:38.987 --> 00:01:42.019
-Pasted verification codes fill all six cells.
+00:01:38.235 --> 00:01:40.137
+Accordion content opens in place.
 
 26
-00:01:42.019 --> 00:01:47.216
-The composed profile updates locally, and reset restores your last demo save.
+00:01:40.137 --> 00:01:43.181
+Pin a document and its neighbours make room.
 
 27
-00:01:47.216 --> 00:01:50.681
-File progress is clearly labelled as a simulation.
+00:01:43.181 --> 00:01:49.268
+Reorder a plan with a keyboard, change a message, roll a number, or turn a card.
 
 28
-00:01:51.181 --> 00:01:54.157
-Charts draw when the actual plot enters view.
+00:01:49.268 --> 00:01:53.453
+Each motion follows your choice, and can change direction halfway through.
 
 29
-00:01:54.157 --> 00:01:56.760
-The line leads and its area follows.
+00:01:53.953 --> 00:01:55.915
+Navigation brings eight more patterns.
 
 30
-00:01:56.760 --> 00:02:02.710
-Change the period for a fresh trace, or inspect a day with the pointer or keyboard.
+00:01:55.915 --> 00:01:58.661
+A shared menu surface follows its selection.
 
 31
-00:02:02.710 --> 00:02:05.685
-All data here is generated for the reference.
+00:01:58.661 --> 00:02:04.155
+Search a real list, explore a tree, change pages, or choose a dock view.
 
 32
-00:02:06.185 --> 00:02:12.456
-Hover a bucket to compare its values, then pin it with a click or a key.
+00:02:04.155 --> 00:02:09.649
+The stepper validates its fields, and the carousel gives each slide its own place.
 
 33
-00:02:12.456 --> 00:02:14.023
-Channel rows reveal contribution.
+00:02:09.649 --> 00:02:12.003
+Keyboard controls reach the same states.
 
 34
-00:02:14.023 --> 00:02:16.767
-Donut arcs and their legend respond together.
+00:02:12.503 --> 00:02:15.968
+Forms combines familiar native inputs with useful feedback.
 
 35
-00:02:16.767 --> 00:02:20.686
-Progress rings reveal what remains, without hiding their exact targets.
+00:02:15.968 --> 00:02:18.133
+Validation explains what needs attention.
 
 36
-00:02:21.186 --> 00:02:23.742
-Customer activity is a working table.
+00:02:18.133 --> 00:02:21.165
+Pasted verification codes fill all six cells.
 
 37
-00:02:23.742 --> 00:02:29.706
-Filter the generated accounts and select anywhere in a row, including its empty space.
+00:02:21.165 --> 00:02:26.362
+The composed profile updates locally, and reset restores your last demo save.
 
 38
-00:02:29.706 --> 00:02:31.410
-The checkmark draws in.
+00:02:26.362 --> 00:02:29.827
+File progress is clearly labelled as a simulation.
 
 39
-00:02:31.410 --> 00:02:36.523
-Keyboard selection, sorting, pagination, and a local CSV export complete the flow.
+00:02:30.327 --> 00:02:33.301
+Charts draw when the actual plot enters view.
 
 40
-00:02:37.023 --> 00:02:40.497
-Overlays preserves context when an interface interrupts you.
+00:02:33.301 --> 00:02:35.904
+The line leads and its area follows.
 
 41
-00:02:40.497 --> 00:02:43.102
-A card expands into its dialog.
+00:02:35.904 --> 00:02:41.853
+Change the period for a fresh trace, or inspect a day with the pointer or keyboard.
 
 42
-00:02:43.102 --> 00:02:46.142
-Drawers and sheets start at their edge.
+00:02:41.853 --> 00:02:44.827
+All data here is generated for the reference.
 
 43
-00:02:46.142 --> 00:02:53.525
-Native modality contains focus, Escape brings you back, and toasts acknowledge an action without stopping the work.
+00:02:45.327 --> 00:02:51.598
+Hover a bucket to compare its values, then pin it with a click or a key.
 
 44
-00:02:54.025 --> 00:02:56.306
-Both palettes support light and dark.
+00:02:51.598 --> 00:02:53.166
+Channel rows reveal contribution.
 
 45
-00:02:56.306 --> 00:03:00.489
-A theme change reveals the complete surface, including the empty background.
+00:02:53.166 --> 00:02:55.910
+Donut arcs and their legend respond together.
 
 46
-00:03:00.489 --> 00:03:03.150
-The command palette reaches every page quickly.
+00:02:55.910 --> 00:02:59.829
+Progress rings reveal what remains, without hiding their exact targets.
 
 47
-00:03:03.150 --> 00:03:07.333
-The same offline file keeps your page state while you explore.
+00:03:00.329 --> 00:03:02.885
+Customer activity is a working table.
 
 48
-00:03:07.833 --> 00:03:12.960
-Download a single HTML file, or clone the source and make it your own.
+00:03:02.885 --> 00:03:08.850
+Filter the generated accounts and select anywhere in a row, including its empty space.
 
 49
-00:03:12.960 --> 00:03:15.890
-Read the quick start for the reuse path.
+00:03:08.850 --> 00:03:10.554
+The checkmark draws in.
 
 50
-00:03:15.890 --> 00:03:21.017
+00:03:10.554 --> 00:03:15.666
+Keyboard selection, sorting, pagination, and a local CSV export complete the flow.
+
+51
+00:03:16.166 --> 00:03:19.640
+Overlays preserves context when an interface interrupts you.
+
+52
+00:03:19.640 --> 00:03:22.246
+A card expands into its dialog.
+
+53
+00:03:22.246 --> 00:03:25.285
+Drawers and sheets start at their edge.
+
+54
+00:03:25.285 --> 00:03:32.668
+Native modality contains focus, Escape brings you back, and toasts acknowledge an action without stopping the work.
+
+55
+00:03:33.168 --> 00:03:35.449
+Both palettes support light and dark.
+
+56
+00:03:35.449 --> 00:03:39.632
+A theme change reveals the complete surface, including the empty background.
+
+57
+00:03:39.632 --> 00:03:42.293
+The command palette reaches every page quickly.
+
+58
+00:03:42.293 --> 00:03:46.476
+The same offline file keeps your page state while you explore.
+
+59
+00:03:46.976 --> 00:03:52.103
+Download a single HTML file, or clone the source and make it your own.
+
+60
+00:03:52.103 --> 00:03:55.033
+Read the quick start for the reuse path.
+
+61
+00:03:55.033 --> 00:04:00.161
 Schematic is the working web reference; React, SwiftUI, and Rust adapters are future work.

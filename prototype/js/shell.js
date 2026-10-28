@@ -47,7 +47,7 @@
       ${replay ? `<button class="btn btn-ghost btn-sm btn-icon demo-replay" data-replay data-tip="Replay" aria-label="Replay ${S.esc(title)}">${S.icon("refresh")}</button>` : ""}
       <div class="demo-stage ${stage}">${body}</div>
       <footer class="demo-foot">
-        <div><div class="demo-title">${title}</div>${desc ? `<div class="demo-desc">${desc}</div>` : ""}</div>
+        <div><h3 class="demo-title">${title}</h3>${desc ? `<div class="demo-desc">${desc}</div>` : ""}</div>
         ${specs.length ? `<div class="demo-specs">${specs.map((s) => `<span class="spec">${S.esc(s)}</span>`).join("")}</div>` : ""}
       </footer>
     </article>`;
@@ -89,7 +89,7 @@
   };
 
   let navigating = null, navigationVersion = 0;
-  S.navigate = async (id, { shared } = {}) => {
+  S.navigate = async (id, { shared, focus = true } = {}) => {
     if (!byId(id)) return;
     const version = ++navigationVersion;
     if (navigating) {
@@ -97,7 +97,7 @@
       await navigating.updateCallbackDone.catch(() => {});
     }
     if (version !== navigationVersion || id === state.current) return;
-    const focusContent = !!document.activeElement?.closest("#page-host");
+    const focusContent = focus && !!document.activeElement?.closest("#page-host");
     const from = pages.findIndex((p) => p.id === state.current), to = pages.findIndex((p) => p.id === id);
     root.style.setProperty("--dir", to >= from ? "1" : "-1");
     if (location.hash !== `#/${id}`) history[state.current ? "pushState" : "replaceState"](null, "", `#/${id}`);
@@ -133,12 +133,22 @@
   };
 
   // Links: <a href="#/icons"> — intercepted so we control the transition.
-  document.addEventListener("click", (e) => {
+  document.addEventListener("click", async (e) => {
     const a = e.target.closest?.('a[href^="#/"]');
     if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
     e.preventDefault();
     const id = a.getAttribute("href").slice(2);
-    S.navigate(id, { shared: a.hasAttribute("data-shared") ? S.$(".shared-ic", a) : null });
+    await S.navigate(id, { shared: a.hasAttribute("data-shared") ? S.$(".shared-ic", a) : null, focus: !a.hasAttribute("data-specimen") });
+    if (a.hasAttribute("data-specimen") && state.current === id) {
+      const index = Number(a.dataset.specimen);
+      const specimen = state.built.get(id)?.querySelectorAll(".demo")[index];
+      if (specimen) {
+        const vp = viewport();
+        S.scrollTo(vp.scrollTop + specimen.getBoundingClientRect().top - vp.getBoundingClientRect().top - 32);
+        const heading = specimen.querySelector(".demo-title");
+        if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); }
+      }
+    }
   });
   window.addEventListener("popstate", () => S.navigate(routeFromHash()));
   window.addEventListener("hashchange", () => { if (location.hash.startsWith("#/") && routeFromHash() !== state.current) S.navigate(routeFromHash()); });

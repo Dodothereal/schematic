@@ -51,9 +51,17 @@ async function fill(selector, value) {
   for (const char of value) { await b.send("Input.insertText", { text: char }); await delay(55); }
   await delay(300);
 }
-async function key(name, code, virtual) { await b.send("Input.dispatchKeyEvent", { type: "keyDown", key: name, code, windowsVirtualKeyCode: virtual }); await b.send("Input.dispatchKeyEvent", { type: "keyUp", key: name, code, windowsVirtualKeyCode: virtual }); await delay(250); }
+async function key(name, code, virtual) { await b.send("Input.dispatchKeyEvent", { type: "keyDown", key: name, code, windowsVirtualKeyCode: virtual, ...(name === "Enter" ? { text: "\r" } : {}) }); await b.send("Input.dispatchKeyEvent", { type: "keyUp", key: name, code, windowsVirtualKeyCode: virtual }); await delay(250); }
 const actions = {
-  async welcome() { await delay(1600); await point('.ov-cta a', { hover: 700 }); await point('#tune-btn', { hover: 500 }); await b.screenshot(join(assets, "walkthrough-poster.png")); },
+  async welcome() {
+    await delay(1400); await b.screenshot(join(assets, "walkthrough-poster.png"));
+    await point('[data-study-task]:nth-child(2)', { click: true, hover: 650 });
+    await point('.ov-study-tabs [data-value="1"]', { click: true, hover: 450 });
+    await point('[data-study-pin]:last-child', { click: true, hover: 750 });
+    await point('.ov-study-tabs [data-value="2"]', { click: true, hover: 400 });
+    await point('[data-study-reveal]', { click: true, hover: 800 });
+    await fill('[data-catalog-search]', 'accordion'); await delay(1000);
+  },
   async guide() {
     await evaluate("Schematic.onboarding.open()"); await overlays(); await delay(1800);
     await point('[data-guide-next]', { click: true, hover: 1700 });
@@ -67,6 +75,31 @@ const actions = {
   async motion() { await navigate('motion'); await scroll('#motion-curves'); await point('#motion-play', { click: true, hover: 1500 }); await evaluate("(()=>{const e=document.querySelector('#motion-curve');e.value='springSnappy';e.dispatchEvent(new Event('change',{bubbles:true}))})()"); await delay(1300); await scroll('#motion-springs'); await evaluate("(()=>{const e=document.querySelector('#motion-damping');e.value='14';e.dispatchEvent(new Event('input',{bubbles:true}))})()"); await delay(1700); },
   async icons() { await navigate('icons'); await scroll('#ic-gallery'); await point('#icons-wave', { click: true, hover: 1700 }); await fill('#icons-q','bell'); await point('[data-name=bell]', { hover: 1300 }); await fill('#icons-q',''); await delay(700); },
   async components() { await navigate('components'); await scroll('#cp-states'); await point('[data-async=save]', { click: true, hover: 1500 }); await point('[data-async=retry]', { click: true, hover: 1300 }); await point('[data-async=retry]', { click: true, hover: 1300 }); await point('[data-favourite]', { click: true, hover: 700 }); await point('[data-hold]', { click: true, hover: 700 }); await point('[data-hold]', { hover: 100 }); const r=await evaluate("(()=>{const r=document.querySelector('[data-hold]').getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2}})()"); await b.send('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...r});await delay(1650);await b.send('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...r});await delay(500); },
+  async primitives() {
+    await navigate('primitives'); await scroll('#pr-disclosure');
+    await point('[data-pr-accordion-trigger="1"]', { click: true, hover: 650 });
+    await point('[data-pr-collapse]', { click: true, hover: 700 });
+    await scroll('#pr-layout'); await point('[data-pr-pin="review"]', { click: true, hover: 800 });
+    await point('[data-pr-sort-row="audit"] [data-pr-move="down"]', { click: true, hover: 700 });
+    await scroll('#pr-type'); await point('[data-pr-swap="2"]', { click: true, hover: 650 });
+    await point('[data-pr-count="1"]', { click: true, hover: 600 });
+    await scroll('#pr-surfaces'); await point('[data-pr-flip]', { click: true, hover: 800 });
+    await point('[data-pr-expand]', { click: true, hover: 700 });
+  },
+  async navigation() {
+    await navigate('navigation'); await scroll('#nv-menus');
+    await point('[data-nv-menu-trigger="0"]', { click: true, hover: 600 });
+    await point('[data-nv-menu-trigger="1"]', { click: true, hover: 650 }); await key('Escape', 'Escape', 27);
+    await fill('[data-nv-combo-input]', 'motion'); await key('ArrowDown', 'ArrowDown', 40); await key('Enter', 'Enter', 13);
+    await scroll('#nv-wayfinding'); await point('[data-nv-folder-view] [data-nv-folder="projects"]', { click: true, hover: 650 });
+    await point('[data-nv-page="1"]', { click: true, hover: 650 });
+    await scroll('#nv-structure'); await point('[data-nv-node="components"] > .nv-tree-row', { click: true, hover: 550 });
+    await point('[data-nv-dock-view="2"]', { click: true, hover: 700 });
+    await scroll('#nv-flows'); await fill('#nv-workspace-name', 'Fieldwork');
+    await point('[data-nv-wizard-next]', { click: true, hover: 650 });
+    await fill('#nv-workspace-email', 'alex@example.com'); await point('[data-nv-wizard-next]', { click: true, hover: 650 });
+    await point('[data-nv-slide-next]', { click: true, hover: 650 });
+  },
   async forms() { await navigate('forms'); await scroll('#forms-email-demo'); await fill('#forms-email','alex@'); await delay(600); await fill('#forms-email','alex@example.com'); await delay(700); await scroll('#forms-security'); await fill('#forms-password','Schematic-2026!'); await delay(800); await scroll('#forms-otp-demo'); await evaluate("(()=>{const el=document.querySelector('#forms-otp-slots input'),d=new DataTransfer();d.setData('text','123456');el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:d,bubbles:true,cancelable:true}));document.querySelector('#forms-otp-demo').requestSubmit()})()"); await delay(1300); },
   async charts() { await navigate('data'); await scroll('[data-main-chart]'); await delay(1500); await scroll('#dt-overview'); await point('[data-control=period] [data-value="7"]',{click:true,hover:300}); await scroll('[data-main-chart]'); await delay(1400); await point('[data-chart-hit]',{hover:1000}); await evaluate("document.querySelector('[data-control=period] [data-value=\"30\"]').click()"); await delay(1600); },
   async inspect() { await scroll('#dt-comparisons'); await point('[data-bar-group="2"]',{hover:800}); await point('[data-rank-inspect="0"]',{hover:800}); await point('[data-control=bars] [data-value=stacked]',{click:true,hover:1100}); await scroll('#dt-composition'); await point('[data-device="1"]',{hover:1000}); await point('[data-goal="0"]',{click:true,hover:1100}); },

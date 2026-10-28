@@ -116,9 +116,13 @@
      New elements (not present before) scale/fade in.                          */
   S.flip = (els, mutate, { duration = S.springDur.snappy, easing, stagger = 0, enter = true } = {}) => {
     const list = [...(typeof els === "function" ? els() : els)];
-    list.forEach((el) => el.getAnimations().forEach((a) => a.cancel()));
+    // Capture the displayed positions before cancelling an in-flight reorder.
+    // Repeated actions then continue from the visible frame instead of jumping
+    // back to the preceding layout before starting their next move.
     const first = new Map(list.map((el) => [el, el.getBoundingClientRect()]));
+    list.forEach((el) => el.getAnimations().forEach((a) => a.cancel()));
     mutate();
+    if (S.reduced()) return Promise.resolve([]);
     const ease = easing || S.curve.springSnappy || S.curve.out;
     const anims = [];
     const after = typeof els === "function" ? els() : list;

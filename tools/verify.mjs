@@ -12,7 +12,7 @@ for (const [, asset] of source.matchAll(/(?:href|src)="((?:css|js|pages)\/[^\"]+
 const b = await browser();
 try {
   await b.open(pathToFileURL(join(workspace, "prototype/index.html")).href);
-  const pages = await b.evaluate("Schematic.pages.map(p => p.id)"); check("Eight complete routes", pages.length === 8, pages.join(", "));
+  const pages = await b.evaluate("Schematic.pages.map(p => p.id)"); check("Ten complete routes", pages.length === 10 && ['overview','foundations','motion','icons','components','primitives','navigation','forms','data','overlays'].every(id=>pages.includes(id)), pages.join(", "));
   const css = (await readFile(join(workspace, "prototype/css/tokens.css"), "utf8")).replace(/\/\*[\s\S]*?\*\//g, "");
   const names = [...new Set([...css.matchAll(/(--[\w-]+)\s*:/g)].map(m=>m[1]))].sort();
   check("Exported token manifest matches the source stylesheet", await b.evaluate(`JSON.stringify(Schematic.tokenNames())===${JSON.stringify(JSON.stringify(names))}`), `${names.length} tokens`);
@@ -81,7 +81,7 @@ const reducedBrowser = await browser({ reduced: true, width: 390, height: 844 })
 try {
   await reducedBrowser.open(pathToFileURL(join(workspace, "dist/schematic.html")).href); await delay(400);
   check("Fresh standalone launch respects OS reduced motion", await reducedBrowser.evaluate("Schematic.reduced()&&document.getAnimations().filter(a=>a.effect?.getTiming().iterations===Infinity&&a.playState==='running').length===0"));
-  check("Idle preparation builds all routes without mounting inactive pages", await reducedBrowser.evaluate("Schematic._shell.state.built.size===8&&Schematic._shell.state.mounted.size===1"));
+  check("Idle preparation builds all routes without mounting inactive pages", await reducedBrowser.evaluate("Schematic._shell.state.built.size===Schematic.pages.length&&Schematic._shell.state.mounted.size===1"));
   check("Fresh standalone launch has no runtime errors", !reducedBrowser.failures.length, reducedBrowser.failures.length ? reducedBrowser.failures : "");
 } finally { await reducedBrowser.close(); }
 const result = { date: new Date().toISOString(), passed: checks.filter(c=>c.pass).length, failed: checks.filter(c=>!c.pass).length, checks, screenshots };

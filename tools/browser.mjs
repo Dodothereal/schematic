@@ -94,7 +94,9 @@ export async function browser({ width = 1440, height = 1000, dark = false, reduc
   }
   try {
     let port;
-    for (let i = 0; i < 160 && !port; i++) {
+    // Cold Linux runners can need more than eight seconds before Chrome writes
+    // its port file. Keep the startup bounded without restarting the browser.
+    for (let i = 0; i < 400 && !port; i++) {
       if (exited) throw new Error(`Chrome exited before opening its debug endpoint: ${launchError?.message || stderr.trim() || "no diagnostic output"}`);
       try { port = (await readFile(join(profile, "DevToolsActivePort"), "utf8")).split("\n")[0]; } catch { await delay(50); }
     }

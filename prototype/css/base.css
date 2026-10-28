@@ -103,10 +103,10 @@ code:not(pre code) {
   position: relative;
   z-index: var(--z-sidebar);
   display: flex; flex-direction: column;
-  gap: var(--s-4);
-  padding: var(--s-3) var(--s-3) var(--s-3);
+  gap: var(--s-5);
+  padding: var(--s-5) var(--s-4);
   border-right: 1px solid var(--border-soft);
-  background: var(--bg);
+  background: var(--surface-2);
   min-height: 0;
 }
 .brand {
@@ -117,11 +117,9 @@ code:not(pre code) {
 .brand-mark {
   width: 26px; height: 26px; flex: none;
   border-radius: calc(var(--r-sm) + 1px);
-  background:
-    radial-gradient(120% 120% at 0% 0%, oklch(1 0 0 / 0.35), transparent 50%),
-    linear-gradient(135deg, var(--accent), oklch(0.5 var(--accent-c) calc(var(--accent-h) + 40)));
-  box-shadow: var(--btn-primary-highlight), var(--shadow-sm);
-  display: grid; place-items: center; color: var(--accent-contrast);
+  background: var(--text);
+  box-shadow: var(--shadow-xs);
+  display: grid; place-items: center; color: var(--bg);
 }
 .brand-mark svg { width: 15px; height: 15px; }
 .brand-name { font-weight: var(--w-semibold); letter-spacing: -0.01em; font-size: var(--t-md); }
@@ -145,7 +143,7 @@ code:not(pre code) {
 .nav-item {
   position: relative; z-index: 1;
   display: flex; align-items: center; gap: var(--s-2_5);
-  height: 32px; padding: 0 var(--s-2_5);
+  height: 36px; padding: 0 var(--s-2_5);
   border-radius: var(--r-md);
   font-size: var(--t-sm); font-weight: var(--w-medium);
   color: var(--text-2);
@@ -160,7 +158,7 @@ code:not(pre code) {
 
 /* Active marker: a raised surface that travels between items on a spring */
 .nav-active {
-  position: absolute; left: var(--s-1); right: var(--s-1); top: 0; height: 32px; z-index: 0;
+  position: absolute; left: var(--s-1); right: var(--s-1); top: 0; height: 36px; z-index: 0;
   border-radius: var(--r-md);
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--border), var(--shadow-xs);
@@ -211,7 +209,7 @@ code:not(pre code) {
   grid-template-columns: minmax(0, var(--content-max)) var(--rail-w);
   justify-content: center;
   gap: var(--s-10);
-  padding: var(--s-12) var(--s-12) var(--s-24);
+  padding: var(--s-12) calc(var(--s-12) + var(--s-2)) var(--s-24);
 }
 .page-host { min-width: 0; }
 .page { display: flex; flex-direction: column; gap: var(--s-16); }
@@ -259,7 +257,7 @@ code:not(pre code) {
 /* =============================================================================
    PAGE STRUCTURE — every page is: page-head → sections → demos
    ============================================================================= */
-.page-head { display: flex; flex-direction: column; gap: var(--s-5); padding-top: var(--s-4); }
+.page-head { display: flex; flex-direction: column; gap: var(--s-5); padding-top: var(--s-4); padding-bottom:var(--s-8);border-bottom:var(--s-px) solid var(--border); }
 .page-head-ic {
   width: 44px; height: 44px; border-radius: var(--r-lg);
   display: grid; place-items: center;
@@ -267,13 +265,13 @@ code:not(pre code) {
   box-shadow: inset 0 0 0 1px var(--border), var(--shadow-sm), var(--inset-highlight);
 }
 .page-head-ic .ic { width: 22px; height: 22px; }
-.page-head h1 { max-width: 18ch; }
+.page-head h1 { max-width: 18ch; font-size:clamp(40px,4.5vw,60px);line-height:1.06;letter-spacing:-.05em; }
 .page-head .t-lead { max-width: 60ch; }
 .page-meta { display: flex; gap: var(--s-2); flex-wrap: wrap; margin-top: var(--s-1); }
 
 .sec { display: flex; flex-direction: column; gap: var(--s-8); scroll-margin-top: var(--s-8); }
-.sec-head { display: flex; flex-direction: column; gap: var(--s-1_5); max-width: 68ch; }
-.sec-head p { color: var(--text-2); }
+.sec-head { display: flex; flex-direction: column; gap: var(--s-3); max-width: 68ch; }
+.sec-head p { color: var(--text-2);font-size:var(--t-sm);line-height:1.7; }
 .sec-num { font-family: var(--font-mono); font-size: var(--t-xs); color: var(--accent-text); }
 
 /* Demo card: stage on a schematic dot-grid + a spec footer */
@@ -282,7 +280,8 @@ code:not(pre code) {
   display: flex; flex-direction: column;
   border-radius: var(--r-xl);
   background: var(--surface);
-  box-shadow: inset 0 0 0 1px var(--border), var(--shadow-xs);
+  border:var(--s-px) solid var(--border);
+  box-shadow: none;
   overflow: hidden;
   min-width: 0;
 }
@@ -291,21 +290,18 @@ code:not(pre code) {
   flex: 1;
   display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
   gap: var(--s-3);
-  min-height: 200px;
+  min-height: 240px;
   padding: var(--s-10) var(--s-8);
-  background-color: var(--surface);
-  background-image: radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0);
-  background-size: 16px 16px;
-  background-position: -8px -8px;
+  background-color: var(--surface-2);
 }
 .demo-stage.is-plain { background-image: none; }
 .demo-stage.is-start { align-items: flex-start; justify-content: flex-start; }
 .demo-stage.is-col { flex-direction: column; }
 .demo-foot {
   display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-4);
-  padding: var(--s-4) var(--s-5);
+  padding: var(--s-5) var(--s-6);
   border-top: 1px solid var(--border-soft);
-  background: var(--surface-2);
+  background: var(--surface);
 }
 .demo-title { font-size: var(--t-sm); font-weight: var(--w-semibold); }
 .demo-desc { font-size: var(--t-xs); line-height: 18px; color: var(--text-2); margin-top: 2px; max-width: 54ch; }
@@ -447,4 +443,14 @@ code:not(pre code) {
   font-size: 10.5px; line-height: 1; color: var(--text-3);
   background: var(--surface-2);
   box-shadow: inset 0 0 0 1px var(--border), inset 0 -1px 0 var(--border);
+}
+
+/* Keep specimen insets proportional after the shared rules above. */
+@media (max-width:720px) {
+  .page-head { gap:var(--s-4);padding-bottom:var(--s-6); }
+  .page-head h1 { font-size:40px; }
+  .sec { gap:var(--s-6); }
+  .demo-stage { padding:var(--s-8) var(--s-4); }
+  .demo-foot { flex-direction:column;gap:var(--s-3);padding:var(--s-4); }
+  .demo-specs { max-width:100%;justify-content:flex-start; }
 }
