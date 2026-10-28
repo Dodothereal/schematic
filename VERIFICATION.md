@@ -43,3 +43,9 @@ The harness creates its own browser profile, closes its browser process and remo
 Safari, Firefox, touch hardware and VoiceOver were not independently verified. Async actions, uploads and analytics are labelled local demonstrations. React/Next.js, SwiftUI and Rust adapters are planned; they are not implemented by this release.
 
 GitHub Actions supplies the current remote build status. See the [CI workflow](https://github.com/Dodothereal/schematic/actions/workflows/ci.yml) and [Pages workflow](https://github.com/Dodothereal/schematic/actions/workflows/pages.yml).
+
+Hosted verification confirmed eight routes, the Guide API, 13 video chapters,
+50 loaded caption cues, successful seeking/playback and no runtime errors. The
+inherited account-level custom domain currently serves the Pages site over HTTP;
+direct HTTPS on that domain fails hostname verification. GitHub repository and
+release download URLs use valid HTTPS.

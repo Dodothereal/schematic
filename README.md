@@ -3,16 +3,18 @@
 **One feel for every project.** A working design reference for interfaces with
 consistent spacing, thoughtful controls, and motion that explains what changed.
 
-[Try the live reference](https://dodothereal.github.io/schematic/) ·
+[Try the live reference](http://dodothereal.me/schematic/) ·
 [Quick start](docs/QUICKSTART.md) ·
-[Watch the walkthrough](https://dodothereal.github.io/schematic/watch/) ·
+[Watch the walkthrough](http://dodothereal.me/schematic/watch/) ·
 [MIT license](LICENSE)
 
-[![Watch the narrated Schematic walkthrough: the real interface, with chapter labels and captions.](docs/assets/walkthrough-poster.png)](https://dodothereal.github.io/schematic/watch/)
+[![CI](https://github.com/Dodothereal/schematic/actions/workflows/ci.yml/badge.svg)](https://github.com/Dodothereal/schematic/actions/workflows/ci.yml)
+
+[![Watch the narrated Schematic walkthrough: the real interface, with chapter labels and captions.](docs/assets/walkthrough-poster.png)](http://dodothereal.me/schematic/watch/)
 
 The walkthrough shows the actual offline application: the guide, foundations,
 motion lab, icons, components, forms, charts, table, overlays and both palettes.
-[Watch with captions and chapters](https://dodothereal.github.io/schematic/watch/),
+[Watch with captions and chapters](http://dodothereal.me/schematic/watch/),
 [download the MP4](docs/assets/schematic-walkthrough.mp4), or
 [read the transcript](docs/WALKTHROUGH.md).
 
@@ -133,6 +135,10 @@ The recording uses the real interface with local synthetic narration. Captions,
 chapter controls and a written transcript accompany it. The optional recording
 tool uses Chrome, FFmpeg and the macOS speech synthesizer; the app itself does
 not need any of them.
+
+The live Pages site inherits the account's existing `dodothereal.me` domain and
+currently uses HTTP while that account-level site lacks a valid HTTPS certificate.
+The repository, release downloads and MP4 download are served over HTTPS by GitHub.
 
 Created by [Dodothereal](https://github.com/Dodothereal). Released under the
 [MIT license](LICENSE).
