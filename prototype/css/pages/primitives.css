@@ -108,6 +108,7 @@
   width: var(--s-5);
   height: var(--s-5);
   flex: none;
+  stroke-width: 1.8;
 }
 .pg-primitives .pr-check path {
   stroke-dasharray: 1;
@@ -337,7 +338,21 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  min-height: var(--s-4);
+  min-height: var(--s-16);
+}
+.pg-primitives .pr-grip {
+  flex: none;
+  width: var(--control-sm);
+  height: var(--control-sm);
+  min-width: var(--control-sm);
+}
+.pg-primitives .pr-grip .ic,
+.pg-primitives .pr-pin-button .ic,
+.pg-primitives .pr-move-controls .ic { stroke-width: 1.6; }
+.pg-primitives .pr-list-row[data-sortable-source="pointer"] {
+  border-style: dashed;
+  border-color: var(--accent-ring);
+  background: var(--accent-soft);
 }
 .pg-primitives .pr-document-list:empty::after {
   display: block;

@@ -33,8 +33,7 @@ together. Use a current browser for native dialogs, OKLCH colors and modern CSS.
 ## Find the right example
 
 Use the sidebar, or **Menu** on a narrow window. **Commands** or **Cmd/Ctrl-K**
-searches pages and settings. Overview has a live interaction playground and a
-searchable catalog of the actual specimens. Press **/** there to reach search;
+searches pages and settings. Overview opens directly to a searchable catalog of the actual examples. Press **/** there to reach search;
 choose a result to open and focus the working example. Filter by family or use
 Show more to explore the collection.
 
@@ -98,3 +97,18 @@ For testing, call `Schematic.onboarding.open()` and
 `await Schematic.onboarding.close()` after boot. Opening starts at step one,
 preserves the route and returns focus on close. Only Finish writes
 `schematic:guide-completed`; `open()` returns `false` if another dialog is open.
+
+## Coding workspace
+
+Open **Coding workspace** under Examples. This is a local simulation, not an AI
+or GitHub connection. The first PR has one failed check. Open **Checks** for its
+log, choose **Fix failed check**, inspect the diff, then approve and merge.
+Rerunning without the fix still fails. Stop cancels generation. Conversations
+retain separate drafts, changes and review state.
+
+## Drag controls
+
+In Primitives, drag a row by its grip. Files can move between Pinned and the
+other group. Keyboard users can focus the grip, press Space, move with arrow
+keys and press Space again to drop. Escape cancels. The arrow and pin buttons
+remain available.

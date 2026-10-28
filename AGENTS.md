@@ -17,3 +17,5 @@
 - Do not publish scratch captures, credentials, local recovery history or personal
   file paths. Keep source and required public assets only.
 - Do not use emojis in prose, UI, commit messages or documentation.
+
+- Use literal component and action names. Keep instructions operational. Do not add slogans, abstract taglines, promotional claims or repeated intro text.

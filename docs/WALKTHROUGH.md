@@ -3,62 +3,66 @@
 The video records the actual offline interface. Narration uses the local macOS
 Samantha voice; no external footage or user information is included.
 
-## 0:00 — Interfaces, with feeling
+## 0:00 — Component library
 
-Meet Schematic: a working design reference for interfaces with feeling. Try the live interaction studies, then search the actual collection. Every result opens its working example. We will explore ten collections, including sixteen new animated primitives and navigation patterns.
+Schematic is an offline component library. Search or filter to find an example. Select a result to open its controls and source context.
 
-## 0:17 — A minute to make it yours
+## 0:10 — Coding workspace
 
-New here? Open Guide for a short, optional introduction. Choose your palette, try a meaningful motion, and learn where the reusable pieces live. You can close the guide at any point and return whenever you need it.
+The coding workspace is a local simulation. Inspect the failed check and its log. Ask for a fix, then review the changed code. All checks and approval are required before the merge button becomes available. Conversations, drafts and review state are kept separately.
 
-## 0:31 — Start with the language
+## 0:34 — Guide
 
-Foundations makes the decisions visible. Colour, typography, space, corners, and elevation share one set of tokens. The default is warm paper and graphite, with a restrained forest accent. Mono keeps the interface neutral and chart series distinguishable.
+Guide is optional. Its four steps cover palettes, motion settings and source locations. Back and Next keep the frame stable. Close it at any time, then reopen it from the top bar.
 
-## 0:48 — Motion with a reason
+## 0:48 — Foundations
 
-The Motion Lab lets you replay and scrub a curve, then adjust a physical spring. Entry, exit, travel, and confirmation have different jobs. Reduced motion preserves the same information, and slow motion helps you inspect the details.
+Foundations contains the shared tokens. Inspect colors, type, spacing, radii and shadows. The tuning panel changes the interface palette and appearance. Mono keeps chart series in color.
 
-## 1:03 — Icons that act
+## 1:02 — Motion lab
 
-Seventy hand-built SVG icons share a grid and stroke weight. A bell rings, a lid opens, a copy separates. Search the collection, adjust its size, or play the complete set. Click an icon to copy its usage.
+Replay or scrub an easing curve. Change the spring parameters and compare the result. Full, slow and reduced motion are available in the tuning panel. System reduced motion is respected unless Full is selected.
 
-## 1:17 — Actions that follow through
+## 1:15 — Animated icons
 
-Components includes the states between idle and done. These local simulations show success, failure, and retry. A deliberate hold can be cancelled before it completes. Tabs, switches, chips, and menus keep their meaning when you use a keyboard.
+Search the icon registry, adjust size and stroke, or play the collection. Each icon has its own animation. The same registry is used in navigation, controls, drag handles and coding-workspace tool results.
 
-## 1:35 — The moving parts
+## 1:29 — Controls
 
-Primitives adds eight new working studies. Accordion content opens in place. Pin a document and its neighbours make room. Reorder a plan with a keyboard, change a message, roll a number, or turn a card. Each motion follows your choice, and can change direction halfway through.
+These controls show pending, success and failure states. Retry the failed local action. A hold can be cancelled before completion. Its confirmation time stays the same under reduced motion. Tabs, chips and menus also work with a keyboard.
 
-## 1:53 — A clear way through
+## 1:47 — Primitives
 
-Navigation brings eight more patterns. A shared menu surface follows its selection. Search a real list, explore a tree, change pages, or choose a dock view. The stepper validates its fields, and the carousel gives each slide its own place. Keyboard controls reach the same states.
+Expand a panel, then drag files between the pinned and unpinned groups. Sort tasks with a pointer or keyboard. Space picks up and drops an item; Escape restores its position. The remaining examples cover text changes, counters, flipping and expandable details.
 
-## 2:12 — Forms that explain themselves
+## 2:05 — Navigation
 
-Forms combines familiar native inputs with useful feedback. Validation explains what needs attention. Pasted verification codes fill all six cells. The composed profile updates locally, and reset restores your last demo save. File progress is clearly labelled as a simulation.
+Switch menu content, filter collections and follow a breadcrumb path. Use arrow keys in the file tree or dock. Pagination and the carousel keep one active panel. The workspace form validates each step and preserves its fields when you go back.
 
-## 2:30 — Draw the story
+## 2:23 — Forms
 
-Charts draw when the actual plot enters view. The line leads and its area follows. Change the period for a fresh trace, or inspect a day with the pointer or keyboard. All data here is generated for the reference.
+Forms includes native inputs, live validation, password controls and verification codes. Pasting a code fills the slots. The profile form saves locally for the demo. File progress is simulated and does not upload the selected file.
 
-## 2:45 — Make the relationship tangible
+## 2:40 — Charts
 
-Hover a bucket to compare its values, then pin it with a click or a key. Channel rows reveal contribution. Donut arcs and their legend respond together. Progress rings reveal what remains, without hiding their exact targets.
+The chart waits until it enters the viewport, then traces its finished shape. Changing the range starts a new draw. Inspect a day with the pointer or keyboard. The reference uses generated sample data.
 
-## 3:00 — Details you can work with
+## 2:55 — Chart inspection
 
-Customer activity is a working table. Filter the generated accounts and select anywhere in a row, including its empty space. The checkmark draws in. Keyboard selection, sorting, pagination, and a local CSV export complete the flow.
+Hover a bucket to compare values, or pin it with a click or key. Legend items and donut arcs respond together. Progress rings show the remaining amount while retaining the target value.
 
-## 3:16 — A pause, with a clear way back
+## 3:10 — Table
 
-Overlays preserves context when an interface interrupts you. A card expands into its dialog. Drawers and sheets start at their edge. Native modality contains focus, Escape brings you back, and toasts acknowledge an action without stopping the work.
+Filter accounts, sort columns and select a row by clicking its empty space. The checkbox draws its selected state. Keyboard selection, pagination and a local CSV export are also available.
 
-## 3:33 — One system, four appearances
+## 3:23 — Overlays
 
-Both palettes support light and dark. A theme change reveals the complete surface, including the empty background. The command palette reaches every page quickly. The same offline file keeps your page state while you explore.
+Open a dialog, drawer or sheet. Native modality keeps focus inside. Escape closes it and restores the trigger. Other examples cover menus, tooltips, accordions, toasts and loading states.
 
-## 3:46 — Start with the reference
+## 3:40 — Theme and palette
 
-Download a single HTML file, or clone the source and make it your own. Read the quick start for the reuse path. Schematic is the working web reference; React, SwiftUI, and Rust adapters are future work.
+Color and Mono both support light and dark. Theme transitions include the background. Preferences are saved in browser storage. The command palette opens pages and settings without resetting their local state.
+
+## 3:53 — Source
+
+Download the standalone HTML file or clone the source. The quick start lists the reusable files and their dependencies. The web reference is implemented. React, SwiftUI and Rust adapters are not included.

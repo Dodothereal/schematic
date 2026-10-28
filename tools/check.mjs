@@ -7,6 +7,7 @@ import { tmpdir } from "node:os";
 import { dirname, extname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { runInNewContext, Script } from "node:vm";
+import { executableCode } from "./javascript-code.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const args = new Set(process.argv.slice(2));
@@ -98,6 +99,18 @@ function inlineSyntax(file, text) {
 }
 
 async function sourceChecks() {
+  const scannerCases = [
+    ['fetch("/api")', true],
+    ['const sample="fetch(\\"/api\\")"', false],
+    ['const sample=`fetch("/api")`', false],
+    ['const sample=`${fetch("/api")}`', true],
+    ['const regex=/"/; fetch("/api")', true],
+    ['const regex=/fetch\\(/;', false],
+    ['// fetch("/api")\nconst x=1', false],
+    ['const x=`<div>${(()=>fetch("/api"))()}</div>`', true],
+  ];
+  if (scannerCases.every(([code, expected]) => /\bfetch\s*\(/.test(executableCode(code)) === expected)) pass('Offline scanner distinguishes literal samples from executable calls');
+  else fail('Offline scanner literal/expression checks failed');
   const files = [...await walk(join(root, "prototype")), ...await walk(join(root, "tools"))];
   let count = 0;
   for (const file of files.filter((file) => /\.(?:m?js|cjs)$/.test(file))) {
@@ -114,9 +127,11 @@ async function sourceChecks() {
     await assets(file, text);
     if (extname(file) === ".html") inlineSyntax(file, text);
     if (/\.(?:html|m?js)$/.test(file)) {
-      const code = text.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
-      if (/\b(?:fetch|importScripts)\s*\(|\bnew\s+(?:XMLHttpRequest|WebSocket|EventSource)\s*\(|\bsendBeacon\s*\(/.test(code)) fail(`Network API in offline runtime: ${label(file)}`);
+      const code = text;
+      const executable = executableCode(code);
+      if (/\b(?:fetch|importScripts)\s*\(|\bnew\s+(?:XMLHttpRequest|WebSocket|EventSource)\s*\(|\bsendBeacon\s*\(/.test(executable)) fail(`Network API in offline runtime: ${label(file)}`);
       for (const match of code.matchAll(/\b(?:import|export)\s+(?:[^;\n]*?\s+from\s*)?["']([^"']+)["']|\bimport\s*\(\s*["']([^"']+)["']\s*\)/g)) {
+        if (!executable.slice(match.index, match.index + 6).trim()) continue;
         const specifier = match[1] ?? match[2];
         if (!specifier.startsWith(".")) fail(`Nonlocal module dependency in ${label(file)}: ${specifier}`);
         else await localTarget(file, specifier, { dependency: true });

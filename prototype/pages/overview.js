@@ -2,32 +2,10 @@
   const S = window.Schematic,
     instances = new WeakMap();
   const icon = (name, size = 16) => S.icon(name, { size });
-  const studies = ["Select", "Arrange", "Reveal"];
-  const collections = [
-    [
-      "primitives",
-      "01",
-      "Little things.\nA different feeling.",
-      "Disclosure, reordering, type and surfaces that respond.",
-      "layers",
-    ],
-    [
-      "navigation",
-      "02",
-      "A clear way\nthrough the work.",
-      "Menus, trees, pagination, flows and moving selections.",
-      "layers",
-    ],
-    [
-      "components",
-      "03",
-      "Every action,\nfollowed through.",
-      "From the first press to pending, success and retry.",
-      "cube",
-    ],
-  ];
+  const studies = ["Checklist", "Pinned list", "Accordion"];
   const categories = [
     ["all", "Everything"],
+    ["examples", "Apps"],
     ["controls", "Controls"],
     ["motion", "Motion"],
     ["data", "Data"],
@@ -38,41 +16,34 @@
   const render = () => {
     const catalog = S.catalog();
     return `<div class="pg-overview">
-      <section class="ov-hero">
-        <div class="ov-hero-inner reveal">
-          <div class="ov-edition t-eyebrow" style="--i:0"><span class="ov-edition-line"></span> Schematic / Interface library <span class="t-mono">002</span></div>
-          <h1 class="t-display ov-title" style="--i:1">Interfaces,<br><span class="ov-title-accent">with feeling.</span></h1>
-          <p class="t-lead ov-lead" style="--i:2">The little details make the whole experience. Explore a growing collection of controls, patterns and motion. Touch everything.</p>
-          <div class="row ov-cta" style="--i:3"><a class="btn btn-primary btn-lg" href="#/primitives">Explore the new collection ${icon("arrow-right")}</a><button class="btn btn-ghost btn-lg" data-browse-library>Browse the library ${icon("arrow-right")}</button></div>
-          <div class="ov-hero-notes" style="--i:4"><span>${icon("check-circle", 14)} Keyboard considered</span><span>${icon("wave", 14)} Motion you can tune</span><span>${icon("download", 14)} Entirely offline</span></div>
-        </div>
-        <div class="ov-workbench" aria-label="Interactive motion studies">
-          <div class="ov-workbench-head"><span class="t-eyebrow">The feeling is in the response</span><span class="ov-live t-mono"><i></i> LIVE</span></div>
+      <header class="ov-header"><h1 class="ov-title">Component <span class="ov-title-accent">library</span></h1><a class="btn btn-secondary btn-sm" href="https://github.com/Dodothereal/schematic" target="_blank" rel="noreferrer">Source ${icon("arrow-up-right", 14)}</a></header>
+      <section class="sec ov-browser" id="ov-library" data-toc="Components"><div class="ov-library-tools"><label class="ov-search">${icon("search", 18)}<input type="search" data-catalog-search placeholder="Search accordion, spring, button…" aria-label="Search the component library" autocomplete="off"><kbd class="kbd" aria-hidden="true">/</kbd></label><div class="ov-filters" role="group" aria-label="Filter specimens">${categories.map(([value, label], i) => `<button type="button" data-catalog-filter="${value}" aria-pressed="${i === 0}">${label}</button>`).join("")}</div></div><div class="ov-result-head"><span class="t-caption" role="status" data-catalog-count>${catalog.length} examples</span><button type="button" class="btn btn-ghost btn-sm" data-catalog-clear hidden>Clear filters ${icon("x", 12)}</button></div><div class="ov-catalog">${catalog.map((entry) => `<a class="ov-specimen" href="#/${entry.page}" data-specimen="${entry.index}" data-catalog-id="${entry.id}"><span class="ov-specimen-icon">${icon(entry.icon, 20)}</span><span class="ov-specimen-copy"><span class="t-eyebrow">${entry.collection}</span><strong>${S.esc(entry.title)}</strong><span class="ov-specimen-desc">${S.esc(entry.desc || "")}</span></span><span class="ov-specimen-go">${icon("arrow-up-right", 16)}</span></a>`).join("")}</div><div class="ov-empty" data-catalog-empty hidden>${icon("search", 24)}<h3>No matches.</h3><p>Try another search or clear the filters.</p></div><div class="ov-load-row"><button type="button" class="btn btn-secondary" data-catalog-more>Show more ${icon("plus", 16)}</button></div></section>
+      <section class="sec ov-previews" id="ov-preview" data-toc="Preview"><h2 class="t-h2">Preview</h2><div class="ov-workbench" aria-label="Component previews">
           <div class="seg seg-block ov-study-tabs" role="group" aria-label="Choose an interaction study">${studies.map((label, i) => `<button class="seg-btn" data-value="${i}">${label}</button>`).join("")}</div>
           <div class="ov-study-stage">
             <div class="ov-study" data-study="0" data-active aria-hidden="false">
-              <div class="ov-study-kicker"><span class="t-mono">01 / SELECTION</span><span data-study-total class="t-mono">1 / 3</span></div>
-              <h2>A little more considered.</h2><div class="ov-tasks" role="group" aria-label="Considered interface details">${["A quiet surface", "A precise response", "Room to explore"].map((label, i) => `<button type="button" class="ov-task" data-study-task aria-pressed="${i === 0}"><span class="ov-task-check" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="m5 10 3.2 3.2L15 6.5"/></svg></span><span>${label}</span><span class="ov-task-order t-mono">0${i + 1}</span></button>`).join("")}</div>
+              <div class="ov-study-kicker"><span>Release checklist</span><span data-study-total class="t-mono">1 / 3</span></div>
+              <div class="ov-tasks" role="group" aria-label="Release checklist">${["Define tokens", "Build components", "Test keyboard access"].map((label, i) => `<button type="button" class="ov-task" data-study-task aria-pressed="${i === 0}"><span class="ov-task-check" aria-hidden="true">${S.icon("check", { size: 16, anim: false })}</span><span>${label}</span><span class="ov-task-order t-mono">0${i + 1}</span></button>`).join("")}</div>
               <div class="ov-study-meter" aria-hidden="true"><span data-study-meter style="transform:scaleX(.333333)"></span></div>
             </div>
-            <div class="ov-study" data-study="1" inert aria-hidden="true"><div class="ov-study-kicker t-mono"><span>02 / SHARED SPACE</span><span>PIN TO PRIORITISE</span></div><h2>Make room for what matters.</h2><div class="ov-arrange-list">${[
-              ["Design language", "layers"],
-              ["Interaction notes", "document"],
-              ["Next release", "bolt"],
+            <div class="ov-study" data-study="1" inert aria-hidden="true"><div class="ov-study-kicker"><span>Project files</span></div><div class="ov-arrange-list">${[
+              ["tokens.css", "layers"],
+              ["components.js", "document"],
+              ["README.md", "document"],
             ]
               .map(
                 ([name, ic]) =>
                   `<button type="button" class="ov-arrange-row" data-study-pin aria-pressed="false">${icon(ic)}<span>${name}</span><span class="ov-pin-label">Pin</span>${icon("plus", 14)}</button>`,
               )
               .join("")}</div></div>
-            <div class="ov-study" data-study="2" inert aria-hidden="true"><div class="ov-study-kicker t-mono"><span>03 / DISCLOSURE</span><span>SPACE, REVEALED</span></div><h2>Only what you need. For now.</h2>${[
+            <div class="ov-study" data-study="2" inert aria-hidden="true"><div class="ov-study-kicker"><span>FAQ</span></div>${[
               [
-                "One language, every detail",
-                "Shared tokens connect the smallest control to the whole interface. A quiet surface, a clear label, a precise response.",
+                "Does it work offline?",
+                "Yes. Download the HTML file and open it locally.",
               ],
               [
-                "Motion with a purpose",
-                "See what changed, where something went and what happens next. Interrupt any transition. The next action is always yours.",
+                "How do I reduce animations?",
+                "Open Tune tokens and select Reduced under Motion. Your system preference also applies.",
               ],
             ]
               .map(
@@ -81,26 +52,16 @@
               )
               .join("")}</div>
           </div>
-          <div class="ov-workbench-foot"><span role="status" data-study-status>Try selecting a detail.</span><button type="button" class="btn btn-ghost btn-icon btn-sm" data-study-reset aria-label="Reset the motion studies">${icon("refresh", 14)}</button></div>
-        </div>
-      </section>
-      <div class="ov-ledger" aria-label="Library at a glance"><span><strong class="t-num">${catalog.length}</strong> working specimens</span><span><strong class="t-num">${S.pages.length}</strong> collections</span><span><strong class="t-num">${S.iconNames.length}</strong> animated icons</span><span><strong class="t-num">0</strong> dependencies</span><span class="ov-ledger-note t-mono">BUILT TO BE TAKEN APART ${icon("arrow-right", 14)}</span></div>
-      ${S.section({ id: "ov-new", num: "01 / NEW IN THE COLLECTION", title: "More to work with.", desc: "New ways to reveal, navigate and make a decision. One consistent language underneath.", body: `<div class="ov-collections">${collections.map(([id, num, title, desc, ic]) => `<a class="ov-collection" href="#/${id}"><div class="ov-collection-top"><span class="t-mono">${num} / ${id.toUpperCase()}</span>${icon(ic, 22)}</div><h3>${title.replace("\n", "<br>")}</h3><p>${desc}</p><span class="ov-collection-go">Explore collection ${icon("arrow-right", 16)}</span></a>`).join("")}</div>` })}
-      ${S.section({ id: "ov-library", num: "02 / THE WORKING LIBRARY", title: "Find the right detail.", desc: "Search the actual specimens. Every result opens the working example, right where it lives.", body: `<div class="ov-library-tools"><label class="ov-search">${icon("search", 18)}<input type="search" data-catalog-search placeholder="Search accordion, spring, button…" aria-label="Search the component library" autocomplete="off"><kbd class="kbd" aria-hidden="true">/</kbd></label><div class="ov-filters" role="group" aria-label="Filter specimens">${categories.map(([value, label], i) => `<button type="button" data-catalog-filter="${value}" aria-pressed="${i === 0}">${label}</button>`).join("")}</div></div><div class="ov-result-head"><span class="t-caption" role="status" data-catalog-count>${catalog.length} specimens to explore</span><button type="button" class="btn btn-ghost btn-sm" data-catalog-clear hidden>Clear filters ${icon("x", 12)}</button></div><div class="ov-catalog">${catalog.map((entry) => `<a class="ov-specimen" href="#/${entry.page}" data-specimen="${entry.index}" data-catalog-id="${entry.id}"><span class="ov-specimen-icon">${icon(entry.icon, 20)}</span><span class="ov-specimen-copy"><span class="t-eyebrow">${entry.collection}</span><strong>${S.esc(entry.title)}</strong><span class="ov-specimen-desc">${S.esc(entry.desc || "")}</span></span><span class="ov-specimen-go">${icon("arrow-up-right", 16)}</span></a>`).join("")}</div><div class="ov-empty" data-catalog-empty hidden>${icon("search", 24)}<h3>No detail matches that search.</h3><p>Try a component name or clear the filters to explore everything.</p></div><div class="ov-load-row"><button type="button" class="btn btn-secondary" data-catalog-more>Show more specimens ${icon("plus", 16)}</button></div>` })}
-      ${S.section({
-        id: "ov-map",
-        num: "03 / EXPLORE THE SYSTEM",
-        title: "The whole picture.",
-        desc: "From the decisions underneath to the finished interaction.",
-        body: `<div class="ov-system">${S.pages
-          .filter((p) => p.id !== "overview")
-          .map(
-            (p, i) =>
-              `<a class="ov-system-row" href="#/${p.id}" data-shared><span class="t-mono ov-system-number">${String(i + 1).padStart(2, "0")}</span><span class="shared-ic">${icon(p.icon, 20)}</span><strong>${p.title}</strong><span class="ov-system-desc">${p.description || ""}</span>${icon("arrow-right", 16)}</a>`,
-          )
-          .join("")}</div>`,
-      })}
-      <footer class="ov-end"><div><span class="t-eyebrow">A reference. A starting point.</span><h2>Make something<br>feel considered.</h2></div><div><p>Take the tokens, the interaction and the details you need. The working HTML reference is ready to explore. Framework adapters are on the roadmap.</p><div class="row"><a class="btn btn-secondary" href="https://github.com/Dodothereal/schematic" target="_blank" rel="noreferrer">Get the source ${icon("arrow-up-right", 16)}</a><button type="button" class="btn btn-ghost" data-open-cmdk-ov>${icon("command", 16)} Find a page</button></div></div></footer>
+          <div class="ov-workbench-foot"><span class="ov-announcement" role="status" data-study-status></span><button type="button" class="btn btn-ghost btn-icon btn-sm" data-study-reset aria-label="Reset previews">${icon("refresh", 14)}</button></div>
+        </div></section>
+      <section class="sec" id="ov-map" data-toc="Collections"><h2 class="t-h2">Collections</h2><div class="ov-collection-links">${S.pages
+        .filter((p) => p.id !== "overview")
+        .map(
+          (p) =>
+            `<a href="#/${p.id}">${icon(p.icon, 18)}<span>${p.title}</span>${icon("arrow-right", 14)}</a>`,
+        )
+        .join("")}</div></section>
+      <footer class="ov-footer"><button type="button" class="btn btn-ghost btn-sm" data-open-cmdk-ov>${icon("command", 14)} Commands</button><button type="button" class="btn btn-ghost btn-sm" data-browse-library>Back to components ${icon("chevron-down", 14)}</button></footer>
     </div>`;
   };
 
@@ -162,9 +123,9 @@
             ]);
         });
         $("[data-study-status]").textContent = [
-          "Try selecting a detail.",
-          "Pin a row and watch its neighbours make room.",
-          "Reveal a little more context.",
+          "Checklist selected.",
+          "Pinned list selected.",
+          "Accordion selected.",
         ][state.study];
       },
     });
@@ -172,8 +133,7 @@
       const count = $$("[data-study-task][aria-pressed=true]").length;
       $("[data-study-total]").textContent = `${count} / 3`;
       $("[data-study-meter]").style.transform = `scaleX(${count / 3})`;
-      $("[data-study-status]").textContent =
-        `${count} of 3 details considered.`;
+      $("[data-study-status]").textContent = `${count} of 3 tasks completed.`;
     };
     $$("[data-study-task]").forEach((button) =>
       button.addEventListener("click", () => {
@@ -206,8 +166,8 @@
           },
         );
         $("[data-study-status]").textContent = selected
-          ? "Priority pinned. The list makes room."
-          : "Priority released.";
+          ? "File pinned."
+          : "File unpinned.";
       }),
     );
     $$("[data-study-reveal]").forEach((button) =>
@@ -217,8 +177,8 @@
         button.parentElement.toggleAttribute("data-open", expanded);
         button.nextElementSibling.inert = !expanded;
         $("[data-study-status]").textContent = expanded
-          ? "A little more context, in place."
-          : "Back to the essentials.";
+          ? "Expanded."
+          : "Collapsed.";
       }),
     );
     $("[data-study-reset]").addEventListener("click", () => {
@@ -240,7 +200,7 @@
         el.parentElement.removeAttribute("data-open");
         el.nextElementSibling.inert = true;
       });
-      $("[data-study-status]").textContent = "Ready to explore again.";
+      $("[data-study-status]").textContent = "Previews reset.";
     });
     const entries = S.catalog(),
       elements = new Map(
@@ -258,7 +218,7 @@
       const visible = new Set(matches.slice(0, state.limit).map((e) => e.id));
       elements.forEach((el, id) => (el.hidden = !visible.has(id)));
       $("[data-catalog-count]").textContent =
-        `${matches.length} ${matches.length === 1 ? "specimen" : "specimens"}${query ? " found" : " to explore"}`;
+        `${matches.length} ${matches.length === 1 ? "example" : "examples"}`;
       $("[data-catalog-empty]").hidden = matches.length !== 0;
       $("[data-catalog-more]").hidden = matches.length <= state.limit;
       $("[data-catalog-clear]").hidden = !query && state.category === "all";

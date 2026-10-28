@@ -1,6 +1,6 @@
 {
   "name": "schematic",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "license": "MIT",
   "author": "Dodothereal",
@@ -19,13 +19,15 @@
     "check": "node tools/check.mjs",
     "check:partial": "node tools/check.mjs --defer-missing",
     "test": "npm run check -- --strict && npm run test:browser",
-    "test:browser": "npm run test:verify && npm run test:interactions && npm run test:refinements && npm run test:onboarding && npm run test:onboarding-motion && npm run test:library",
+    "test:browser": "npm run test:verify && npm run test:interactions && npm run test:refinements && npm run test:onboarding && npm run test:onboarding-motion && npm run test:library && npm run test:sortable && npm run test:workspace",
     "test:verify": "node tools/verify.mjs",
     "test:interactions": "node tools/interactions.mjs",
     "test:refinements": "node tools/refinements.mjs",
     "test:onboarding": "node tools/onboarding-checks.mjs",
     "test:onboarding-motion": "node tools/onboarding-motion-checks.mjs",
     "test:library": "node tools/library-checks.mjs",
+    "test:sortable": "node tools/sortable-checks.mjs",
+    "test:workspace": "node tools/workspace-checks.mjs",
     "record:walkthrough": "node tools/record-walkthrough.mjs && node tools/make-watch-page.mjs",
     "shot": "node tools/shot.mjs"
   }

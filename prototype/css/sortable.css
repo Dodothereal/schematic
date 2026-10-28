@@ -1,0 +1,55 @@
+/* Only dedicated handles capture touch movement; the rest remains scrollable. */
+[data-sortable-handle] {
+  touch-action: none;
+  cursor: grab;
+  color: var(--text-3);
+  flex: none;
+  transition: color var(--d-fast) var(--ease-out), background-color var(--d-fast) var(--ease-out);
+}
+[data-sortable-handle]:hover,
+[data-sortable-handle]:focus-visible,
+[data-sortable-handle][aria-pressed="true"] {
+  color: var(--accent-text);
+  background: var(--accent-soft);
+}
+[data-sortable-handle]:active,
+[data-sortable-active="pointer"] [data-sortable-handle] { cursor: grabbing; }
+[data-sortable-active="pointer"] { user-select: none; }
+[data-sortable-source="pointer"] {
+  border-style: dashed;
+  border-color: var(--accent-ring);
+  background: var(--accent-soft);
+}
+[data-sortable-source="pointer"] > * { opacity: .22; }
+[data-sortable-source="keyboard"] {
+  outline: var(--s-0_5) solid var(--accent-ring);
+  outline-offset: var(--s-0_5);
+}
+[data-sortable-ghost] {
+  position: fixed !important;
+  z-index: 150;
+  box-sizing: border-box;
+  pointer-events: none;
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-ring) !important;
+  transition: none !important;
+  will-change: transform;
+}
+[data-sortable-indicator] {
+  position: fixed;
+  z-index: 149;
+  top: 0;
+  left: 0;
+  height: var(--s-0_5);
+  border-radius: var(--r-full);
+  background: var(--accent);
+  pointer-events: none;
+}
+.sortable-sr {
+  position: absolute;
+  width: var(--s-px);
+  height: var(--s-px);
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

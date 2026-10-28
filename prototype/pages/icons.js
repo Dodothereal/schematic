@@ -31,12 +31,12 @@
       <div class="pg-icons">
         ${S.pageHead({
           icon: "sparkles", eyebrow: "Foundations", title: "Icons that act",
-          lead: "One 24px grid, one 1.6 stroke, round caps. Every icon animates the verb it stands for — and always plays to completion, never snapping back when the pointer leaves.",
+          lead: "Search icons. Click one to copy its markup.",
           meta: [`<span class="badge">${S.iconNames.length} icons</span>`, `<span class="badge">24 × 24 grid</span>`, `<span class="badge">stroke var(--ic-stroke)</span>`],
         })}
 
         ${S.section({
-          id: "ic-gallery", num: "01", title: "Gallery", desc: "Hover to play, click to copy the snippet. Search filters with a FLIP layout animation, so tiles slide to their new places instead of jumping.",
+          id: "ic-gallery", num: "01", title: "Gallery",
           body: `
             <div class="ic-toolbar">
               <label class="ic-search">${S.icon("search", { size: 16 })}<input id="icons-q" type="search" placeholder="Search icons…" autocomplete="off" aria-label="Search icons"><span class="ic-count t-mono" id="icons-count">${S.iconNames.length}</span></label>
@@ -57,7 +57,7 @@
         })}
 
         ${S.section({
-          id: "ic-verbs", num: "02", title: "Motion is the meaning", desc: "Each animation is designed around what the icon does, not a generic wiggle. A few of the stories:",
+          id: "ic-verbs", num: "02", title: "Motion is the meaning",
           body: `<div class="grid cols-3">${VERBS.map(([n, t, d]) => `
             <div class="card ic-verb" data-ic-trigger tabindex="0">
               <div class="ic-verb-stage">${S.icon(n, { size: 40 })}</div>
@@ -68,7 +68,7 @@
         })}
 
         ${S.section({
-          id: "ic-usage", num: "03", title: "Usage", desc: "Icons are strings — framework-agnostic and trivially portable.",
+          id: "ic-usage", num: "03", title: "Usage",
           body: `<div class="grid cols-2">
             ${S.demo({
               title: "Inside controls", desc: "Any button, link, label or [data-ic-trigger] plays its icons on hover, focus and touch.",

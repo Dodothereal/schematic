@@ -36,6 +36,8 @@ your report — it gets promoted into `core.js` / `ui.css` during review.
   It must not measure layout or start timers. Do that in `mount`/`enter`.
 * Pages are **kept alive** — DOM and state persist between visits.
 * Root markup: `<div class="pg-<id>"> S.pageHead(...) + S.section(...)* </div>`.
+  Full application examples may put their `h1` in the application header and
+  register that application as one `.demo`, without a second showcase header.
 
 ## 2. Markup helpers (always use them — this is what keeps pages identical)
 

@@ -7,7 +7,7 @@ import { browser, delay } from "./browser.mjs";
 const workspace = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const url = pathToFileURL(join(workspace, "dist/schematic.html")).href;
 const checks = [], traces = {}, inventory = {};
-const routes = ["overview", "foundations", "motion", "icons", "components", "forms", "data", "overlays", "primitives", "navigation"];
+const routes = ["overview", "foundations", "motion", "icons", "components", "forms", "data", "overlays", "primitives", "navigation", "workspace"];
 const check = (name, pass, detail) => {
   const result = { name, pass: !!pass, ...(detail === undefined ? {} : { detail }) };
   checks.push(result);
@@ -121,7 +121,7 @@ const trace = (name, action, sample, root) => evaluate(`libraryQA.trace(()=>{${a
 
 async function catalogChecks() {
   const registered = await evaluate("Schematic.pages.map(page=>page.id)");
-  check("All ten library routes are registered once", registered.length === routes.length && equal([...registered].sort(), [...routes].sort()), registered);
+  check("All eleven library routes are registered once", registered.length === routes.length && equal([...registered].sort(), [...routes].sort()), registered);
   for (const id of routes.filter(id => id !== "overview")) {
     await go(id);
     inventory[id] = await evaluate(`(()=>{const page=document.querySelector('[data-page="${id}"]');return [...page.querySelectorAll('.demo')].map((demo,index)=>({page:${JSON.stringify(id)},index,title:demo.querySelector('.demo-title')?.textContent.trim(),desc:demo.querySelector('.demo-desc')?.textContent.trim()||''}));})()`);
@@ -133,10 +133,10 @@ async function catalogChecks() {
   check("Catalog covers every real non-overview demo exactly once", catalog.length === actual.length && new Set(catalog.map(e => `${e.page}:${e.index}`)).size === actual.length && catalog.every(e => lookup.has(`${e.page}:${e.index}`)), { actual: actual.length, catalog: catalog.length });
   check("Catalog names and descriptions match mounted specimens", catalog.every(e => { const card = lookup.get(`${e.page}:${e.index}`); return card && card.title === e.title && (!card.desc || card.desc === e.desc); }), catalog.filter(e => lookup.get(`${e.page}:${e.index}`)?.title !== e.title));
   check("Every catalog link targets its exact real demo", links.length === actual.length && new Set(links.map(e => `${e.page}:${e.index}`)).size === actual.length && links.every(e => lookup.get(`${e.page}:${e.index}`)?.title === e.title), { links: links.length, actual: actual.length });
-  const ledger = await evaluate("[...document.querySelectorAll('.ov-ledger > span')].map(e=>e.textContent.trim())");
-  check("Overview ledger reports actual specimen and collection counts", Number(ledger[0]?.match(/\d+/)?.[0]) === actual.length && Number(ledger[1]?.match(/\d+/)?.[0]) === routes.length, ledger);
   const visible = () => evaluate("[...document.querySelectorAll('[data-catalog-id]')].filter(e=>!e.hidden).map(e=>({page:e.getAttribute('href').slice(2),title:e.querySelector('strong').textContent.trim(),text:e.textContent.trim(),id:e.dataset.catalogId,index:Number(e.dataset.specimen)}))");
   const count = () => evaluate("Number(document.querySelector('[data-catalog-count]').textContent.match(/\\d+/)?.[0])");
+  check("Catalog result count reports the actual mounted specimen inventory", await count() === actual.length, { count: await count(), actual: actual.length });
+  check("Interactive previews follow the catalog in reading order", await evaluate("(()=>{const catalog=document.querySelector('#ov-library'),preview=document.querySelector('#ov-preview');return !!catalog&&!!preview&&!!(catalog.compareDocumentPosition(preview)&Node.DOCUMENT_POSITION_FOLLOWING);})()"));
   const initial = await visible();
   check("Initial catalog is a useful finite preview with Show more available", initial.length > 0 && initial.length < actual.length && await evaluate("!document.querySelector('[data-catalog-more]').hidden"), { visible: initial.length, total: actual.length });
   await click("[data-catalog-more]"); const expanded = await visible();
@@ -151,11 +151,10 @@ async function catalogChecks() {
   check("An unmatched search shows an empty state and zero results", (await visible()).length === 0 && await count() === 0 && await evaluate("!document.querySelector('[data-catalog-empty]').hidden&&!document.querySelector('[data-catalog-clear]').hidden&&document.querySelector('[data-catalog-more]').hidden"));
   await click("[data-catalog-clear]");
   check("Clear filters restores the full count and focuses the empty search", await count() === actual.length && await evaluate("document.activeElement.matches('[data-catalog-search]')&&document.activeElement.value===''&&document.querySelector('[data-catalog-empty]').hidden&&document.querySelector('[data-catalog-clear]').hidden"));
-  const familyPages = { controls: ["components", "forms", "navigation"], motion: ["primitives", "motion", "icons"], data: ["data"], feedback: ["overlays"], foundations: ["foundations"] };
-  for (const [family, pages] of Object.entries(familyPages)) {
+  for (const family of ["controls", "motion", "data", "feedback", "foundations"]) {
     await click(`[data-catalog-filter="${family}"]`);
-    const items = await visible(), expected = actual.filter(e => pages.includes(e.page)).length;
-    check(`${family}: category filter has real results and an accurate count`, items.length > 0 && items.every(e => pages.includes(e.page)) && await count() === expected && await evaluate(`document.querySelectorAll('[data-catalog-filter][aria-pressed="true"]').length===1&&document.querySelector('[data-catalog-filter="${family}"]').getAttribute('aria-pressed')==='true'`), { count: await count(), expected, pages: [...new Set(items.map(e => e.page))] });
+    const items = await visible(), matching = catalog.filter(entry => entry.family === family), ids = new Set(matching.map(entry => entry.id));
+    check(`${family}: category filter has real results and an accurate count`, items.length > 0 && items.every(e => ids.has(e.id)) && await count() === matching.length && await evaluate(`document.querySelectorAll('[data-catalog-filter][aria-pressed="true"]').length===1&&document.querySelector('[data-catalog-filter="${family}"]').getAttribute('aria-pressed')==='true'`), { count: await count(), expected: matching.length, pages: [...new Set(items.map(e => e.page))] });
   }
   await click("[data-catalog-clear]");
   await focus("[data-catalog-search]");
@@ -177,21 +176,22 @@ async function catalogChecks() {
 
 async function overviewChecks() {
   await go("overview");
+  check("Home previews expose checklist, pinned-list and accordion controls", await evaluate("document.querySelectorAll('.ov-study-tabs [data-value]').length===3&&document.querySelectorAll('[data-study-task]').length===3&&document.querySelectorAll('[data-study-pin]').length===3&&document.querySelectorAll('[data-study-reveal]').length===2"));
   await click("[data-study-reset]");
   await click('.ov-study-tabs [data-value="0"]');
   await focus("[data-study-task]:nth-child(2)"); await key(" ", "Space", 32);
   const selection = await evaluate("({selected:[...document.querySelectorAll('[data-study-task]')].map(e=>e.getAttribute('aria-pressed')),total:document.querySelector('[data-study-total]').textContent,meter:new DOMMatrixReadOnly(getComputedStyle(document.querySelector('[data-study-meter]')).transform).m11})");
-  check("Select study changes the real selection, count and meter with Space", equal(selection.selected, ["true", "true", "false"]) && selection.total === "2 / 3" && near(selection.meter, 2 / 3, 0.01), selection);
+  check("Checklist preview changes the real selection, count and meter with Space", equal(selection.selected, ["true", "true", "false"]) && selection.total === "2 / 3" && near(selection.meter, 2 / 3, 0.01), selection);
   await click('.ov-study-tabs [data-value="1"]');
   const original = await evaluate("[...document.querySelectorAll('[data-study-pin]')].map(e=>e.querySelector('span').textContent.trim())");
   await focus("[data-study-pin]:last-child"); await key("Enter", "Enter", 13);
   const pinned = await evaluate("[...document.querySelectorAll('[data-study-pin]')].map(e=>({title:e.querySelector('span').textContent.trim(),selected:e.getAttribute('aria-pressed')}))");
-  check("Arrange study pins the chosen row and reorders the actual list", pinned[0]?.title === original.at(-1) && pinned[0]?.selected === "true" && equal(pinned.map(e => e.title).sort(), [...original].sort()), { original, pinned });
+  check("Pinned-list preview pins the chosen row and reorders the actual list", pinned[0]?.title === original.at(-1) && pinned[0]?.selected === "true" && equal(pinned.map(e => e.title).sort(), [...original].sort()), { original, pinned });
   await click('.ov-study-tabs [data-value="2"]');
   const closedHeight = await evaluate("document.querySelector('.ov-disclosure-grid').getBoundingClientRect().height");
   await focus("[data-study-reveal]"); await key("Enter", "Enter", 13); await frameWait();
   const disclosure = await evaluate("(()=>{const b=document.querySelector('[data-study-reveal]'),p=document.getElementById(b.getAttribute('aria-controls'));return {expanded:b.getAttribute('aria-expanded'),inert:p.inert,height:p.getBoundingClientRect().height,text:p.textContent.trim()};})()");
-  check("Reveal study exposes actual content and expanded semantics with Enter", disclosure.expanded === "true" && !disclosure.inert && disclosure.height > closedHeight + 10 && disclosure.text.length > 20, { closedHeight, ...disclosure });
+  check("Accordion preview exposes actual content and expanded semantics with Enter", disclosure.expanded === "true" && !disclosure.inert && disclosure.height > closedHeight + 10 && disclosure.text.length > 0, { closedHeight, ...disclosure });
   await go("foundations"); await go("overview");
   check("All home study state survives leaving and returning", await evaluate(`document.querySelectorAll('[data-study-task][aria-pressed=true]').length===2&&document.querySelector('[data-study-pin]').getAttribute('aria-pressed')==='true'&&document.querySelector('[data-study-reveal]').getAttribute('aria-expanded')==='true'&&document.querySelector('[data-study="2"]').hasAttribute('data-active')`));
   await click("[data-study-reset]");
@@ -289,7 +289,7 @@ async function primitivesChecks() {
   check("Sort reset restores the actual order and visible position numbers", equal(await evaluate("[...document.querySelectorAll('[data-pr-sort-row]')].map(e=>e.dataset.prSortRow)"), originalOrder) && equal(await evaluate("[...document.querySelectorAll('[data-pr-position]')].map(e=>e.textContent.trim())"), ["01", "02", "03", "04"]));
 
   await focus('[data-pr-swap="0"]'); await key("End", "End", 35); await frameWait();
-  check("Text swap keyboard selection changes the visible and accessible message", await evaluate(`document.activeElement.matches('[data-pr-swap="2"]')&&document.querySelector('[data-pr-swap="2"]').getAttribute('aria-pressed')==='true'&&document.querySelector('[data-pr-swap-accessible]').textContent.includes('what comes next.')&&document.querySelectorAll('[data-pr-word-value]').length===1&&document.querySelector('[data-pr-word-value]').textContent.trim()==='what comes next.'`));
+  check("Text swap keyboard selection changes the visible and accessible build state", await evaluate(`(()=>{const selected=document.querySelector('[data-pr-swap="2"]'),label=selected.textContent.trim(),word=document.querySelector('[data-pr-word-value]');return document.activeElement===selected&&selected.getAttribute('aria-pressed')==='true'&&label.length>0&&document.querySelector('[data-pr-swap-accessible]').textContent.includes(label)&&document.querySelectorAll('[data-pr-word-value]').length===1&&word.dataset.prWordValue==='2'&&word.textContent.trim()===label;})()`));
   const counterBefore = await evaluate("libraryQA.rect(document.querySelector('[data-pr-counter]'))");
   await click('[data-pr-count="1"]'); await click('[data-pr-count="1"]'); await frameWait();
   const counterAfter = await evaluate("libraryQA.rect(document.querySelector('[data-pr-counter]'))");
@@ -361,23 +361,25 @@ async function navigationChecks() {
   check("Menu Escape dismisses its content and restores the owning trigger", await evaluate(`document.activeElement.matches('[data-nv-menu-trigger="0"]')&&document.querySelector('[data-nv-menu-viewport]').inert&&!document.querySelector('[data-nv-menu-trigger][aria-expanded=true]')`));
   await key("End", "End", 35); await key("Enter", "Enter", 13); await frameWait();
   check("Menu End and Enter open the final destination group", await evaluate(`document.activeElement.matches('[data-nv-menu-trigger="2"]')&&document.querySelector('[data-nv-menu-trigger="2"]').getAttribute('aria-expanded')==='true'&&document.querySelector('[data-nv-menu-stack] [data-nv-pane="2"]').getAttribute('aria-hidden')==='false'`));
+  const destination = await evaluate(`document.querySelector('[data-nv-menu-stack] [data-nv-pane="2"] [data-nv-destination]').dataset.nvDestination`);
   await click('[data-nv-menu-stack] [data-nv-pane="2"] [data-nv-destination]');
-  check("Choosing a menu destination changes its status and dismisses the viewport", await evaluate("document.querySelector('[data-nv-menu-status]').textContent.includes('Field guide selected')&&document.querySelector('[data-nv-menu-viewport]').inert"));
+  check("Choosing a menu destination changes its status and dismisses the viewport", destination.length > 0 && await evaluate(`document.querySelector('[data-nv-menu-status]').textContent.includes(${JSON.stringify(destination)})&&document.querySelector('[data-nv-menu-viewport]').inert`));
 
   await focus("[data-nv-combo-input]"); await input("[data-nv-combo-input]", "motion");
-  const matches = await evaluate("[...document.querySelectorAll('[data-nv-option]')].filter(e=>!e.hidden).map(e=>({id:e.id,text:e.textContent.trim()}))");
-  check("Collection picker filters real options and exposes a visible active descendant", matches.length === 1 && matches[0].text.includes("Motion studies") && await evaluate("document.querySelector('[data-nv-combo-input]').getAttribute('aria-activedescendant')===document.querySelector('[data-nv-option]:not([hidden])').id"), matches);
+  const matches = await evaluate("[...document.querySelectorAll('[data-nv-option]')].filter(e=>!e.hidden).map(e=>({id:e.id,text:e.textContent.trim(),label:e.querySelector('strong').textContent.trim()}))");
+  check("Collection picker filters real options and exposes a visible active descendant", matches.length === 1 && matches[0].text.toLowerCase().includes("motion") && await evaluate("document.querySelector('[data-nv-combo-input]').getAttribute('aria-activedescendant')===document.querySelector('[data-nv-option]:not([hidden])').id"), matches);
+  const selectedCollection = matches[0]?.label;
   await key("ArrowDown", "ArrowDown", 40); await key("Enter", "Enter", 13);
-  check("Picker Enter selects the filtered collection while retaining input focus", await evaluate("document.activeElement.matches('[data-nv-combo-input]')&&document.activeElement.getAttribute('aria-expanded')==='false'&&document.querySelector('[data-nv-combo-selected]').textContent==='Motion studies'&&document.querySelector('[data-nv-combo-list]').hidden&&document.querySelectorAll('[data-nv-option][aria-selected=true]').length===1"));
+  check("Picker Enter selects the filtered collection while retaining input focus", !!selectedCollection && await evaluate(`document.activeElement.matches('[data-nv-combo-input]')&&document.activeElement.getAttribute('aria-expanded')==='false'&&document.querySelector('[data-nv-combo-selected]').textContent===${JSON.stringify(selectedCollection)}&&document.querySelector('[data-nv-combo-list]').hidden&&document.querySelectorAll('[data-nv-option][aria-selected=true]').length===1`));
   await input("[data-nv-combo-input]", "unknown-collection-448");
   check("Picker no-results state has no invisible active descendant", await evaluate("!document.querySelector('[data-nv-no-results]').hidden&&[...document.querySelectorAll('[data-nv-option]')].every(e=>e.hidden)&&!document.querySelector('[data-nv-combo-input]').hasAttribute('aria-activedescendant')"));
   await key("Escape", "Escape", 27);
-  check("Picker Escape preserves the previously selected collection", await evaluate("document.querySelector('[data-nv-combo-selected]').textContent==='Motion studies'&&document.querySelector('[data-nv-combo-list]').hidden"));
+  check("Picker Escape preserves the previously selected collection", await evaluate(`document.querySelector('[data-nv-combo-selected]').textContent===${JSON.stringify(selectedCollection)}&&document.querySelector('[data-nv-combo-list]').hidden`));
 
   await focus('[data-nv-folder-view] [data-nv-folder="projects"]'); await key("Enter", "Enter", 13);
   await click('[data-nv-folder-view] [data-nv-folder="fieldwork"]'); await click('[data-nv-folder-view] [data-nv-folder="research"]');
   const path = await evaluate("[...document.querySelectorAll('[data-nv-crumbs] [data-nv-folder]')].map(e=>({key:e.dataset.nvFolder,current:e.getAttribute('aria-current')}))");
-  check("Breadcrumb drilling builds a real four-level path to the chosen folder", equal(path.map(e => e.key), ["workspace", "projects", "fieldwork", "research"]) && path.at(-1).current === "page" && await evaluate("document.querySelector('[data-nv-folder-view]').textContent.includes('Research is ready')"), path);
+  check("Breadcrumb drilling builds a real four-level path to the chosen folder", equal(path.map(e => e.key), ["workspace", "projects", "fieldwork", "research"]) && path.at(-1).current === "page" && await evaluate("document.querySelector('[data-nv-folder-view]').textContent.trim().length>0&&!document.querySelector('[data-nv-folder-view] [data-nv-folder]')"), path);
   await click('[data-nv-crumbs] [data-nv-folder="projects"]');
   check("A breadcrumb ancestor opens that folder's actual children and restores its focus", await evaluate(`document.activeElement.matches('[data-nv-crumbs] [data-nv-folder="projects"]')&&document.querySelector('[data-nv-crumbs] [aria-current]').dataset.nvFolder==='projects'&&document.querySelectorAll('[data-nv-folder-view] [data-nv-folder]').length===2`));
   await click("[data-nv-folder-up]");
@@ -401,9 +403,9 @@ async function navigationChecks() {
   check("Tree End skips closed descendants and reaches the last visible root", await evaluate(`document.activeElement.matches('[data-nv-node="notes"]')`));
 
   await focus('[data-nv-dock-view="0"]'); await key("ArrowRight", "ArrowRight", 39);
-  check("Dock arrows change the actual workspace view with a single roving tab", await evaluate(`document.activeElement.matches('[data-nv-dock-view="1"]')&&document.activeElement.getAttribute('aria-selected')==='true'&&document.querySelector('[data-nv-dock-stack] [data-nv-active=true]').dataset.nvPane==='1'&&document.querySelectorAll('[data-nv-dock-view][tabindex="0"]').length===1&&document.querySelector('[data-nv-dock-stack] [data-nv-active=true]').textContent.includes('Map the journey')`));
+  check("Dock arrows change the actual workspace view with a single roving tab", await evaluate(`document.activeElement.matches('[data-nv-dock-view="1"]')&&document.activeElement.getAttribute('aria-selected')==='true'&&document.querySelector('[data-nv-dock-stack] [data-nv-active=true]').dataset.nvPane==='1'&&document.querySelectorAll('[data-nv-dock-view][tabindex="0"]').length===1&&document.querySelectorAll('[data-nv-dock-stack] [data-nv-active=true] li').length===3`));
   await key("End", "End", 35);
-  check("Dock End reaches the real activity view", await evaluate(`document.activeElement.matches('[data-nv-dock-view="2"]')&&document.querySelector('[data-nv-dock-stack] [data-nv-active=true]').textContent.includes('Research is underway.')`));
+  check("Dock End reaches the real activity view", await evaluate(`document.activeElement.matches('[data-nv-dock-view="2"]')&&document.querySelector('[data-nv-dock-stack] [data-nv-active=true]').dataset.nvPane==='2'&&document.querySelectorAll('[data-nv-dock-stack] [data-nv-active=true] ol li').length===3`));
 
   const wizardActionWidths = [await evaluate("document.querySelector('[data-nv-wizard-next]').getBoundingClientRect().width")];
   await click("[data-nv-wizard-next]");

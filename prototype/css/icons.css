@@ -1,7 +1,7 @@
 /* =============================================================================
    SCHEMATIC — ICON MOTION
    Each icon gets ONE semantic animation that explains what it does.
-   Curves are written literally (keyframe timing functions can't read var()):
+   Existing curve values correspond to these shared tokens:
      out      cubic-bezier(0.22, 1, 0.36, 1)
      in       cubic-bezier(0.64, 0, 0.78, 0)
      in-out   cubic-bezier(0.65, 0, 0.35, 1)
@@ -16,7 +16,10 @@
 .ic .draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
 .ic[data-i="calendar"] .b { stroke-width: 2.2; }
 .ic[data-i="cursor"] .b { opacity: 0; }
-.ic[data-i="loader"] { animation: ic-spin calc(800ms * var(--motion-scale)) linear infinite; transform-origin: center; }
+.ic[data-i="loader"] { animation: ic-spin calc(800ms * var(--motion-scale)) linear infinite; animation-play-state: paused; transform-origin: center; }
+.ic[data-i="loader"][data-ic-visible] { animation-play-state: running; }
+:root[data-ic-paused] .ic[data-i="loader"],
+[hidden] .ic[data-i="loader"], [inert] .ic[data-i="loader"] { animation-play-state: paused; }
 
 /* ---------------------------------------------------------------- shared keyframes */
 @keyframes ic-spin { to { transform: rotate(360deg); } }
@@ -88,6 +91,20 @@
 .is-anim[data-i="arrow-right"] .a,
 .is-anim[data-i="logout"] .a { animation: ic-through-x calc(520ms * var(--motion-scale)) both; }
 .is-anim[data-i="arrow-left"] .a { animation: ic-through-x-rev calc(520ms * var(--motion-scale)) both; }
+.is-anim[data-i="arrow-up"] .a { animation: ic-through-up var(--d-slower) both; }
+.is-anim[data-i="arrow-down"] .a { animation: ic-through-down var(--d-slower) both; }
+@keyframes ic-through-up {
+  0% { transform: none; opacity: 1; animation-timing-function: var(--ease-in); }
+  42% { transform: translateY(-7px); opacity: 0; }
+  43% { transform: translateY(7px); opacity: 0; animation-timing-function: var(--ease-out); }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes ic-through-down {
+  0% { transform: none; opacity: 1; animation-timing-function: var(--ease-in); }
+  42% { transform: translateY(7px); opacity: 0; }
+  43% { transform: translateY(-7px); opacity: 0; animation-timing-function: var(--ease-out); }
+  100% { transform: none; opacity: 1; }
+}
 .is-anim[data-i="arrow-up-right"] .a,
 .is-anim[data-i="external"] .a { animation: ic-through-diag calc(520ms * var(--motion-scale)) both; }
 .is-anim[data-i="chevron-right"] .a { animation: ic-nudge-x calc(420ms * var(--motion-scale)) cubic-bezier(0.22, 1, 0.36, 1); }
@@ -182,6 +199,25 @@
 @keyframes ic-click { 0%, 100% { transform: none; } 30% { transform: scale(0.84); } }
 @keyframes ic-click-rays { 0%, 25% { opacity: 0; transform: scale(0.6); } 50% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.15); } }
 
+/* A pin seats, a grip separates into two rails, and a stop absorbs momentum. */
+.is-anim[data-i="pin"] > .a { animation: ic-seat-pin var(--d-slower) var(--ease-out); transform-origin: 12px 21px; }
+@keyframes ic-seat-pin {
+  0%, 100% { transform: none; }
+  25% { transform: translateY(-3px) rotate(-8deg); }
+  55% { transform: translateY(.8px) rotate(2deg); }
+  78% { transform: translateY(-.3px); }
+}
+.is-anim[data-i="grip"] .a { animation: ic-grip-left var(--d-slow) var(--ease-in-out); }
+.is-anim[data-i="grip"] .b { animation: ic-grip-right var(--d-slow) var(--ease-in-out); }
+@keyframes ic-grip-left { 0%, 100% { transform: none; } 45% { transform: translateX(-1.5px); } }
+@keyframes ic-grip-right { 0%, 100% { transform: none; } 45% { transform: translateX(1.5px); } }
+.is-anim[data-i="stop"] .a { animation: ic-brake var(--d-slow) var(--ease-out); }
+@keyframes ic-brake {
+  0%, 100% { transform: none; }
+  25% { transform: scaleX(.78) scaleY(1.08); }
+  55% { transform: scaleX(1.05) scaleY(.97); }
+}
+
 /* objects */
 .is-anim[data-i="bell"] .a { animation: ic-ring calc(820ms * var(--motion-scale)) cubic-bezier(0.22, 1, 0.36, 1); transform-origin: 12px 4px; }
 .is-anim[data-i="bell"] .b { animation: ic-clapper calc(820ms * var(--motion-scale)) cubic-bezier(0.22, 1, 0.36, 1) calc(40ms * var(--motion-scale)); }
@@ -227,6 +263,11 @@
 
 .is-anim[data-i="document"] .l1 { animation: ic-draw calc(420ms * var(--motion-scale)) cubic-bezier(0.22, 1, 0.36, 1) both; }
 .is-anim[data-i="document"] .l2 { animation: ic-draw calc(420ms * var(--motion-scale)) cubic-bezier(0.22, 1, 0.36, 1) calc(120ms * var(--motion-scale)) both; }
+.is-anim[data-i="file-diff"] .a { animation: ic-diff-add var(--d-slow) var(--ease-out); }
+.is-anim[data-i="file-diff"] .b { animation: ic-draw var(--d-slow) var(--ease-out) var(--d-fast) both; }
+@keyframes ic-diff-add { 0%, 100% { transform: none; opacity: 1; } 35% { transform: translateY(-1.5px); opacity: .25; } 65% { transform: translateY(.4px); } }
+.is-anim[data-i="book-open"] .a { animation: ic-draw var(--d-slow) var(--ease-out) both; }
+.is-anim[data-i="book-open"] .b { animation: ic-draw var(--d-slow) var(--ease-out) var(--d-fast) both; }
 
 .is-anim[data-i="folder"] .b { animation: ic-folder calc(560ms * var(--motion-scale)) cubic-bezier(0.22, 1, 0.36, 1); transform-origin: 12px 19px; }
 @keyframes ic-folder { 0%, 100% { transform: none; } 40% { transform: translateY(2px) scaleX(0.9); opacity: 0.4; } }
@@ -281,6 +322,25 @@
 @keyframes ic-code-r { 0%, 100% { transform: none; } 40% { transform: translateX(2px); } }
 @keyframes ic-turn-slash { 0%, 100% { transform: none; } 40% { transform: rotate(-14deg); } }
 
+/* Trace the route before confirming its endpoint. No continuously moving dots. */
+.ic[data-i="git-branch"] circle.b,
+.ic[data-i="git-merge"] circle.b,
+.ic[data-i="git-commit"] circle.b { transform-box: fill-box; transform-origin: center; }
+.is-anim[data-i="git-branch"] .a,
+.is-anim[data-i="git-pull-request"] .a,
+.is-anim[data-i="git-merge"] .a { animation: ic-draw var(--d-slower) var(--ease-in-out) both; }
+.is-anim[data-i="git-branch"] .b,
+.is-anim[data-i="git-merge"] .b { animation: ic-node-arrive var(--d-slower) var(--ease-out); }
+@keyframes ic-node-arrive { 0%, 40%, 100% { transform: none; } 68% { transform: scale(1.16); } 84% { transform: scale(.96); } }
+.is-anim[data-i="git-pull-request"] .b { animation: ic-request-in var(--d-slower) var(--ease-in-out); }
+@keyframes ic-request-in { 0%, 40%, 100% { transform: none; } 68% { transform: translateX(-1.5px); } }
+.is-anim[data-i="git-commit"] .a { animation: ic-draw var(--d-slow) var(--ease-out) both; }
+.is-anim[data-i="git-commit"] .b { animation: ic-node-arrive var(--d-slower) var(--ease-out); }
+.is-anim[data-i="git-commit"] .c { animation: ic-draw var(--d-slow) var(--ease-out) var(--d-fast) both; }
+.is-anim[data-i="terminal"] .a { animation: ic-prompt var(--d-slower) var(--ease-out); }
+.is-anim[data-i="terminal"] .b { animation: ic-draw var(--d-slow) steps(3, end) var(--d-fast) both; }
+@keyframes ic-prompt { 0%, 100% { transform: none; } 35% { transform: translateX(1.5px); } 70% { transform: translateX(-.3px); } }
+
 .is-anim[data-i="grid"] .s1 { animation: ic-pop calc(480ms * var(--motion-scale)) both; }
 .is-anim[data-i="grid"] .s2 { animation: ic-pop calc(480ms * var(--motion-scale)) calc(60ms * var(--motion-scale)) both; }
 .is-anim[data-i="grid"] .s3 { animation: ic-pop calc(480ms * var(--motion-scale)) calc(120ms * var(--motion-scale)) both; }
@@ -312,5 +372,9 @@
 @keyframes ic-wobble { 0%, 100% { transform: none; } 30% { transform: rotate(-20deg); } 60% { transform: rotate(8deg); } }
 
 /* reduced motion: icons stay still, state is conveyed by colour/shape only */
-[data-motion="reduced"] .ic.is-anim * { animation: none !important; }
-@media (prefers-reduced-motion: reduce) { :root:not([data-motion="full"]) .ic.is-anim * { animation: none !important; } }
+[data-motion="reduced"] .ic.is-anim *,
+[data-motion="reduced"] .ic[data-i="loader"] { animation: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) .ic.is-anim *,
+  :root:not([data-motion="full"]) .ic[data-i="loader"] { animation: none !important; }
+}

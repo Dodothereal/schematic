@@ -13,15 +13,15 @@
   const collections = [
     ["Foundations", "Colour, type & spacing", "layers", "12 references"],
     ["Motion studies", "Curves with a purpose", "wave", "8 references"],
-    ["Navigation", "A clear way forward", "grid", "8 references"],
+    ["Navigation", "Menus, trees and flows", "grid", "8 references"],
     ["Field notes", "Thoughts from the process", "document", "6 references"],
-    ["Interface patterns", "The familiar, considered", "cube", "16 references"],
-    ["Team rituals", "Make room for the work", "users", "4 references"],
+    ["Interface patterns", "Buttons, forms and dialogs", "cube", "16 references"],
+    ["Team rituals", "Team processes", "users", "4 references"],
   ];
   const menuData = [
     {
       label: "Library",
-      title: "A place for every idea.",
+      title: "Library",
       kicker: "YOUR COLLECTION",
       icon: "layers",
       items: [
@@ -31,7 +31,7 @@
     },
     {
       label: "Workspace",
-      title: "Make something together.",
+      title: "Workspace",
       kicker: "SHARED SPACE",
       icon: "users",
       items: [
@@ -41,7 +41,7 @@
     },
     {
       label: "Resources",
-      title: "Keep a useful reference.",
+      title: "Resources",
       kicker: "GOOD TO HAVE",
       icon: "document",
       items: [
@@ -53,7 +53,7 @@
   const records = [
     ["Navigation study", "Exploration", "Today"],
     ["Colour in context", "Reference", "Today"],
-    ["A quieter toolbar", "Prototype", "Yesterday"],
+    ["Toolbar keyboard shortcuts", "Prototype", "Yesterday"],
     ["Spacing that breathes", "Reference", "Oct 24"],
     ["The first five minutes", "Research", "Oct 23"],
     ["Keyboard paths", "Checklist", "Oct 22"],
@@ -145,34 +145,32 @@
   const directions = [
     {
       name: "Editorial",
-      subtitle: "Let the story lead.",
-      desc: "Strong type, a measured grid and room for a thought to land.",
+      subtitle: "Component library",
+      desc: "Tokens, controls and documentation.",
       type: "editorial",
       tags: "TYPE / RHYTHM / SPACE",
     },
     {
       name: "Structural",
-      subtitle: "Show how it fits.",
-      desc: "Visible relationships make a complex system easier to understand.",
+      subtitle: "Project dashboard",
+      desc: "Track tasks, reviews and releases.",
       type: "structural",
       tags: "GRID / CONNECTION / ORDER",
     },
     {
       name: "Essential",
-      subtitle: "Find the useful core.",
-      desc: "A quieter canvas, with emphasis reserved for the next useful action.",
+      subtitle: "Admin dashboard",
+      desc: "Tables, filters and account settings.",
       type: "essential",
       tags: "FOCUS / CLARITY / INTENT",
     },
   ];
   const render = () => `<div class="pg-navigation">
-    ${S.pageHead({ icon: pageIcon, eyebrow: "Build / Paths & places", title: "Navigation", lead: "A clear way in. A familiar way back. Eight working patterns for moving through an interface with confidence.", meta: ['<span class="badge badge-accent">8 live specimens</span>', '<span class="badge">Keyboard included</span>', '<span class="badge">State stays with you</span>'] })}
-    <div class="nv-intro"><span class="nv-route-mark" aria-hidden="true"><i></i><i></i><i></i></span><p>Every choice leads somewhere.<br><span>Open a collection, follow a path, finish a flow.</span></p><span class="nv-intro-count t-mono" aria-hidden="true">01 — 08</span></div>
+    ${S.pageHead({ icon: pageIcon, eyebrow: "Build / Paths & places", title: "Navigation", lead: "Menus, search, trees and multi-step flows.", meta: [] })}
     ${S.section({
       id: "nv-menus",
       num: "01",
-      title: "An invitation to explore",
-      desc: "Keep the next destination close. A shared viewport follows the choice; search narrows the possibilities.",
+      title: "Menus and search",
       body: `<div class="grid cols-2">
       ${demo("Travelling navigation menu", "Switch destinations inside one continuous viewport. Escape returns to the trigger; a click outside closes it.", `<div class="nv-menu" data-nv-menu data-nv-open="false"><nav class="nv-menu-bar" aria-label="Library destinations" data-nv-menu-bar><span class="nv-menu-marker" data-nv-menu-marker aria-hidden="true"></span>${menuData.map((m, i) => `<button type="button" data-nv-menu-trigger="${i}" aria-expanded="false" aria-controls="nv-menu-panel-${i}">${m.label}${ic("chevron-down", 12)}</button>`).join("")}</nav><div class="nv-menu-space"><div class="nv-menu-hint"><span class="nv-orbit" aria-hidden="true">${ic("layers", 24)}</span><strong>Where shall we go?</strong><span>Choose a destination above.</span></div><div class="nv-menu-viewport" data-nv-menu-viewport inert aria-hidden="true"><span class="nv-menu-pointer" aria-hidden="true"></span><div class="nv-stack" data-nv-menu-stack>${menuData.map((m, i) => pane(String(i), `<div class="nv-menu-heading"><span class="t-eyebrow">${m.kicker}</span><strong>${m.title}</strong></div><div class="nv-menu-links">${m.items.map(([name, desc, icon]) => `<button type="button" data-nv-destination="${name}">${ic(icon, 18)}<span><strong>${name}</strong><small>${desc}</small></span><span class="nv-arrow">${ic("arrow-right", 14)}</span></button>`).join("")}</div>`, i === 0, `id="nv-menu-panel-${i}" aria-label="${m.label}"`)).join("")}</div></div></div></div>${status("menu", "Choose Library, Workspace or Resources.")}`, ["shared viewport", "arrows / escape"])}
       ${demo("Searchable collection picker", "Filter real collections. Arrow keys explore matches; Enter chooses. Your input keeps keyboard focus.", `<div class="nv-combo" data-nv-combo><label class="nv-label" for="nv-collection">Find a collection <span>6 available</span></label><div class="nv-combo-input">${ic("search")}<input id="nv-collection" data-nv-combo-input type="text" role="combobox" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-expanded="false" aria-controls="nv-collection-list" aria-describedby="nv-combo-help" placeholder="Search collections…"><span aria-hidden="true">${ic("chevrons-up-down", 14)}</span></div><div class="nv-combo-slot"><div class="nv-combo-rest" data-nv-combo-rest><span class="nv-orbit" aria-hidden="true">${ic("layers", 24)}</span><span class="t-eyebrow">CURRENT COLLECTION</span><strong data-nv-combo-selected>Foundations</strong><span data-nv-combo-detail>12 references · Colour, type & spacing</span></div><div class="nv-listbox" id="nv-collection-list" role="listbox" aria-label="Collections" data-nv-combo-list hidden>${collections.map(([name, desc, icon], i) => `<div role="option" id="nv-option-${i}" aria-selected="${i === 0}" data-nv-option="${i}">${ic(icon)}<span><strong>${name}</strong><small>${desc}</small></span><span class="nv-option-check">${ic("check", 14)}</span></div>`).join("")}<p class="nv-no-results" data-nv-no-results hidden>No matching collections. Try “motion” or “field”.</p></div></div><p id="nv-combo-help" class="nv-help">Type to filter · ↑ ↓ to explore · Enter to choose</p></div>${status("combo", "Foundations selected. Search six collections.")}`, ["actual filtering", "listbox / active descendant"])}
@@ -181,8 +179,7 @@
     ${S.section({
       id: "nv-wayfinding",
       num: "02",
-      title: "Know where you are",
-      desc: "Keep context visible while the content changes. A path carries history; a page number carries position.",
+      title: "Breadcrumbs and pagination",
       body: `<div class="grid cols-2">
       ${demo("Living breadcrumb trail", "Drill into a real folder hierarchy. Every ancestor remains a working way back, and the path draws as you go.", `<div class="nv-browser" data-nv-breadcrumb><nav aria-label="Sample folder breadcrumb" class="nv-breadcrumb" data-nv-crumbs></nav><div class="nv-path-line" aria-hidden="true"><span data-nv-path-line></span></div><div class="nv-folder-view" data-nv-folder-view></div><div class="nv-browser-foot"><span>${ic("folder", 14)} Local workspace</span><button type="button" class="nv-text-button" data-nv-folder-up>${ic("arrow-left", 14)} Up one level</button></div></div>${status("breadcrumb", "Workspace. Two folders to explore.")}`, ["working ancestors", "path / trace"])}
       ${demo(
@@ -212,14 +209,13 @@
     ${S.section({
       id: "nv-structure",
       num: "03",
-      title: "Make the structure tangible",
-      desc: "A hierarchy opens one branch at a time. A compact dock makes three views feel like one workspace.",
+      title: "Tree and dock",
       body: `<div class="grid cols-2">
       ${demo("Keyboard file tree", "Open nested folders and select a file. Use arrows to traverse, Right to expand and Left to return to its parent.", `<div class="nv-file-browser" data-nv-file-browser><div class="nv-mini-head"><span class="t-eyebrow">FIELDWORK / FILES</span><span class="nv-key-hint t-mono">↑ ↓ ← →</span></div><ul class="nv-tree" role="tree" aria-label="Fieldwork files" data-nv-tree>${treeMarkup(tree)}</ul><div class="nv-file-detail"><span data-nv-file-icon aria-hidden="true">${ic("folder", 18)}</span><span><strong data-nv-file-name>source</strong><small data-nv-file-desc>Choose a file to inspect its purpose.</small></span></div></div>${status("tree", "source is expanded. Two items inside.")}`, ["roving focus", "nested disclosure"])}
       ${demo(
         "Workspace action dock",
         "Board, list and activity show the same project from different angles. The selection travels; the controls stay grounded.",
-        `<div class="nv-dock-workspace" data-nv-dock><div class="nv-mini-head"><span class="t-eyebrow">FIELDWORK</span><span class="badge badge-dot">3 open tasks</span></div><div class="nv-stack nv-dock-stack" data-nv-dock-stack>${pane("0", `<div class="nv-board-view"><div><span>TO DO <b>2</b></span><p>Map the journey<small>Research · In progress</small></p><p>Find the quiet parts<small>Interface · Next</small></p></div><div><span>DONE <b>1</b></span><p class="nv-task-done">Choose a direction<small>Planning · Complete</small></p></div></div>`, true, 'id="nv-dock-panel-0" role="tabpanel" aria-labelledby="nv-dock-tab-0"')}${pane("1", `<ul class="nv-task-list"><li>${ic("check-circle")}<span>Choose a direction<small>Planning · Complete</small></span><span class="nv-task-tag">Done</span></li><li>${ic("clock")}<span>Map the journey<small>Research · In progress</small></span><span class="nv-task-tag">Now</span></li><li>${ic("document")}<span>Find the quiet parts<small>Interface · Next</small></span><span class="nv-task-tag">Next</span></li></ul>`, false, 'id="nv-dock-panel-1" role="tabpanel" aria-labelledby="nv-dock-tab-1"')}${pane("2", `<ol class="nv-activity"><li><span>09:42</span><p><strong>A direction, chosen.</strong><small>Planning moved to Done.</small></p></li><li><span>10:08</span><p><strong>Research is underway.</strong><small>The journey map is taking shape.</small></p></li><li><span>10:24</span><p><strong>A little room to explore.</strong><small>Interface study added to Next.</small></p></li></ol>`, false, 'id="nv-dock-panel-2" role="tabpanel" aria-labelledby="nv-dock-tab-2"')}</div><div class="nv-dock-bar" role="tablist" aria-label="Workspace view" data-nv-dock-bar><span class="nv-dock-marker" data-nv-dock-marker aria-hidden="true"></span>${[
+        `<div class="nv-dock-workspace" data-nv-dock><div class="nv-mini-head"><span class="t-eyebrow">FIELDWORK</span><span class="badge badge-dot">3 open tasks</span></div><div class="nv-stack nv-dock-stack" data-nv-dock-stack>${pane("0", `<div class="nv-board-view"><div><span>TO DO <b>2</b></span><p>Add search tests<small>Research · In progress</small></p><p>Update navigation<small>Interface · Next</small></p></div><div><span>DONE <b>1</b></span><p class="nv-task-done">Review design<small>Planning · Complete</small></p></div></div>`, true, 'id="nv-dock-panel-0" role="tabpanel" aria-labelledby="nv-dock-tab-0"')}${pane("1", `<ul class="nv-task-list"><li>${ic("check-circle")}<span>Review design<small>Planning · Complete</small></span><span class="nv-task-tag">Done</span></li><li>${ic("clock")}<span>Add search tests<small>Research · In progress</small></span><span class="nv-task-tag">Now</span></li><li>${ic("document")}<span>Update navigation<small>Interface · Next</small></span><span class="nv-task-tag">Next</span></li></ul>`, false, 'id="nv-dock-panel-1" role="tabpanel" aria-labelledby="nv-dock-tab-1"')}${pane("2", `<ol class="nv-activity"><li><span>09:42</span><p><strong>Design approved.</strong><small>Planning moved to Done.</small></p></li><li><span>10:08</span><p><strong>Tests started.</strong><small>Search tests are running.</small></p></li><li><span>10:24</span><p><strong>Navigation task added.</strong><small>Navigation update moved to Next.</small></p></li></ol>`, false, 'id="nv-dock-panel-2" role="tabpanel" aria-labelledby="nv-dock-tab-2"')}</div><div class="nv-dock-bar" role="tablist" aria-label="Workspace view" data-nv-dock-bar><span class="nv-dock-marker" data-nv-dock-marker aria-hidden="true"></span>${[
           ["grid", "Board"],
           ["menu", "List"],
           ["clock", "Activity"],
@@ -238,11 +234,10 @@
     ${S.section({
       id: "nv-flows",
       num: "04",
-      title: "A considered next step",
-      desc: "Give a small journey a beginning, a middle and an end. Let people move at their own pace, with a clear way back.",
+      title: "Wizard and carousel",
       body: `<div class="grid cols-2">
-      ${demo("Three-step workspace wizard", "Name a workspace, choose its owner and review the details. Native fields validate each step; Back preserves your work.", `<form class="nv-wizard" data-nv-wizard novalidate><ol class="nv-wizard-progress" aria-label="Workspace setup progress">${["Name", "Owner", "Review"].map((label, i) => `<li data-nv-wizard-step="${i}" ${i === 0 ? 'aria-current="step"' : ""}><span>${i + 1}</span>${label}</li>`).join("")}</ol><div class="nv-stack nv-wizard-stack" data-nv-wizard-stack>${pane("0", `<h3 tabindex="-1">First, give it a name.</h3><p class="nv-help">A small home for your next good idea.</p><label class="nv-label" for="nv-workspace-name">Workspace name</label><input class="nv-input" id="nv-workspace-name" name="workspace" type="text" required minlength="2" maxlength="40" autocomplete="organization" placeholder="e.g. Fieldwork" aria-describedby="nv-name-error"><p class="nv-field-error" id="nv-name-error" data-nv-name-error></p>`, true)}${pane("1", `<h3 tabindex="-1">Who is looking after it?</h3><p class="nv-help">A local sample. No invitations are sent.</p><label class="nv-label" for="nv-workspace-email">Owner’s email</label><input class="nv-input" id="nv-workspace-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" aria-describedby="nv-email-error"><p class="nv-field-error" id="nv-email-error" data-nv-email-error></p><label class="nv-label" for="nv-workspace-access">Visibility</label><select class="nv-input" id="nv-workspace-access" name="access"><option value="Private">Private · just the owner</option><option value="Shared">Shared · ready for a team</option></select>`)}${pane("2", `<div data-nv-wizard-review><h3 tabindex="-1">Everything in its place.</h3><p class="nv-help">Review your choices before creating the sample.</p><dl class="nv-review"><div><dt>Workspace</dt><dd data-nv-review-name></dd></div><div><dt>Owner</dt><dd data-nv-review-email></dd></div><div><dt>Visibility</dt><dd data-nv-review-access></dd></div></dl></div><div class="nv-wizard-success" data-nv-wizard-success hidden><span class="nv-orbit" aria-hidden="true">${ic("check", 24)}</span><h3 tabindex="-1">Room for something good.</h3><p data-nv-wizard-created></p><span class="badge badge-accent">Local sample created</span></div>`)}</div><div class="nv-wizard-actions"><button type="button" class="btn btn-secondary btn-sm" data-nv-wizard-back disabled>${ic("arrow-left", 14)} Back</button><span class="nv-wizard-count t-mono" data-nv-wizard-count>01 / 03</span><button type="submit" class="btn btn-primary btn-sm" data-nv-wizard-next><span data-nv-wizard-next-label>Next</span>${ic("arrow-right", 14)}</button></div></form>${status("wizard", "Step 1 of 3. Give your workspace a name.")}`, ["native validation", "state preserved"])}
-      ${demo("Project direction carousel", "Explore three original visual directions. Previous, Next, dots and arrow keys all control the same single active slide.", `<div class="nv-carousel" data-nv-carousel tabindex="0" role="region" aria-roledescription="carousel" aria-label="Project directions"><div class="nv-mini-head"><span class="t-eyebrow">A DIRECTION TO EXPLORE</span><span class="nv-mini-count" data-nv-slide-count>01 / 03</span></div><div class="nv-stack nv-carousel-stack" data-nv-carousel-stack>${directions.map((d, i) => pane(String(i), `<div class="nv-direction-art nv-art-${d.type}" aria-hidden="true"><span class="nv-art-index t-mono">0${i + 1}</span>${d.type === "editorial" ? "<strong>Room<br>to think.</strong><i></i><i></i>" : d.type === "structural" ? '<div class="nv-art-nodes"><i></i><i></i><i></i><i></i></div>' : '<div class="nv-art-focus"><i></i><i></i><i></i></div>'}<span class="nv-art-tags t-mono">${d.tags}</span></div><div class="nv-direction-copy"><span>${d.name}</span><h3>${d.subtitle}</h3><p>${d.desc}</p></div>`, i === 0, `role="group" aria-roledescription="slide" aria-label="${i + 1} of 3: ${d.name}"`)).join("")}</div><div class="nv-carousel-controls"><button type="button" class="nv-page-arrow" data-nv-slide-prev aria-label="Previous direction">${ic("arrow-left")}</button><div class="nv-slide-dots" aria-label="Choose a direction">${directions.map((d, i) => `<button type="button" data-nv-slide="${i}" aria-pressed="${i === 0}" aria-label="Show ${d.name} direction"><span></span></button>`).join("")}</div><button type="button" class="nv-page-arrow" data-nv-slide-next aria-label="Next direction">${ic("arrow-right")}</button></div><button type="button" class="nv-text-button nv-use-direction" data-nv-use-direction>Use this direction ${ic("arrow-right", 14)}</button></div>${status("carousel", "Direction 1 of 3. Editorial: let the story lead.")}`, ["directional travel", "one accessible slide"])}
+      ${demo("Three-step workspace wizard", "Name a workspace, choose its owner and review the details. Native fields validate each step; Back preserves your work.", `<form class="nv-wizard" data-nv-wizard novalidate><ol class="nv-wizard-progress" aria-label="Workspace setup progress">${["Name", "Owner", "Review"].map((label, i) => `<li data-nv-wizard-step="${i}" ${i === 0 ? 'aria-current="step"' : ""}><span>${i + 1}</span>${label}</li>`).join("")}</ol><div class="nv-stack nv-wizard-stack" data-nv-wizard-stack>${pane("0", `<h3 tabindex="-1">Workspace name</h3><p class="nv-help">Enter a name to continue.</p><label class="nv-label" for="nv-workspace-name">Workspace name</label><input class="nv-input" id="nv-workspace-name" name="workspace" type="text" required minlength="2" maxlength="40" autocomplete="organization" placeholder="e.g. Fieldwork" aria-describedby="nv-name-error"><p class="nv-field-error" id="nv-name-error" data-nv-name-error></p>`, true)}${pane("1", `<h3 tabindex="-1">Workspace owner</h3><p class="nv-help">A local sample. No invitations are sent.</p><label class="nv-label" for="nv-workspace-email">Owner’s email</label><input class="nv-input" id="nv-workspace-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" aria-describedby="nv-email-error"><p class="nv-field-error" id="nv-email-error" data-nv-email-error></p><label class="nv-label" for="nv-workspace-access">Visibility</label><select class="nv-input" id="nv-workspace-access" name="access"><option value="Private">Private · just the owner</option><option value="Shared">Shared · ready for a team</option></select>`)}${pane("2", `<div data-nv-wizard-review><h3 tabindex="-1">Review workspace</h3><p class="nv-help">Review your choices before creating the sample.</p><dl class="nv-review"><div><dt>Workspace</dt><dd data-nv-review-name></dd></div><div><dt>Owner</dt><dd data-nv-review-email></dd></div><div><dt>Visibility</dt><dd data-nv-review-access></dd></div></dl></div><div class="nv-wizard-success" data-nv-wizard-success hidden><span class="nv-orbit" aria-hidden="true">${ic("check", 24)}</span><h3 tabindex="-1">Workspace created</h3><p data-nv-wizard-created></p><span class="badge badge-accent">Local sample created</span></div>`)}</div><div class="nv-wizard-actions"><button type="button" class="btn btn-secondary btn-sm" data-nv-wizard-back disabled>${ic("arrow-left", 14)} Back</button><span class="nv-wizard-count t-mono" data-nv-wizard-count>01 / 03</span><button type="submit" class="btn btn-primary btn-sm" data-nv-wizard-next><span data-nv-wizard-next-label>Next</span>${ic("arrow-right", 14)}</button></div></form>${status("wizard", "Step 1 of 3. Give your workspace a name.")}`, ["native validation", "state preserved"])}
+      ${demo("Carousel", "Use arrows or dots to change slides.", `<div class="nv-carousel" data-nv-carousel tabindex="0" role="region" aria-roledescription="carousel" aria-label="Project directions"><div class="nv-mini-head"><span class="t-eyebrow">LAYOUTS</span><span class="nv-mini-count" data-nv-slide-count>01 / 03</span></div><div class="nv-stack nv-carousel-stack" data-nv-carousel-stack>${directions.map((d, i) => pane(String(i), `<div class="nv-direction-art nv-art-${d.type}" aria-hidden="true"><span class="nv-art-index t-mono">0${i + 1}</span>${d.type === "editorial" ? "<strong>Design<br>system</strong><i></i><i></i>" : d.type === "structural" ? '<div class="nv-art-nodes"><i></i><i></i><i></i><i></i></div>' : '<div class="nv-art-focus"><i></i><i></i><i></i></div>'}<span class="nv-art-tags t-mono">${d.tags}</span></div><div class="nv-direction-copy"><span>${d.name}</span><h3>${d.subtitle}</h3><p>${d.desc}</p></div>`, i === 0, `role="group" aria-roledescription="slide" aria-label="${i + 1} of 3: ${d.name}"`)).join("")}</div><div class="nv-carousel-controls"><button type="button" class="nv-page-arrow" data-nv-slide-prev aria-label="Previous direction">${ic("arrow-left")}</button><div class="nv-slide-dots" aria-label="Review design">${directions.map((d, i) => `<button type="button" data-nv-slide="${i}" aria-pressed="${i === 0}" aria-label="Show ${d.name} direction"><span></span></button>`).join("")}</div><button type="button" class="nv-page-arrow" data-nv-slide-next aria-label="Next direction">${ic("arrow-right")}</button></div><button type="button" class="nv-text-button nv-use-direction" data-nv-use-direction>Use this direction ${ic("arrow-right", 14)}</button></div>${status("carousel", "Slide 1 of 3. Component library.")}`, ["directional travel", "one accessible slide"])}
     </div>`,
     })}
   </div>`;
@@ -636,7 +631,7 @@
             `${i ? `<span class="nv-crumb-separator" aria-hidden="true">${ic("chevron-right", 12)}</span>` : ""}<button type="button" data-nv-folder="${id}" ${id === key ? 'aria-current="page"' : ""}>${id === "workspace" ? ic("home", 14) : ""}${folders[id].label}</button>`,
         )
         .join("");
-      folderView.innerHTML = `<div class="nv-folder-heading"><span class="t-eyebrow">${current.children.length ? "FOLDERS" : "INSIDE THE FOLDER"}</span><span class="t-mono">${String(current.children.length).padStart(2, "0")}</span></div>${current.children.length ? current.children.map((id) => `<button type="button" class="nv-folder-item" data-nv-folder="${id}">${ic("folder", 20)}<span><strong>${folders[id].label}</strong><small>${folders[id].children.length ? `${folders[id].children.length} folders` : "Ready for your work"}</small></span><span class="nv-arrow">${ic("arrow-right", 14)}</span></button>`).join("") : `<div class="nv-folder-empty">${ic("document", 24)}<strong>A little room to begin.</strong><span>${current.label} is ready for your next idea.</span></div>`}`;
+      folderView.innerHTML = `<div class="nv-folder-heading"><span class="t-eyebrow">${current.children.length ? "FOLDERS" : "INSIDE THE FOLDER"}</span><span class="t-mono">${String(current.children.length).padStart(2, "0")}</span></div>${current.children.length ? current.children.map((id) => `<button type="button" class="nv-folder-item" data-nv-folder="${id}">${ic("folder", 20)}<span><strong>${folders[id].label}</strong><small>${folders[id].children.length ? `${folders[id].children.length} folders` : "Ready for your work"}</small></span><span class="nv-arrow">${ic("arrow-right", 14)}</span></button>`).join("") : `<div class="nv-folder-empty">${ic("document", 24)}<strong>Empty folder</strong><span>${current.label} is ready for your next idea.</span></div>`}`;
       $("[data-nv-folder-up]").disabled = !current.parent;
       const pathLine = $("[data-nv-path-line]");
       pathLine.style.transform = `scaleX(${path.length / 4})`;

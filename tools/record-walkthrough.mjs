@@ -41,6 +41,14 @@ async function point(selector, { click = false, hover = 250 } = {}) {
   }
   await delay(hover);
 }
+async function drag(source, target) {
+  const bounds=await evaluate(`(()=>{const a=document.querySelector(${JSON.stringify(source)}).getBoundingClientRect(),b=document.querySelector(${JSON.stringify(target)}).getBoundingClientRect();return{from:{x:a.left+a.width/2,y:a.top+a.height/2},to:{x:b.left+b.width/2,y:b.top+b.height*.82}};})()`);
+  await evaluate(`document.querySelector('#film-cursor').style.transform='translate(${bounds.from.x}px,${bounds.from.y}px)'`);
+  await b.send('Input.dispatchMouseEvent',{type:'mouseMoved',...bounds.from});await delay(250);
+  await b.send('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...bounds.from});
+  for(let i=1;i<=12;i++){const x=bounds.from.x+(bounds.to.x-bounds.from.x)*i/12,y=bounds.from.y+(bounds.to.y-bounds.from.y)*i/12;await evaluate(`document.querySelector('#film-cursor').style.transform='translate(${x}px,${y}px)'`);await b.send('Input.dispatchMouseEvent',{type:'mouseMoved',buttons:1,x,y});await delay(40);}
+  await b.send('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...bounds.to});await delay(650);
+}
 async function navigate(id) { await evaluate(`Schematic.navigate(${JSON.stringify(id)})`); await delay(650); }
 async function scroll(selector, offset = 20) {
   await evaluate(`(()=>{const e=document.querySelector(${JSON.stringify(selector)});if(!e)throw Error('Missing scroll target');const v=document.querySelector('#viewport');Schematic.scrollTo(v.scrollTop+e.getBoundingClientRect().top-v.getBoundingClientRect().top-${offset});})()`); await delay(1000);
@@ -54,13 +62,22 @@ async function fill(selector, value) {
 async function key(name, code, virtual) { await b.send("Input.dispatchKeyEvent", { type: "keyDown", key: name, code, windowsVirtualKeyCode: virtual, ...(name === "Enter" ? { text: "\r" } : {}) }); await b.send("Input.dispatchKeyEvent", { type: "keyUp", key: name, code, windowsVirtualKeyCode: virtual }); await delay(250); }
 const actions = {
   async welcome() {
-    await delay(1400); await b.screenshot(join(assets, "walkthrough-poster.png"));
-    await point('[data-study-task]:nth-child(2)', { click: true, hover: 650 });
-    await point('.ov-study-tabs [data-value="1"]', { click: true, hover: 450 });
-    await point('[data-study-pin]:last-child', { click: true, hover: 750 });
-    await point('.ov-study-tabs [data-value="2"]', { click: true, hover: 400 });
-    await point('[data-study-reveal]', { click: true, hover: 800 });
-    await fill('[data-catalog-search]', 'accordion'); await delay(1000);
+    await delay(1200); await b.screenshot(join(assets, "walkthrough-poster.png"));
+    await fill('[data-catalog-search]', 'workspace');
+    await point('[data-catalog-id="workspace-0"]', {click:true,hover:800});
+  },
+  async workspace() {
+    await navigate('workspace'); await point('[data-ws-reset]',{click:true,hover:450});
+    await point('[data-ws-tab="checks"]',{click:true,hover:500});
+    await point('[data-ws-check="tests"]',{click:true,hover:1000});
+    await point('.ws-suggestions [data-ws-prompt="Fix the failed check"]',{click:true,hover:3300});
+    await point('[data-ws-tab="changes"]',{click:true,hover:500});
+    await point('.ws-file-tabs [data-ws-file="0"]',{click:true,hover:900});
+    await point('[data-ws-tab="pr"]',{click:true,hover:500});
+    await point('[data-ws-approve]',{click:true,hover:500});
+    await point('[data-ws-merge]',{click:true,hover:500});
+    await point('[data-ws-confirm-merge]',{click:true,hover:800});
+    await point('[data-ws-tab="activity"]',{click:true,hover:1000});
   },
   async guide() {
     await evaluate("Schematic.onboarding.open()"); await overlays(); await delay(1800);
@@ -79,8 +96,9 @@ const actions = {
     await navigate('primitives'); await scroll('#pr-disclosure');
     await point('[data-pr-accordion-trigger="1"]', { click: true, hover: 650 });
     await point('[data-pr-collapse]', { click: true, hover: 700 });
-    await scroll('#pr-layout'); await point('[data-pr-pin="review"]', { click: true, hover: 800 });
-    await point('[data-pr-sort-row="audit"] [data-pr-move="down"]', { click: true, hover: 700 });
+    await scroll('#pr-layout');
+    await drag('[data-pr-pin-row="review"] [data-pr-grip]','[data-pr-pin-zone="pinned"]');
+    await drag('[data-pr-sort-row="audit"] [data-pr-grip]','[data-pr-sort-row="handoff"]');
     await scroll('#pr-type'); await point('[data-pr-swap="2"]', { click: true, hover: 650 });
     await point('[data-pr-count="1"]', { click: true, hover: 600 });
     await scroll('#pr-surfaces'); await point('[data-pr-flip]', { click: true, hover: 800 });
@@ -106,7 +124,7 @@ const actions = {
   async table() { await scroll('#dt-records'); await fill('.pg-data [data-search]','Orbit Supply'); await point('[data-account="SC-1026"] td.dt-money',{click:true,hover:1100}); await point('[data-clear-selection]',{click:true,hover:500}); await fill('.pg-data [data-search]',''); await point('[data-table-sort=name]',{click:true,hover:700}); },
   async overlays() { await navigate('overlays'); await scroll('[data-ov-open=project]'); await point('[data-ov-open=project]',{click:true,hover:1500}); await key('Escape','Escape',27); await delay(500); await scroll('#ov-surfaces'); await point('[data-ov-open=drawer]',{click:true,hover:1400}); await key('Escape','Escape',27); await point('[data-ov-open=sheet]',{click:true,hover:1400}); await key('Escape','Escape',27); },
   async themes() { await navigate('overview'); await point('#theme-btn',{click:true,hover:1100}); await point('#tune-btn',{click:true}); await point('#palette-seg [data-value=mono]',{click:true,hover:900}); await point('#tune-btn',{click:true}); await point('#theme-btn',{click:true,hover:1100}); await point('[data-open-cmdk]',{click:true,hover:700}); await fill('.cmdk-input','icons'); await delay(500); await key('Enter','Enter',13); await delay(800); },
-  async finish() { await evaluate("Schematic.setPalette('color')"); await navigate('overview'); await evaluate("document.querySelector('#film-cursor').style.opacity='0'"); await delay(1200); },
+  async finish() { await evaluate("Schematic.setPalette('color')"); await navigate('overview'); await evaluate("document.querySelector('[data-catalog-clear]').click();document.querySelector('#viewport').scrollTop=0;document.querySelector('#film-cursor').style.opacity='0'"); await delay(1200); },
 };
 try {
   await b.open(pathToFileURL(join(workspace, "dist/schematic.html")).href);

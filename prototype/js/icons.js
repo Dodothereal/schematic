@@ -14,6 +14,8 @@
     /* ------------------------------------------------------------ arrows */
     "arrow-right": `<g class="a"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></g>`,
     "arrow-left": `<g class="a"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></g>`,
+    "arrow-up": `<g class="a"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></g>`,
+    "arrow-down": `<g class="a"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></g>`,
     "arrow-up-right": `<g class="a"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></g>`,
     "chevron-right": `<path class="a" d="M9.5 6l6 6-6 6"/>`,
     "chevron-down": `<path class="a" d="M6 9.5l6 6 6-6"/>`,
@@ -39,6 +41,9 @@
     "sliders": `<path d="M4 7h16M4 17h16"/><circle class="k1" cx="8" cy="7" r="2.2" fill="currentColor" stroke="none"/><circle class="k2" cx="16" cy="17" r="2.2" fill="currentColor" stroke="none"/>`,
     "play": `<path class="a" d="M7.5 4.8v14.4a.8.8 0 0 0 1.2.7l11.3-7.2a.8.8 0 0 0 0-1.4L8.7 4.1a.8.8 0 0 0-1.2.7z"/>`,
     "pause": `<path class="a" d="M8 5v14"/><path class="b" d="M16 5v14"/>`,
+    "stop": `<rect class="a" x="6" y="6" width="12" height="12" rx="2"/>`,
+    "pin": `<g class="a"><path d="M9 3.5h6l-1 6 4 4H6l4-4z"/><path class="b" d="M12 13.5v7"/></g>`,
+    "grip": `<g class="a"><circle cx="9" cy="5" r=".9"/><circle cx="9" cy="12" r=".9"/><circle cx="9" cy="19" r=".9"/></g><g class="b"><circle cx="15" cy="5" r=".9"/><circle cx="15" cy="12" r=".9"/><circle cx="15" cy="19" r=".9"/></g>`,
     "more": `<circle class="d1" cx="5.5" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle class="d2" cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle class="d3" cx="18.5" cy="12" r="1.3" fill="currentColor" stroke="none"/>`,
     "menu": `<path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h10"/>`,
     "command": `<path class="a" d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/>`,
@@ -56,6 +61,8 @@
     "calendar": `<rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M4 10h16"/><path class="a" d="M8.5 3.5v4M15.5 3.5v4"/><path class="b" d="M8.5 14h.01M12 14h.01M15.5 14h.01M8.5 17h.01M12 17h.01"/>`,
     "clock": `<circle cx="12" cy="12" r="8.5"/><path class="a" d="M12 12V7"/><path class="b" d="M12 12l3 2"/>`,
     "document": `<path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5z"/><path d="M14 3.5v5h5"/><path class="l1 draw" pathLength="1" d="M8.5 12.5h7"/><path class="l2 draw" pathLength="1" d="M8.5 16h5"/>`,
+    "file-diff": `<path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5zM14 3.5v5h5"/><g class="a"><path d="M8.5 12h7M12 9.5v5"/></g><path class="b draw" pathLength="1" d="M8.5 17h7"/>`,
+    "book-open": `<path d="M12 5.5C9 3.8 5.8 4 3 5v14c2.8-1 6-1.2 9 .5 3-1.7 6.2-1.5 9-.5V5c-2.8-1-6-1.2-9 .5ZM12 5.5v14"/><path class="a draw" pathLength="1" d="M6 8.5c1-.2 2-.1 3 .4M6 12c1-.2 2-.1 3 .4"/><path class="b draw" pathLength="1" d="M15 8.9c1-.5 2-.6 3-.4M15 12.4c1-.5 2-.6 3-.4"/>`,
     "folder": `<path class="a" d="M3.5 7.5a2 2 0 0 1 2-2h3.6a2 2 0 0 1 1.4.6l1.4 1.4h6.6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path class="b" d="M3.5 11h17"/>`,
     "chat": `<path d="M20.5 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 20.5 12z"/><circle class="d1" cx="8.5" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle class="d2" cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle class="d3" cx="15.5" cy="12" r="1.1" fill="currentColor" stroke="none"/>`,
     "user": `<circle class="a" cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/>`,
@@ -72,6 +79,11 @@
     "input": `<rect x="2.5" y="6.5" width="19" height="11" rx="2.5"/><path class="a" d="M7.5 9.5v5"/>`,
     "sidebar": `<rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path class="a" d="M9 4.5v15"/>`,
     "code": `<path class="a" d="M8.5 7.5L4 12l4.5 4.5"/><path class="b" d="M15.5 7.5L20 12l-4.5 4.5"/><path class="c" d="M13.5 5.5l-3 13"/>`,
+    "terminal": `<rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path class="a" d="m6.5 9 3 3-3 3"/><path class="b draw" pathLength="1" d="M12.5 15h5"/>`,
+    "git-branch": `<path d="M6 8v8"/><path class="a draw" pathLength="1" d="M6 16c0-6 12-1 12-8"/><circle class="b" cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="5.5" r="2.5"/><circle cx="6" cy="18.5" r="2.5"/>`,
+    "git-pull-request": `<path d="M6 8v8"/><circle cx="6" cy="5.5" r="2.5"/><circle cx="6" cy="18.5" r="2.5"/><path class="a draw" pathLength="1" d="M18 16V9a3.5 3.5 0 0 0-3.5-3.5H12"/><path class="b" d="m15 2.5-3 3 3 3"/><circle cx="18" cy="18.5" r="2.5"/>`,
+    "git-merge": `<path d="M6 8v8"/><circle cx="6" cy="5.5" r="2.5"/><circle cx="6" cy="18.5" r="2.5"/><path class="a draw" pathLength="1" d="M6 8c0 5 12 1 12 8"/><circle class="b" cx="18" cy="18.5" r="2.5"/>`,
+    "git-commit": `<path class="a draw" pathLength="1" d="M3 12h5"/><circle class="b" cx="12" cy="12" r="4"/><path class="c draw" pathLength="1" d="M16 12h5"/>`,
     "grid": `<rect class="s1" x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect class="s2" x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect class="s3" x="13.5" y="13.5" width="6.5" height="6.5" rx="1.6"/><rect class="s4" x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/>`,
 
     /* ------------------------------------------------------------ data */
@@ -111,20 +123,49 @@
     return `<svg class="ic${o.cls ? " " + o.cls : ""}" data-i="${name}"${anim} viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ${a11y}>${body}</svg>`;
   };
 
-  /** Play an icon's animation once, to completion. Re-entrant safe. */
-  S.playIcon = (svg) => {
-    if (!svg || S.reduced?.() || svg.classList.contains("is-anim")) return;
-    svg.classList.add("is-anim");
-    const anims = svg.getAnimations ? svg.getAnimations({ subtree: true }) : [];
-    if (!anims.length) { svg.classList.remove("is-anim"); return; }
-    Promise.all(anims.map((a) => a.finished.catch(() => {}))).then(() => svg.classList.remove("is-anim"));
+  const root = document.documentElement;
+  const preference = matchMedia("(prefers-reduced-motion: reduce)");
+  const active = new Map();
+  const reduced = () => root.dataset.motion === "reduced" ||
+    (root.dataset.motion !== "full" && preference.matches) || S.reduced?.();
+  const visible = (svg) => {
+    if (!svg.isConnected || document.hidden || svg.closest("[hidden], [inert]")) return false;
+    // An entering toast can start at opacity zero or just outside the viewport.
+    // Its finite verb should accompany entry; loaders use viewport observation.
+    if (svg.checkVisibility && !svg.checkVisibility({ checkVisibilityCSS: true })) return false;
+    const box = svg.getBoundingClientRect();
+    return box.width > 0 && box.height > 0;
+  };
+  const finish = (svg, entry) => {
+    if (active.get(svg) !== entry) return;
+    clearTimeout(entry.timer);
+    active.delete(svg);
+    entry.animations.forEach((animation) => animation.cancel());
+    svg.classList.remove("is-anim");
   };
 
-  const TRIGGER = 'button, a, summary, label, [role="button"], [role="tab"], [role="option"], [role="menuitem"], [data-ic-trigger]';
-  S.ICON_TRIGGER = TRIGGER;
+  /** Play one visible icon. A second trigger never restarts a moving stroke. */
+  S.playIcon = (svg) => {
+    if (!svg?.matches?.(".ic[data-i]") || LOOPING.has(svg.dataset.i) || reduced() || !visible(svg) || active.has(svg)) return;
+    svg.classList.add("is-anim");
+    const animations = (svg.getAnimations?.({ subtree: true }) || []).filter((animation) =>
+      animation.animationName?.startsWith("ic-") && Number.isFinite(animation.effect.getComputedTiming().endTime));
+    if (!animations.length) { svg.classList.remove("is-anim"); return; }
+    const entry = { animations };
+    active.set(svg, entry);
+    const duration = Math.max(...animations.map((animation) => animation.effect.getComputedTiming().endTime));
+    // Also settle detached nodes and paused/cancelled animations; no retained task.
+    entry.timer = setTimeout(() => finish(svg, entry), Math.min(duration + 100, 10000));
+    Promise.all(animations.map((animation) => animation.finished.catch(() => {}))).then(() => finish(svg, entry));
+  };
 
+  const TRIGGER = 'button, a, summary, label, [role="button"], [role="tab"], [role="option"], [role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"], [role="checkbox"], [role="radio"], [role="switch"], [role="treeitem"], [role="combobox"], [data-ic-trigger], [tabindex]:not([tabindex="-1"])';
+  S.ICON_TRIGGER = TRIGGER;
+  const disabled = (host) => host.closest('[disabled], [aria-disabled="true"], [inert]') || (host.matches("label") && host.control?.disabled);
   const playWithin = (host) => {
-    host.querySelectorAll(".ic[data-anim]").forEach((svg) => {
+    if (!host || disabled(host)) return;
+    const icons = host.matches(".ic[data-anim]") ? [host] : host.querySelectorAll(".ic[data-anim]");
+    icons.forEach((svg) => {
       if (svg.closest(TRIGGER) === host || host.matches("[data-ic-deep]")) S.playIcon(svg);
     });
   };
@@ -137,8 +178,8 @@
   }, { passive: true });
 
   document.addEventListener("focusin", (e) => {
-    const t = e.target;
-    if (t.matches?.(":focus-visible") && t.matches(TRIGGER)) playWithin(t);
+    const host = e.target.closest?.(TRIGGER) || e.target.labels?.[0];
+    if (host && !(e.relatedTarget && host.contains(e.relatedTarget))) playWithin(host);
   });
 
   /* Touch: play on press so mobile users still get the feedback */
@@ -147,4 +188,82 @@
     const host = e.target.closest?.(TRIGGER);
     if (host) playWithin(host);
   }, { passive: true });
+
+  const OUTCOME = '[data-ic-enter], [role="status"], [role="alert"], [aria-live="polite"], [aria-live="assertive"]';
+  const STATE = '[data-result], [data-state], [data-status], [data-tool-state], [aria-busy]';
+  const stateAttributes = ["data-result", "data-state", "data-status", "data-tool-state", "aria-busy", "aria-pressed", "aria-checked", "aria-expanded"];
+  const loaders = new Set();
+  const loaderObserver = typeof IntersectionObserver === "function" ? new IntersectionObserver((entries) => {
+    entries.forEach(({ target, isIntersecting }) => target.toggleAttribute("data-ic-visible", isIntersecting));
+  }) : null;
+  const watchLoader = (svg) => {
+    if (loaders.has(svg)) return;
+    loaders.add(svg);
+    if (loaderObserver) loaderObserver.observe(svg);
+    else svg.toggleAttribute("data-ic-visible", visible(svg));
+  };
+  const settle = () => {
+    const off = reduced();
+    root.toggleAttribute("data-ic-paused", document.hidden || off);
+    active.forEach((entry, svg) => { if (off || !visible(svg)) finish(svg, entry); });
+    loaders.forEach((svg) => {
+      if (svg.isConnected) return;
+      loaderObserver?.unobserve(svg);
+      svg.removeAttribute("data-ic-visible");
+      loaders.delete(svg);
+    });
+  };
+  const ownIcons = (host) => {
+    const icons = [...host.querySelectorAll(".ic[data-anim]")];
+    if (host.matches(".ic[data-anim]")) icons.unshift(host);
+    return icons.filter((svg) => !svg.closest(TRIGGER) || svg.closest(TRIGGER) === host);
+  };
+  const onReady = () => {
+    document.querySelectorAll('.ic[data-i="loader"]').forEach(watchLoader);
+    settle();
+    new MutationObserver((records) => {
+      const candidates = new Set();
+      records.forEach((record) => {
+        if (record.type === "attributes") {
+          if (stateAttributes.includes(record.attributeName) && record.oldValue !== record.target.getAttribute(record.attributeName)) {
+            // Animate the changed control/status, not every icon in its subtree.
+            const host = record.target;
+            if (host.matches(`${TRIGGER}, ${OUTCOME}, ${STATE}`)) {
+              const icon = ownIcons(host)[0];
+              if (icon) candidates.add(icon);
+            }
+          }
+          return;
+        }
+        record.addedNodes.forEach((node) => {
+          if (node.nodeType !== 1) return;
+          const icons = [...node.querySelectorAll(".ic[data-i]")];
+          if (node.matches(".ic[data-i]")) icons.unshift(node);
+          icons.forEach((svg) => {
+            if (svg.dataset.i === "loader") { watchLoader(svg); return; }
+            if (!svg.hasAttribute("data-anim")) return;
+            const host = svg.closest(TRIGGER);
+            const engaged = host && !disabled(host) && (host.contains(document.activeElement) || host.matches(":hover"));
+            // The existing insertion target is deliberate: preparing a whole page
+            // must not play all of its static status labels and decorations.
+            const context = record.target.closest?.(`${OUTCOME}, ${STATE}`);
+            const first = context && ownIcons(context)[0] === svg;
+            const enter = svg.closest("[data-ic-enter]");
+            if (engaged || first || (enter && ownIcons(enter)[0] === svg)) candidates.add(svg);
+          });
+        });
+      });
+      settle();
+      candidates.forEach(S.playIcon);
+    }).observe(document.body, {
+      subtree: true, childList: true, attributes: true, attributeOldValue: true,
+      attributeFilter: [...stateAttributes, "hidden", "inert"],
+    });
+    new MutationObserver(settle).observe(root, { attributes: true, attributeFilter: ["data-motion"] });
+  };
+  document.addEventListener("visibilitychange", settle);
+  preference.addEventListener("change", settle);
+  window.addEventListener("pagehide", () => active.forEach((entry, svg) => finish(svg, entry)));
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", onReady, { once: true });
+  else onReady();
 })();
