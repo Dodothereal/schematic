@@ -16,15 +16,15 @@
   const render = () => {
     const catalog = S.galleryEntries();
     return `<div class="pg-overview">
-      <header class="ov-header"><h1 class="ov-title" tabindex="-1">Component <span class="ov-title-accent">library</span></h1><a class="btn btn-secondary btn-sm" href="https://github.com/Dodothereal/schematic" target="_blank" rel="noreferrer">Source ${icon("arrow-up-right", 14)}</a></header>
-      <section class="sec ov-browser" id="ov-library" data-toc="Components"><div class="ov-library-tools"><label class="ov-search">${icon("search", 18)}<input type="search" data-catalog-search placeholder="Search accordion, spring, button…" aria-label="Search the component library" autocomplete="off"><kbd class="kbd" aria-hidden="true">/</kbd></label><div class="ov-filters" role="group" aria-label="Filter specimens">${categories.map(([value, label], i) => `<button type="button" data-catalog-filter="${value}" aria-pressed="${i === 0}">${label}</button>`).join("")}</div></div><div class="ov-result-head"><span class="t-caption" role="status" data-catalog-count>${catalog.length} examples</span><button type="button" class="btn btn-ghost btn-sm" data-catalog-clear hidden>Clear filters ${icon("x", 12)}</button></div><div class="ov-catalog">${catalog
+      <header class="ov-header"><h1 class="ov-title" tabindex="-1"><span class="ov-title-mask"><span class="ov-title-word">Component</span></span> <span class="ov-title-mask ov-title-accent"><span class="ov-title-word">library</span></span></h1><a class="btn btn-secondary btn-sm" href="https://github.com/Dodothereal/schematic" target="_blank" rel="noreferrer">Source ${icon("arrow-up-right", 14)}</a></header>
+      <section class="sec ov-browser" id="ov-library" data-toc="Components"><div class="ov-library-tools"><div class="ov-search">${S.icon("search", { size: 18, anim: false })}<input type="search" data-catalog-search placeholder="Search accordion, spring, button…" aria-label="Search the component library" autocomplete="off"><span class="ov-search-end"><kbd class="kbd" aria-hidden="true">/</kbd><button type="button" class="ov-search-reset" data-catalog-reset-query aria-label="Clear search" hidden>${icon("x", 14)}</button></span><span class="ov-search-activity" aria-hidden="true"></span></div><div class="ov-filters" role="group" aria-label="Filter specimens"><span class="ov-filter-indicator" aria-hidden="true"></span>${categories.map(([value, label], i) => `<button type="button" data-catalog-filter="${value}" aria-pressed="${i === 0}">${label}</button>`).join("")}</div></div><div class="ov-result-head"><span class="t-caption" role="status" aria-live="polite" aria-atomic="true" data-catalog-count>${catalog.length} examples</span><button type="button" class="btn btn-ghost btn-sm" data-catalog-clear hidden>Clear filters ${icon("x", 12)}</button></div><div class="ov-results"><div class="ov-catalog">${catalog
         .map((entry) => {
           const preview = S.galleryPreview.render(entry.id);
           return `<article class="ov-specimen-card${preview ? " is-preview" : ""}" ${preview ? "data-has-preview" : ""} data-gallery-card="${entry.id}">${preview}<a class="ov-specimen" href="#/${entry.page}" data-specimen="${entry.index}" data-catalog-id="${entry.id}"><span class="ov-specimen-icon">${icon(entry.icon, 20)}</span><span class="ov-specimen-copy"><span class="t-eyebrow">${entry.collection}</span><strong>${S.esc(entry.title)}</strong><span class="ov-specimen-desc">${S.esc(entry.desc || "")}</span></span><span class="ov-specimen-go">${icon("arrow-up-right", 16)}</span></a></article>`;
         })
         .join(
           "",
-        )}</div><div class="ov-empty" data-catalog-empty hidden>${icon("search", 24)}<h3>No matches.</h3><p>Try another search or clear the filters.</p></div><div class="ov-load-row"><button type="button" class="btn btn-secondary" data-catalog-more>Show more ${icon("plus", 16)}</button></div></section>
+        )}</div><div class="ov-empty" data-catalog-empty hidden>${S.icon("search", { size: 24, anim: false })}<h3>No matches.</h3><p>Try another search or clear the filters.</p></div><div class="ov-result-exits" aria-hidden="true" inert></div></div><div class="ov-load-row"><button type="button" class="btn btn-secondary" data-catalog-more>Show more ${icon("plus", 16)}</button></div></section>
       <section class="sec ov-previews" id="ov-preview" data-toc="Preview"><h2 class="t-h2">Preview</h2><div class="ov-workbench" aria-label="Component previews">
           <div class="seg seg-block ov-study-tabs" role="group" aria-label="Choose an interaction study">${studies.map((label, i) => `<button class="seg-btn" data-value="${i}">${label}</button>`).join("")}</div>
           <div class="ov-study-stage">
@@ -72,6 +72,177 @@
     </div>`;
   };
 
+  // Keep results live while their presentation changes. Read displayed geometry
+  // before cancelling a previous transition so rapid input continues in place.
+  function catalogMotion(page, state) {
+    const $ = (s) => page.querySelector(s),
+      cards = [...page.querySelectorAll("[data-gallery-card]")],
+      results = $(".ov-results"),
+      exits = $(".ov-result-exits"),
+      filters = $(".ov-filters"),
+      indicator = $(".ov-filter-indicator"),
+      motions = new Map(),
+      ghosts = new Map();
+    let ghostId = 0;
+    const enabled = () => state.active && !document.hidden && !S.reduced();
+    const cancel = (el) => {
+      motions.get(el)?.cancel();
+      motions.delete(el);
+    };
+    const play = (el, frames, duration = 420, delay = 0, easing = S.curve.outExpo) => {
+      cancel(el);
+      if (!enabled()) return;
+      const animation = el.animate(frames, {
+        duration: S.dur(duration), delay: S.dur(delay), easing, fill: "both",
+      });
+      motions.set(el, animation);
+      animation.finished.then(() => {
+        if (motions.get(el) !== animation) return;
+        motions.delete(el);
+        animation.cancel();
+      }).catch(() => {});
+      return animation;
+    };
+    const dropGhost = (id) => {
+      const ghost = ghosts.get(id);
+      if (!ghost) return;
+      cancel(ghost);
+      ghost.remove();
+      ghosts.delete(id);
+    };
+    const snapshot = (el) => ({ rect: el.getBoundingClientRect(), opacity: getComputedStyle(el).opacity });
+    function placeIndicator(animate = true) {
+      const selected = filters.querySelector('[aria-pressed="true"]');
+      if (!selected || !state.active || document.hidden) return;
+      const previous = indicator.hasAttribute("data-ready") ? snapshot(indicator) : null;
+      cancel(indicator);
+      const box = selected.getBoundingClientRect(), parent = filters.getBoundingClientRect();
+      const x = box.left - parent.left, y = box.top - parent.top;
+      Object.assign(indicator.style, { width: `${box.width}px`, height: `${box.height}px`, transform: `translate(${x}px, ${y}px)` });
+      indicator.setAttribute("data-ready", "");
+      if (animate && previous) play(indicator, [
+        { transform: `translate(${previous.rect.left - parent.left}px, ${previous.rect.top - parent.top}px)`, width: `${previous.rect.width}px`, height: `${previous.rect.height}px` },
+        { transform: `translate(${x}px, ${y}px)`, width: `${box.width}px`, height: `${box.height}px` },
+      ], 440);
+    }
+    function exitCard(card, before, origin) {
+      const id = card.dataset.galleryCard;
+      dropGhost(id);
+      const ghost = card.cloneNode(true), prefix = `ov-exit-${++ghostId}-`;
+      ghost.hidden = false;
+      ghost.querySelector(".ov-specimen").hidden = false;
+      // Presentation only: no duplicate control hooks, IDs, focus or live regions.
+      [ghost, ...ghost.querySelectorAll("*")].forEach((node) => {
+        [...node.attributes].forEach(({ name, value }) => {
+          if (name.startsWith("data-") || ["aria-live", "aria-controls", "aria-labelledby", "aria-describedby", "name", "for", "href", "tabindex", "role"].includes(name)) node.removeAttribute(name);
+          if (name === "id") node.id = prefix + value;
+          if (value.includes("url(#")) node.setAttribute(name, value.replaceAll("url(#", `url(#${prefix}`));
+        });
+      });
+      ghost.inert = true;
+      ghost.setAttribute("aria-hidden", "true");
+      ghost.classList.add("ov-result-ghost");
+      Object.assign(ghost.style, {
+        position: "absolute", left: `${before.rect.left - origin.left}px`, top: `${before.rect.top - origin.top}px`,
+        width: `${before.rect.width}px`, height: `${before.rect.height}px`, margin: "0",
+      });
+      exits.append(ghost);
+      ghosts.set(id, ghost);
+      const animation = play(ghost, [
+        { opacity: before.opacity, transform: "none" },
+        { opacity: 0, transform: "translateY(-6px)" },
+      ], 110, 0, S.curve.in);
+      animation?.finished.then(() => { if (ghosts.get(id) === ghost) dropGhost(id); }).catch(() => {});
+    }
+    function update(mutate, { typing = false } = {}) {
+      const animate = enabled(), previous = new Map();
+      const origin = results.getBoundingClientRect(), oldCount = $("[data-catalog-count]").textContent;
+      const queryResetWasHidden = $("[data-catalog-reset-query]").hidden;
+      const clearWasHidden = $("[data-catalog-clear]").hidden;
+      if (animate) {
+        cards.filter((card) => !card.hidden).forEach((card) => previous.set(card.dataset.galleryCard, snapshot(card)));
+        ghosts.forEach((ghost, id) => { if (!previous.has(id)) previous.set(id, snapshot(ghost)); });
+      }
+      cards.forEach(cancel);
+      cancel(results);
+      mutate();
+      placeIndicator();
+      if (!animate) return;
+      const nextOrigin = results.getBoundingClientRect();
+      const visible = cards.filter((card) => !card.hidden);
+      const visibleIds = new Set(visible.map((card) => card.dataset.galleryCard));
+      // Old cards remain as inert paint for the short exit, outside grid layout.
+      cards.forEach((card) => {
+        const id = card.dataset.galleryCard, before = previous.get(id);
+        if (card.hidden && before && !ghosts.has(id)) exitCard(card, before, nextOrigin);
+      });
+      let entering = 0;
+      visible.forEach((card) => {
+        const id = card.dataset.galleryCard, before = previous.get(id), after = card.getBoundingClientRect();
+        dropGhost(id);
+        if (before) {
+          const dx = before.rect.left - after.left, dy = before.rect.top - after.top;
+          if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5 || Number(before.opacity) < 0.999) play(card, [
+            { transform: `translate(${dx}px, ${dy}px)`, opacity: before.opacity },
+            { transform: "none", opacity: 1 },
+          ], 420, 65);
+        } else {
+          // Bound the stagger; a long result list must never queue seconds of motion.
+          play(card, [{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], 380, 85 + Math.min(entering++, 5) * 22);
+        }
+      });
+      // Nothing below the results jumps when filters change the number of rows.
+      if (Math.abs(origin.height - nextOrigin.height) > 0.5) play(results, [
+        { height: `${origin.height}px` }, { height: `${nextOrigin.height}px` },
+      ], 440);
+      if (oldCount !== $("[data-catalog-count]").textContent) play($("[data-catalog-count]"), [
+        { opacity: 0, transform: "translateY(5px)" }, { opacity: 1, transform: "none" },
+      ], 280);
+      if (queryResetWasHidden && !$("[data-catalog-reset-query]").hidden) play($("[data-catalog-reset-query]"), [
+        { opacity: 0, transform: "rotate(-20deg)" }, { opacity: 1, transform: "none" },
+      ], 260);
+      if (clearWasHidden && !$("[data-catalog-clear]").hidden) play($("[data-catalog-clear]"), [
+        { opacity: 0, transform: "translateX(4px)" }, { opacity: 1, transform: "none" },
+      ], 280);
+      if (!$("[data-catalog-empty]").hidden && !visibleIds.size) play($("[data-catalog-empty]"), [
+        { opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" },
+      ], 360, 60);
+      if (typing) play($(".ov-search-activity"), [
+        { opacity: 0.75, transform: "scaleX(0)" },
+        { opacity: 0.75, transform: "scaleX(1)", offset: 0.7 },
+        { opacity: 0, transform: "scaleX(1)" },
+      ], 520, 0, S.curve.inOut);
+    }
+    const stop = () => {
+      motions.forEach((animation) => animation.cancel());
+      motions.clear();
+      [...ghosts.keys()].forEach(dropGhost);
+    };
+    const enter = () => {
+      placeIndicator(false);
+      if (!enabled()) return;
+      const viewport = document.querySelector("#viewport").getBoundingClientRect();
+      if ($(".ov-header").getBoundingClientRect().bottom < viewport.top) return;
+      [...page.querySelectorAll(".ov-title-word")].forEach((word, i) => play(word, [
+        { transform: "translateY(105%)", opacity: 0 }, { transform: "none", opacity: 1 },
+      ], 620, i * 65));
+      [$(".ov-header > a"), $(".ov-search"), filters].forEach((el, i) => play(el, [
+        { opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" },
+      ], 460, 80 + i * 45));
+    };
+    let filterSize;
+    new ResizeObserver(([entry]) => {
+      if (!state.active || !entry.contentRect.width || !entry.contentRect.height) return;
+      const next = `${entry.contentRect.width}:${entry.contentRect.height}`;
+      if (filterSize && next !== filterSize) stop();
+      filterSize = next;
+      placeIndicator(false);
+    }).observe(filters);
+    new MutationObserver(() => { if (S.reduced()) { stop(); placeIndicator(false); } }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-motion", "style"] });
+    matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", () => { if (S.reduced()) { stop(); placeIndicator(false); } });
+    return { update, enter, stop };
+  }
+
   function mount(root) {
     const page = root.querySelector(".pg-overview"),
       $ = (s) => page.querySelector(s),
@@ -101,9 +272,11 @@
       );
     };
     state.gallery = S.galleryPreview.mount(page);
+    state.catalogMotion = catalogMotion(page, state);
     state.stop = () => {
       stop();
       state.gallery.stop();
+      state.catalogMotion.stop();
     };
     $("[data-open-cmdk-ov]").addEventListener("click", () => S.cmdk.open());
     $("[data-browse-library]").addEventListener("click", () => {
@@ -217,7 +390,7 @@
       elements = new Map(
         $$("[data-catalog-id]").map((el) => [el.dataset.catalogId, el]),
       );
-    function filter() {
+    function filter(options) {
       const query = $("[data-catalog-search]").value.trim().toLocaleLowerCase();
       const matches = entries.filter(
         (e) =>
@@ -227,26 +400,28 @@
             .includes(query),
       );
       const visible = new Set(matches.slice(0, state.limit).map((e) => e.id));
-      elements.forEach((el, id) => {
-        el.hidden = !visible.has(id);
-        el.closest(".ov-specimen-card").hidden = el.hidden;
-      });
+      state.catalogMotion.update(() => {
+        elements.forEach((el, id) => {
+          el.hidden = !visible.has(id);
+          el.closest(".ov-specimen-card").hidden = el.hidden;
+        });
+        $("[data-catalog-count]").textContent =
+          `${matches.length} ${matches.length === 1 ? "example" : "examples"}`;
+        $("[data-catalog-empty]").hidden = matches.length !== 0;
+        $("[data-catalog-more]").hidden = matches.length <= state.limit;
+        $("[data-catalog-clear]").hidden = !query && state.category === "all";
+        const hasQuery = $("[data-catalog-search]").value.length > 0;
+        $(".ov-search").toggleAttribute("data-has-query", hasQuery);
+        $("[data-catalog-reset-query]").hidden = !hasQuery;
+        $$("[data-catalog-filter]").forEach((el) =>
+          el.setAttribute("aria-pressed", String(el.dataset.catalogFilter === state.category)),
+        );
+      }, options);
       state.gallery.sync();
-      $("[data-catalog-count]").textContent =
-        `${matches.length} ${matches.length === 1 ? "example" : "examples"}`;
-      $("[data-catalog-empty]").hidden = matches.length !== 0;
-      $("[data-catalog-more]").hidden = matches.length <= state.limit;
-      $("[data-catalog-clear]").hidden = !query && state.category === "all";
-      $$("[data-catalog-filter]").forEach((el) =>
-        el.setAttribute(
-          "aria-pressed",
-          String(el.dataset.catalogFilter === state.category),
-        ),
-      );
     }
     $("[data-catalog-search]").addEventListener("input", () => {
       state.limit = 12;
-      filter();
+      filter({ typing: true });
     });
     $$("[data-catalog-filter]").forEach((button) =>
       button.addEventListener("click", () => {
@@ -255,6 +430,15 @@
         filter();
       }),
     );
+    $(".ov-search").addEventListener("click", (e) => {
+      if (!e.target.closest("button,input")) $("[data-catalog-search]").focus();
+    });
+    $("[data-catalog-reset-query]").addEventListener("click", () => {
+      $("[data-catalog-search]").value = "";
+      state.limit = 12;
+      filter({ typing: true });
+      $("[data-catalog-search]").focus();
+    });
     $("[data-catalog-clear]").addEventListener("click", () => {
       state.category = "all";
       state.limit = 12;
@@ -281,7 +465,7 @@
       $("[data-browse-library]").click();
     });
     document.addEventListener("visibilitychange", () => {
-      if (document.hidden) stop();
+      if (document.hidden) state.stop();
     });
   }
   S.page({
@@ -297,6 +481,7 @@
       const state = instances.get(root);
       if (state) {
         state.active = true;
+        state.catalogMotion.enter();
         state.gallery.enter();
       }
     },

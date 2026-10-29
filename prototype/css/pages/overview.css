@@ -16,6 +16,16 @@
   letter-spacing: -0.04em;
   color: var(--text);
 }
+.pg-overview .ov-title-mask {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.pg-overview .ov-title-word {
+  display: inline-block;
+}
 .pg-overview .ov-browser {
   gap: var(--s-4);
 }
@@ -268,6 +278,8 @@
   color: var(--text-3);
 }
 .pg-overview .ov-search {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   gap: var(--s-3);
@@ -277,8 +289,12 @@
   background: var(--surface);
   max-width: 560px;
   transition:
-    border-color var(--d-fast),
-    box-shadow var(--d-fast);
+    border-color var(--d-base) var(--ease-out),
+    box-shadow var(--d-base) var(--ease-out),
+    background var(--d-base) var(--ease-out);
+}
+.pg-overview .ov-search:hover {
+  border-color: var(--border-strong);
 }
 .pg-overview .ov-search:focus-within {
   border-color: var(--accent);
@@ -287,6 +303,58 @@
 .pg-overview .ov-search > .ic {
   color: var(--text-3);
   flex: none;
+  transition: color var(--d-base) var(--ease-out);
+}
+.pg-overview .ov-search > .ic .a {
+  transition: transform var(--d-slow) var(--ease-out-expo);
+}
+.pg-overview .ov-search:focus-within > .ic {
+  color: var(--accent-text);
+}
+.pg-overview .ov-search:focus-within > .ic .a {
+  transform: rotate(-10deg);
+}
+.pg-overview .ov-search-activity {
+  position: absolute;
+  left: var(--s-3);
+  right: var(--s-3);
+  bottom: 0;
+  height: var(--s-0_5);
+  background: var(--accent);
+  border-radius: var(--r-full);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+.pg-overview .ov-search-end {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--s-6);
+  height: var(--s-6);
+}
+.pg-overview .ov-search-end > * {
+  grid-area: 1/1;
+}
+.pg-overview .ov-search .kbd {
+  transition: opacity var(--d-base) var(--ease-out);
+}
+.pg-overview .ov-search[data-has-query] .kbd {
+  opacity: 0;
+}
+.pg-overview .ov-search-reset {
+  display: grid;
+  place-items: center;
+  width: var(--s-7);
+  height: var(--s-7);
+  border-radius: var(--r-sm);
+  color: var(--text-3);
+  transition: color var(--d-base), background var(--d-base);
+}
+.pg-overview .ov-search-reset:hover {
+  background: var(--surface-2);
+  color: var(--text);
 }
 .pg-overview .ov-search input {
   width: 100%;
@@ -303,13 +371,20 @@
 .pg-overview .ov-search input::placeholder {
   color: var(--text-3);
 }
+.pg-overview .ov-search input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
 .pg-overview .ov-filters {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   gap: var(--s-1);
   flex-wrap: wrap;
 }
 .pg-overview .ov-filters button {
+  position: relative;
+  z-index: 1;
   padding: var(--s-2) var(--s-3);
   border-radius: var(--r-md);
   font-size: var(--t-xs);
@@ -325,23 +400,54 @@
   background: var(--surface-2);
 }
 .pg-overview .ov-filters button[aria-pressed="true"] {
-  background: var(--surface);
-  border-color: var(--border-strong);
+  background: transparent;
   color: var(--text);
+}
+.pg-overview .ov-filter-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: var(--r-md);
+  border: var(--s-px) solid var(--border-strong);
+  background: var(--surface);
   box-shadow: var(--shadow-xs);
+  visibility: hidden;
+}
+.pg-overview .ov-filter-indicator[data-ready] {
+  visibility: visible;
 }
 .pg-overview .ov-result-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--s-3);
-  min-height: var(--s-6);
+  min-height: var(--control-sm);
   margin-top: calc(var(--s-4) * -1);
 }
 .pg-overview .ov-catalog {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--s-3);
+}
+.pg-overview .ov-results {
+  position: relative;
+  overflow: clip;
+  overflow-clip-margin: var(--s-1);
+  min-width: 0;
+}
+.pg-overview .ov-result-exits {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.pg-overview .ov-result-ghost {
+  pointer-events: none;
+}
+.pg-overview [data-catalog-count] {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
 }
 .pg-overview .ov-specimen {
   display: flex;

@@ -62,6 +62,9 @@ Each result also opens its full working example. Pages prepare on intent and
 during idle time, retain their DOM and restore scroll position on return.
 Cmd/Ctrl-K opens the command palette.
 
+Search and category changes animate the matching results while retaining each
+preview's state. The category indicator also follows filters that wrap on mobile.
+
 The coding workspace uses a code editor, split diff and CI console. Chat sits
 beside the code.
 The coding workspace is local: it does not contact an AI, Git or CI service.
