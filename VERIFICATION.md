@@ -41,8 +41,8 @@ The harness creates its own browser profile, closes its browser process and remo
 
 ## Artifact integrity
 
-- `dist/schematic.html` — 873,991 bytes; SHA-256 `799a231968423746a2b73c9c3238f2a3c2644f4f58f4b307979f41896cae2411`.
-- `dist/schematic-mono.html` — 873,990 bytes; SHA-256 `ae98b64264a23deea8cadf1f80e8a8ef616726ec75284e6bd2b943d8c69e894a`.
+- `dist/schematic.html` — 874,093 bytes; SHA-256 `7b4b0516d007a9ed72cdc47e92bff8d34ac5d7242fe0d8a4ad709c3ab27fee24`.
+- `dist/schematic-mono.html` — 874,092 bytes; SHA-256 `92181080a200f77fc0e7e877660084e7d16165e2773f7380d998bd0a88cce033`.
 - `docs/assets/schematic-walkthrough.mp4` — 20,873,206 bytes; SHA-256 `35c1686e6c944d11d93e8addd8cb5f3d8f1c019a7c3ce9048d302746525ebf86`.
 
 ## Limits

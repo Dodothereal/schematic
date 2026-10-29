@@ -80,9 +80,17 @@ try {
     "Code is the largest pane, with explorer and docked console",
     "(()=>{const code=document.querySelector('.ws-center').getBoundingClientRect(),chat=document.querySelector('.ws-chat').getBoundingClientRect(),explorer=document.querySelector('.ws-explorer').getBoundingClientRect();return code.width>chat.width*2&&code.width>780&&explorer.width>150&&document.querySelector('.ws-console').getBoundingClientRect().bottom<=code.bottom;})()",
   );
+  const geometry = await ev(
+    "(()=>{const e=document.querySelector('.ws-app'),r=e.getBoundingClientRect(),s=getComputedStyle(e);return{width:r.width,bottom:r.bottom,viewportWidth:innerWidth,viewportHeight:innerHeight,radius:s.borderRadius,padding:s.padding,gutter:getComputedStyle(document.querySelector('#viewport')).scrollbarGutter}})()",
+  );
+  console.log("IDE geometry: " + JSON.stringify(geometry));
   await check(
     "IDE fills shell viewport without an outer card",
-    "(()=>{const e=document.querySelector('.ws-app'),r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width===innerWidth&&r.bottom===innerHeight&&s.borderRadius==='0px'&&s.padding==='0px';})()",
+    geometry.width === geometry.viewportWidth &&
+      geometry.bottom === geometry.viewportHeight &&
+      geometry.radius === "0px" &&
+      geometry.padding === "0px" &&
+      geometry.gutter === "auto",
   );
   await check(
     "Primary file has substantive syntax-rendered code and line numbers",
