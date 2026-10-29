@@ -33,8 +33,9 @@ together. Use a current browser for native dialogs, OKLCH colors and modern CSS.
 ## Find the right example
 
 Use the sidebar, or **Menu** on a narrow window. **Commands** or **Cmd/Ctrl-K**
-searches pages and settings. The catalog follows the opening assembly. Choose
-**Browse components** or press **/** to reach search;
+searches pages and settings. The catalog starts the home page with working previews. Run the action, change
+the chart period, drag a checklist row, or try tabs, icons and the counter.
+Use each card's footer to open its full example. Press **/** to reach search;
 choose a result to open and focus the working example. Filter by family or use
 Show more to explore the collection.
 
@@ -98,13 +99,6 @@ For testing, call `Schematic.onboarding.open()` and
 `await Schematic.onboarding.close()` after boot. Opening starts at step one,
 preserves the route and returns focus on close. Only Finish writes
 `schematic:guide-completed`; `open()` returns `false` if another dialog is open.
-
-## Component assembly
-
-Use Assemble, Explode and Wireframe to recompose the opening canvas. Select a
-component to inspect it, adjust Radius and open its full example. On a phone,
-the component picker shows one piece at readable size. Browse components jumps
-to the catalog and focuses search.
 
 ## Coding workspace
 

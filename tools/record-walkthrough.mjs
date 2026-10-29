@@ -63,13 +63,14 @@ async function key(name, code, virtual) { await b.send("Input.dispatchKeyEvent",
 const actions = {
   async welcome() {
     await delay(1400); await b.screenshot(join(assets, "walkthrough-poster.png"));
-    await point('[data-as-view="assembled"]', {click:true,hover:1100});
-    await point('[data-as-view="wireframe"]', {click:true,hover:900});
-    await point('[data-as-view="exploded"]', {click:true,hover:900});
-    await point('[data-as-piece="metric"]', {click:true,hover:700});
-    await point('[data-as-radius]', {click:true,hover:600});
-    await point('[data-as-piece="chart"]', {click:true,hover:700});
-    await point('[data-as-browse]', {click:true,hover:600});
+    await point('[data-gallery-action]',{click:true,hover:1550});
+    await point('[data-gallery-range="30"]',{click:true,hover:1100});
+    await point('[data-gallery-range="7"]',{click:true,hover:1000});
+    await scroll('[data-gallery-sort]',160);
+    await drag('[data-gallery-task="0"] [data-sortable-handle]','[data-gallery-task="2"]');
+    await point('.ov-gallery-tabs [data-value="2"]',{click:true,hover:600});
+    await point('[data-gallery-icon="send"]',{click:true,hover:600});
+    await point('[data-gallery-step="1"]',{click:true,hover:650});
     await fill('[data-catalog-search]', 'workspace');
     await point('[data-catalog-id="workspace-0"]', {click:true,hover:800});
   },

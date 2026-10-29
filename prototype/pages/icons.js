@@ -71,7 +71,7 @@
           id: "ic-usage", num: "03", title: "Usage",
           body: `<div class="grid cols-2">
             ${S.demo({
-              title: "Inside controls", desc: "Any button, link, label or [data-ic-trigger] plays its icons on hover, focus and touch.",
+              title: "Animated icons", desc: "Any button, link, label or [data-ic-trigger] plays its icons on hover, focus and touch.",
               specs: ["auto-trigger", "plays to end"],
               body: `<button class="btn btn-primary">${S.icon("send")} Send</button><button class="btn btn-secondary">${S.icon("download")} Export</button><button class="btn btn-ghost btn-icon" data-tip="Notifications">${S.icon("bell")}</button><button class="btn btn-ghost btn-icon" data-tip="Delete">${S.icon("trash")}</button>`,
             })}

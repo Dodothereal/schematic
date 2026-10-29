@@ -18,7 +18,7 @@ try {
   await b.open(pathToFileURL(join(workspace, "dist/schematic.html")).href + "#/data");
   await delay(180);
   check("Fresh palette is forest on warm paper", await evaluate("document.documentElement.dataset.palette==='color'&&parseFloat(Schematic.token('--accent-h'))===168&&parseFloat(Schematic.token('--neutral-c'))>0"));
-  check("Overview headline has no gradient", await evaluate("(()=>{Schematic.prepare('overview');return getComputedStyle(document.querySelector('.ov-wordmark')).backgroundImage==='none'})()"));
+  check("Overview headline has no gradient", await evaluate("(()=>{Schematic.prepare('overview');return getComputedStyle(document.querySelector('.ov-title')).backgroundImage==='none'})()"));
   const waiting = await evaluate("document.querySelector('[data-current-line]').style.strokeDashoffset");
   check("Below-fold line waits to draw", +waiting === 1);
   await evaluate("document.querySelector('[data-main-chart]').closest('.demo').scrollIntoView({block:'start'});window.qaPath=document.querySelector('[data-current-line]').getAttribute('d');window.qaGrid=document.querySelector('[data-chart-grid]').innerHTML");

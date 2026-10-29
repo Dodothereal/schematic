@@ -14,10 +14,17 @@
   ];
 
   const render = () => {
-    const catalog = S.catalog();
+    const catalog = S.galleryEntries();
     return `<div class="pg-overview">
-      ${S.assembly.render()}
-      <section class="sec ov-browser" id="ov-library" data-toc="Components"><div class="ov-library-tools"><label class="ov-search">${icon("search", 18)}<input type="search" data-catalog-search placeholder="Search accordion, spring, button…" aria-label="Search the component library" autocomplete="off"><kbd class="kbd" aria-hidden="true">/</kbd></label><div class="ov-filters" role="group" aria-label="Filter specimens">${categories.map(([value, label], i) => `<button type="button" data-catalog-filter="${value}" aria-pressed="${i === 0}">${label}</button>`).join("")}</div></div><div class="ov-result-head"><span class="t-caption" role="status" data-catalog-count>${catalog.length} examples</span><button type="button" class="btn btn-ghost btn-sm" data-catalog-clear hidden>Clear filters ${icon("x", 12)}</button></div><div class="ov-catalog">${catalog.map((entry) => `<a class="ov-specimen" href="#/${entry.page}" data-specimen="${entry.index}" data-catalog-id="${entry.id}"><span class="ov-specimen-icon">${icon(entry.icon, 20)}</span><span class="ov-specimen-copy"><span class="t-eyebrow">${entry.collection}</span><strong>${S.esc(entry.title)}</strong><span class="ov-specimen-desc">${S.esc(entry.desc || "")}</span></span><span class="ov-specimen-go">${icon("arrow-up-right", 16)}</span></a>`).join("")}</div><div class="ov-empty" data-catalog-empty hidden>${icon("search", 24)}<h3>No matches.</h3><p>Try another search or clear the filters.</p></div><div class="ov-load-row"><button type="button" class="btn btn-secondary" data-catalog-more>Show more ${icon("plus", 16)}</button></div></section>
+      <header class="ov-header"><h1 class="ov-title" tabindex="-1">Component <span class="ov-title-accent">library</span></h1><a class="btn btn-secondary btn-sm" href="https://github.com/Dodothereal/schematic" target="_blank" rel="noreferrer">Source ${icon("arrow-up-right", 14)}</a></header>
+      <section class="sec ov-browser" id="ov-library" data-toc="Components"><div class="ov-library-tools"><label class="ov-search">${icon("search", 18)}<input type="search" data-catalog-search placeholder="Search accordion, spring, button…" aria-label="Search the component library" autocomplete="off"><kbd class="kbd" aria-hidden="true">/</kbd></label><div class="ov-filters" role="group" aria-label="Filter specimens">${categories.map(([value, label], i) => `<button type="button" data-catalog-filter="${value}" aria-pressed="${i === 0}">${label}</button>`).join("")}</div></div><div class="ov-result-head"><span class="t-caption" role="status" data-catalog-count>${catalog.length} examples</span><button type="button" class="btn btn-ghost btn-sm" data-catalog-clear hidden>Clear filters ${icon("x", 12)}</button></div><div class="ov-catalog">${catalog
+        .map((entry) => {
+          const preview = S.galleryPreview.render(entry.id);
+          return `<article class="ov-specimen-card${preview ? " is-preview" : ""}" ${preview ? "data-has-preview" : ""} data-gallery-card="${entry.id}">${preview}<a class="ov-specimen" href="#/${entry.page}" data-specimen="${entry.index}" data-catalog-id="${entry.id}"><span class="ov-specimen-icon">${icon(entry.icon, 20)}</span><span class="ov-specimen-copy"><span class="t-eyebrow">${entry.collection}</span><strong>${S.esc(entry.title)}</strong><span class="ov-specimen-desc">${S.esc(entry.desc || "")}</span></span><span class="ov-specimen-go">${icon("arrow-up-right", 16)}</span></a></article>`;
+        })
+        .join(
+          "",
+        )}</div><div class="ov-empty" data-catalog-empty hidden>${icon("search", 24)}<h3>No matches.</h3><p>Try another search or clear the filters.</p></div><div class="ov-load-row"><button type="button" class="btn btn-secondary" data-catalog-more>Show more ${icon("plus", 16)}</button></div></section>
       <section class="sec ov-previews" id="ov-preview" data-toc="Preview"><h2 class="t-h2">Preview</h2><div class="ov-workbench" aria-label="Component previews">
           <div class="seg seg-block ov-study-tabs" role="group" aria-label="Choose an interaction study">${studies.map((label, i) => `<button class="seg-btn" data-value="${i}">${label}</button>`).join("")}</div>
           <div class="ov-study-stage">
@@ -93,10 +100,11 @@
         el.getAnimations().forEach((a) => a.cancel()),
       );
     };
-    state.stop = stop;
-    state.assembly = S.assembly.mount(root, () =>
-      $("[data-browse-library]").click(),
-    );
+    state.gallery = S.galleryPreview.mount(page);
+    state.stop = () => {
+      stop();
+      state.gallery.stop();
+    };
     $("[data-open-cmdk-ov]").addEventListener("click", () => S.cmdk.open());
     $("[data-browse-library]").addEventListener("click", () => {
       const v = document.querySelector("#viewport"),
@@ -205,7 +213,7 @@
       });
       $("[data-study-status]").textContent = "Previews reset.";
     });
-    const entries = S.catalog(),
+    const entries = S.galleryEntries(),
       elements = new Map(
         $$("[data-catalog-id]").map((el) => [el.dataset.catalogId, el]),
       );
@@ -219,7 +227,11 @@
             .includes(query),
       );
       const visible = new Set(matches.slice(0, state.limit).map((e) => e.id));
-      elements.forEach((el, id) => (el.hidden = !visible.has(id)));
+      elements.forEach((el, id) => {
+        el.hidden = !visible.has(id);
+        el.closest(".ov-specimen-card").hidden = el.hidden;
+      });
+      state.gallery.sync();
       $("[data-catalog-count]").textContent =
         `${matches.length} ${matches.length === 1 ? "example" : "examples"}`;
       $("[data-catalog-empty]").hidden = matches.length !== 0;
@@ -285,14 +297,14 @@
       const state = instances.get(root);
       if (state) {
         state.active = true;
-        state.assembly.enter();
+        state.gallery.enter();
       }
     },
     leave(root) {
       const state = instances.get(root);
       if (state) {
         state.active = false;
-        state.assembly.leave();
+        state.gallery.leave();
         state.stop();
       }
     },

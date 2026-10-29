@@ -807,8 +807,6 @@ code:not(pre code) {
 }
 
 /* Application examples use the canvas rather than a documentation column. */
-.page-wrap:has(.page[data-page="overview"]:not([hidden])) {grid-template-columns:minmax(0,1240px);padding-top:var(--s-6)}
-.page-wrap:has(.page[data-page="overview"]:not([hidden]))>.rail{display:none}
 .app:has(.page[data-page="workspace"]:not([hidden])){grid-template-columns:1fr}
 .app:has(.page[data-page="workspace"]:not([hidden])) .viewport{scrollbar-gutter:auto;overflow:hidden}
 .app:has(.page[data-page="workspace"]:not([hidden])) .sidebar{position:fixed;inset:0 auto 0 0;width:250px;transform:translateX(-102%);box-shadow:var(--shadow-xl)}
@@ -2205,889 +2203,534 @@ html[data-motion="reduced"] .pg-overview *::after {
   margin-top: 0;
 }
 
-/* Interactive assembly: one working object instead of a promotional hero. */
-.pg-overview .ov-opening {
+/* The catalog shows working controls in its first six cards. */
+.pg-overview .ov-specimen-card {
+  min-width: 0;
+}
+.pg-overview .ov-specimen-card.is-preview {
   display: flex;
   flex-direction: column;
-  gap: var(--s-6);
-}
-.pg-overview .ov-opening-head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--s-6);
-}
-.pg-overview .ov-edition {
-  font: 10px/1.4 var(--font-mono);
-  letter-spacing: 0.14em;
-  color: var(--text-3);
-}
-.pg-overview .ov-edition > span {
-  padding: 0 10px;
-  color: var(--text-4);
-}
-.pg-overview .ov-wordmark {
-  font-size: clamp(58px, 7.4vw, 112px);
-  font-weight: 650;
-  line-height: 1.04;
-  letter-spacing: -0.075em;
-  margin-top: var(--s-2);
-  color: var(--text);
-}
-.pg-overview .ov-wordmark > span {
-  color: var(--accent-text);
-}
-.pg-overview .ov-opening-links {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  padding-bottom: var(--s-3);
-}
-.pg-overview .as-surface {
   border: 1px solid var(--border);
   border-radius: var(--r-xl);
-  overflow: hidden;
-  isolation: isolate;
-  position: relative;
-  background: var(--surface-2);
-  box-shadow: var(--shadow-md);
-}
-.pg-overview .as-surface-bar {
-  height: 58px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--s-3);
-  padding: 0 var(--s-5);
-  border-bottom: 1px solid var(--border-soft);
   background: var(--surface);
+  overflow: hidden;
+  transition:
+    border-color var(--d-base) var(--ease-out),
+    box-shadow var(--d-base) var(--ease-out);
 }
-.pg-overview .as-caption {
-  font: 10px/1 var(--font-mono);
-  letter-spacing: 0.07em;
-  color: var(--text-2);
-  white-space: nowrap;
+.pg-overview .ov-specimen-card.is-preview:hover,
+.pg-overview .ov-specimen-card.is-preview:focus-within {
+  border-color: var(--border-strong);
 }
-.pg-overview .as-caption > span {
-  padding: 0 10px;
+.pg-overview .is-preview .ov-specimen {
+  border: 0;
+  border-top: 1px solid var(--border-soft);
+  border-radius: 0;
+  box-shadow: none;
+  min-height: 79px;
+  padding: var(--s-4);
+  align-items: center;
+  flex: 1;
+}
+.pg-overview .is-preview .ov-specimen strong {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.pg-overview .is-preview .ov-specimen .t-eyebrow {
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+.pg-overview .is-preview .ov-specimen-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-md);
+}
+.pg-overview .is-preview .ov-specimen-icon > .ic {
+  width: 16px;
+  height: 16px;
+}
+.pg-overview .is-preview .ov-specimen-desc {
+  display: none;
+}
+.pg-overview .is-preview .ov-specimen-go {
+  opacity: 1;
   color: var(--text-4);
 }
-.pg-overview .as-view-switch {
-  display: flex;
-  gap: var(--s-1);
-  padding: var(--s-1);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--r-md);
-  background: var(--surface-2);
-}
-.pg-overview .as-view-switch button {
-  font-size: 11px;
-  border-radius: var(--r-sm);
-  padding: 6px 10px;
-  color: var(--text-3);
-  transition:
-    background var(--d-base),
-    color var(--d-base),
-    box-shadow var(--d-base);
-}
-.pg-overview .as-view-switch button:hover {
-  color: var(--text);
-}
-.pg-overview .as-view-switch button[aria-pressed="true"] {
-  color: var(--text);
-  background: var(--surface);
-  box-shadow: var(--shadow-xs);
-}
-.pg-overview .as-stage {
-  height: 440px;
+.pg-overview .ov-live-preview {
+  height: 198px;
+  flex: none;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--s-5);
+  background: var(--surface-2);
+  isolation: isolate;
+}
+.pg-overview .ov-live-action {
+  background: var(--text);
+  color: var(--bg);
+}
+.pg-overview .ov-action-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-4);
+}
+.pg-overview .ov-preview-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font: 9px/1.4 var(--font-mono);
+  letter-spacing: 0.02em;
+  color: var(--text-3);
+}
+.pg-overview .ov-live-action .ov-preview-eyebrow {
+  color: color-mix(in oklab, var(--bg) 65%, transparent);
+}
+.pg-overview .ov-preview-eyebrow > i {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.pg-overview .ov-run-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  isolation: isolate;
+  width: 174px;
+  height: 46px;
+  border: 1px solid color-mix(in oklab, var(--bg) 16%, transparent);
+  border-radius: var(--r-lg);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
   overflow: hidden;
-  contain: layout paint;
+  box-shadow: 0 2px 0 color-mix(in oklab, var(--bg) 15%, transparent);
+  transition:
+    width var(--d-slow) var(--spring-smooth),
+    background var(--d-base),
+    border-color var(--d-base),
+    color var(--d-base);
 }
-.pg-overview .as-plane {
-  width: 1000px;
-  height: 450px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(
-      calc(-50% + var(--as-px, 0px)),
-      calc(-50% + var(--as-py, 0px))
-    )
-    scale(var(--as-scale, 1));
-  transition: transform var(--d-moderate) var(--ease-out);
-  transform-origin: center;
+.pg-overview .ov-run-action:focus-visible {
+  outline: 2px solid var(--bg);
+  outline-offset: 5px;
 }
-.pg-overview .as-ground,
-.pg-overview .as-connections {
+.pg-overview .ov-run-action:active {
+  scale: 0.97;
+}
+.pg-overview .ov-run-action[data-state="running"] {
+  width: 194px;
+  background: color-mix(in oklab, var(--bg) 9%, var(--text));
+  color: var(--bg);
+  cursor: progress;
+}
+.pg-overview .ov-run-action[data-state="complete"] {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-color: var(--accent);
+}
+.pg-overview .ov-run-action > span:not(.ov-action-progress) {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pg-overview .ov-action-progress {
   position: absolute;
   inset: 0;
+  z-index: 0;
+  background: color-mix(in oklab, var(--bg) 13%, transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.pg-overview .ov-action-caption {
+  font: 9px var(--font-mono);
+  min-height: 12px;
+  color: color-mix(in oklab, var(--bg) 65%, transparent);
+}
+.pg-overview .ov-chart-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-2);
+  position: relative;
+  z-index: 1;
+}
+.pg-overview .ov-chart-head > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pg-overview .ov-chart-amount {
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.055em;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.pg-overview .ov-chart-caption {
+  font: 9px var(--font-mono);
+  color: var(--text-3);
+}
+.pg-overview .ov-chart-ranges {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-md);
+}
+.pg-overview .ov-chart-ranges button {
+  font-size: 9px;
+  line-height: 1.2;
+  padding: 5px 7px;
+  color: var(--text-3);
+  border-radius: var(--r-sm);
+  transition:
+    background var(--d-base),
+    color var(--d-base);
+}
+.pg-overview .ov-chart-ranges button[aria-pressed="true"] {
+  background: var(--surface-2);
+  color: var(--text);
+}
+.pg-overview .ov-gallery-chart {
   width: 100%;
-  height: 100%;
-  pointer-events: none;
+  height: 111px;
+  overflow: visible;
+  margin-top: var(--s-3);
+  border-radius: var(--r-sm);
+  flex: 1;
+  color: var(--chart-1);
+  cursor: crosshair;
 }
-.pg-overview .as-ground {
-  color: var(--text-4);
-  opacity: 0.45;
-}
-.pg-overview .as-ground pattern path {
-  stroke: currentColor;
-  stroke-width: 0.7;
-}
-.pg-overview .as-axis-line {
+.pg-overview .ov-mini-grid {
   stroke: var(--border);
-  stroke-dasharray: 3 6;
-  opacity: 0.4;
+  stroke-width: 0.65;
+  stroke-dasharray: 2 4;
 }
-.pg-overview .as-connections {
-  stroke: var(--accent);
-  stroke-width: 1;
-  opacity: 0.4;
-  transition: opacity var(--d-slow) var(--ease-out);
-}
-.pg-overview .as-connections > path:not(.as-dimension) {
+.pg-overview .ov-mini-line {
+  stroke: var(--chart-1);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 0;
 }
-.pg-overview .as-connections .as-dimension {
+.pg-overview .ov-mini-area {
+  fill: var(--chart-1);
+  opacity: 0.065;
+}
+.pg-overview .ov-chart-inspect path {
   stroke: var(--text-4);
-  stroke-dasharray: 2 4;
+  stroke-width: 0.7;
+  stroke-dasharray: 3 3;
 }
-.pg-overview .as-connections text {
-  stroke: none;
-  fill: var(--text-3);
-  font: 9px var(--font-mono);
-  letter-spacing: 0.12em;
+.pg-overview .ov-chart-inspect circle {
+  fill: var(--surface);
+  stroke: var(--chart-1);
+  stroke-width: 2;
 }
-.pg-overview .as-window {
-  position: absolute;
-  left: 185px;
-  top: 35px;
-  width: 630px;
-  height: 358px;
-  border: 1px solid var(--border-strong);
-  border-radius: calc(var(--as-radius) + 3px);
-  background: var(--surface);
-  box-shadow: var(--shadow-xl);
-  opacity: 0;
-  transition:
-    opacity var(--d-slow) var(--ease-out),
-    border-radius var(--d-moderate);
+.pg-overview .ov-live-sort {
+  padding: var(--s-4);
+  justify-content: flex-start;
 }
-.pg-overview .as-window-top {
+.pg-overview .ov-sort-head {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  height: 38px;
-  border-bottom: 1px solid var(--border);
-  padding: 0 13px;
   font-size: 10px;
-  font-weight: 600;
+  color: var(--text-3);
+  margin-bottom: var(--s-3);
 }
-.pg-overview .as-window-top i {
+.pg-overview .ov-sort-head output {
   font: 9px var(--font-mono);
-  margin-left: 35px;
-  color: var(--text-3);
 }
-.pg-overview .as-window-top > span {
-  margin-left: auto;
-  color: var(--text-3);
-}
-.pg-overview .as-piece {
-  position: absolute;
-  display: block;
-  text-align: left;
-  padding: 0;
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: var(--as-radius);
-  background: var(--surface);
-  box-shadow:
-    0 5px 8px -6px color-mix(in oklab, var(--text) 20%, transparent),
-    0 18px 35px -22px color-mix(in oklab, var(--text) 24%, transparent);
-  transition:
-    transform var(--d-slower) var(--spring-smooth),
-    width var(--d-slower) var(--spring-smooth),
-    background var(--d-base),
-    border-radius var(--d-moderate),
-    box-shadow var(--d-moderate),
-    border-color var(--d-base);
-  transform-origin: center;
-}
-.pg-overview .as-piece:hover {
-  border-color: var(--accent-ring);
-}
-.pg-overview .as-piece[aria-pressed="true"] {
-  border-color: var(--accent);
-  box-shadow:
-    0 0 0 3px var(--accent-soft),
-    0 20px 40px -25px color-mix(in oklab, var(--text) 30%, transparent);
-}
-.pg-overview .as-piece:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 5px;
-}
-.pg-overview .as-part-label {
-  position: absolute;
-  left: 1px;
-  bottom: calc(100% + 10px);
-  display: flex;
-  gap: 7px;
-  align-items: center;
-  color: var(--text-3);
-  font: 9px var(--font-mono);
-  white-space: nowrap;
-  opacity: 1;
-  transition: opacity var(--d-moderate);
-}
-.pg-overview .as-part-label > span {
-  color: var(--accent-text);
-}
-.pg-overview .as-part-label > .ic {
-  margin-left: 4px;
-  opacity: 0;
-  transition: opacity var(--d-base);
-}
-.pg-overview .as-piece:hover .as-part-label > .ic,
-.pg-overview .as-piece[aria-pressed="true"] .as-part-label > .ic {
-  opacity: 1;
-}
-.pg-overview .as-piece-content {
+.pg-overview .ov-gallery-sort {
   display: flex;
   flex-direction: column;
-  position: relative;
-  height: 100%;
-  padding: 16px;
-  overflow: hidden;
-  border-radius: inherit;
+  gap: 6px;
 }
-.pg-overview .as-navigation {
-  width: 170px;
-  height: 276px;
-  left: 35px;
-  top: 95px;
-  transform: rotate(-3deg);
-}
-.pg-overview .as-metric {
-  width: 238px;
-  height: 140px;
-  left: 326px;
-  top: 48px;
-  transform: rotate(2deg);
-}
-.pg-overview .as-chart {
-  width: 292px;
-  height: 210px;
-  left: 666px;
-  top: 92px;
-  transform: rotate(3deg);
-}
-.pg-overview .as-list {
-  width: 276px;
-  height: 160px;
-  left: 284px;
-  top: 237px;
-  transform: rotate(-2deg);
-}
-.pg-overview .as-actions {
-  width: 292px;
-  height: 62px;
-  left: 666px;
-  top: 334px;
-  transform: rotate(1deg);
-}
-.pg-overview .as-actions .as-piece-content {
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  padding: 12px;
-}
-.pg-overview .as-nav-brand {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font-size: 14px;
-  margin-bottom: 23px;
-  letter-spacing: -0.02em;
-}
-.pg-overview .as-nav-brand > .ic {
-  background: var(--text);
-  color: var(--bg);
-  padding: 4px;
-  box-sizing: content-box;
-  border-radius: 6px;
-}
-.pg-overview .as-nav-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  padding: 9px 8px;
-  margin-bottom: 3px;
-  color: var(--text-3);
-  border-radius: 5px;
-}
-.pg-overview .as-nav-item i {
-  font: 8px var(--font-mono);
-  margin-left: auto;
-}
-.pg-overview .as-nav-item.is-current {
-  background: var(--accent-soft);
-  color: var(--accent-text);
-  font-weight: 600;
-}
-.pg-overview .as-nav-foot {
-  margin-top: auto;
+.pg-overview .ov-gallery-task {
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 9px;
-  color: var(--text-2);
+  height: 39px;
+  padding: 0 8px 0 5px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  font-size: 10px;
+  position: relative;
 }
-.pg-overview .as-avatar {
+.pg-overview .ov-task-grip {
   display: grid;
   place-items: center;
   flex: none;
-  width: 22px;
-  height: 22px;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  font: 8px var(--font-mono);
+  width: 24px;
+  height: 30px;
+  cursor: grab;
+  color: var(--text-4);
+  border-radius: var(--r-sm);
 }
-.pg-overview .as-nav-foot > .ic {
-  margin-left: auto;
-}
-.pg-overview .as-small {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 10px;
-  color: var(--text-3);
-  line-height: 1.3;
-}
-.pg-overview .as-small b {
-  font-weight: 600;
+.pg-overview .ov-task-grip:hover {
   color: var(--text);
 }
-.pg-overview .as-number {
+.pg-overview .ov-gallery-task > label {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 29px;
-  line-height: 1.2;
-  letter-spacing: -0.05em;
-  font-weight: 600;
-  margin-top: 9px;
-}
-.pg-overview .as-change {
-  font: 8px var(--font-mono);
-  letter-spacing: 0;
-  background: var(--success-soft);
-  color: var(--success-text);
-  border-radius: 3px;
-  padding: 3px 4px;
-}
-.pg-overview .as-mini-bars {
-  display: flex;
-  gap: 6px;
-  align-items: flex-end;
-  height: 28px;
-  margin-top: auto;
-}
-.pg-overview .as-mini-bars > i {
+  gap: 8px;
   flex: 1;
-  border-radius: 2px 2px 0 0;
-  background: var(--accent);
-  opacity: calc(0.2 + var(--bar) * 0.06);
+  cursor: pointer;
+  min-width: 0;
 }
-.pg-overview .as-chart-value {
-  font-size: 25px;
-  letter-spacing: -0.04em;
-  line-height: 1.25;
-  margin-top: 10px;
-  font-weight: 600;
-}
-.pg-overview .as-chart-value small {
-  font: 9px var(--font-mono);
-  letter-spacing: 0;
-  color: var(--text-3);
-  margin-left: 6px;
-}
-.pg-overview .as-chart {
-  color: var(--accent);
-}
-.pg-overview svg.as-chart {
-  position: relative;
-  left: auto;
-  top: auto;
-  transform: none;
-  flex: 1;
-  width: 100%;
-  height: 100px;
-  margin-top: 12px;
-  overflow: visible;
-  border: 0;
-  box-shadow: none;
-  border-radius: 0;
-}
-.pg-overview .as-chart-grid {
-  stroke: var(--border-soft);
-  stroke-dasharray: 2 3;
-  stroke-width: 1;
-}
-.pg-overview .as-chart-area {
-  fill: var(--accent);
-  opacity: 0.055;
-}
-.pg-overview .as-chart-line {
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-dasharray: 1;
-}
-.pg-overview .as-chart-dot {
-  fill: var(--surface);
-  stroke: var(--accent);
-  stroke-width: 1.5;
-}
-.pg-overview .as-axis {
-  display: flex;
-  justify-content: space-between;
-  font: 7px var(--font-mono);
-  color: var(--text-4);
-  margin-top: 10px;
-}
-.pg-overview .as-list-row {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  height: 34px;
-  border-bottom: 1px solid var(--border-soft);
-  font-size: 10px;
-}
-.pg-overview .as-list-row > .ic {
-  color: var(--text-4);
-  flex: none;
-}
-.pg-overview .as-list-row > .ic:last-child {
-  margin-left: auto;
-}
-.pg-overview .as-checkbox {
-  display: grid;
-  place-items: center;
+.pg-overview .ov-gallery-task input {
+  appearance: none;
   width: 13px;
   height: 13px;
   border: 1px solid var(--border-strong);
   border-radius: 3px;
   flex: none;
-}
-.pg-overview .as-checkbox.is-done {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-contrast);
-}
-.pg-overview .as-action-primary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  height: 33px;
-  padding: 0 13px;
-  border-radius: calc(var(--as-radius) * 0.4);
-  font-size: 10px;
-  background: var(--accent);
-  color: var(--accent-contrast);
-  flex: 1;
-  font-weight: 600;
-}
-.pg-overview .as-action-icon {
+  cursor: pointer;
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  transition:
+    background var(--d-base),
+    border-color var(--d-base);
+}
+.pg-overview .ov-gallery-task input:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.pg-overview .ov-gallery-task input:checked::after {
+  content: "";
+  width: 6px;
+  height: 4px;
+  border-bottom: 1.5px solid var(--accent-contrast);
+  border-left: 1.5px solid var(--accent-contrast);
+  transform: translateY(-1px) rotate(-45deg);
+}
+.pg-overview .ov-gallery-task input:checked + span {
+  color: var(--text-3);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-4);
+}
+.pg-overview .ov-gallery-task > .ic {
+  color: var(--text-4);
   flex: none;
-  border: 1px solid var(--border);
-  border-radius: calc(var(--as-radius) * 0.4);
-  color: var(--text-2);
 }
-.pg-overview .as-corner {
-  position: absolute;
-  width: 5px;
-  height: 5px;
+.pg-overview .ov-live-tabs {
+  justify-content: flex-start;
+  padding: var(--s-5) var(--s-4);
+}
+.pg-overview .ov-gallery-tabs {
+  padding: 3px;
   background: var(--surface);
-  border: 1px solid var(--accent);
-  opacity: 0;
-  transition: opacity var(--d-base);
+  box-shadow: inset 0 0 0 1px var(--border-soft);
 }
-.pg-overview .as-corner-tl {
-  top: -3px;
-  left: -3px;
+.pg-overview .ov-gallery-tabs .seg-btn {
+  font-size: 10px;
+  height: 31px;
+  padding: 0 9px;
 }
-.pg-overview .as-corner-br {
-  bottom: -3px;
-  right: -3px;
+.pg-overview .ov-gallery-panels {
+  height: 102px;
+  margin-top: var(--s-4);
+  position: relative;
 }
-.pg-overview .as-piece[aria-pressed="true"] .as-corner {
-  opacity: 1;
+.pg-overview .ov-tab-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+  height: 65px;
+  margin-top: 10px;
 }
-.pg-overview .as-surface[data-view="assembled"] .as-window {
-  opacity: 1;
-}
-.pg-overview .as-surface[data-view="assembled"] .as-navigation {
-  transform: translate(158px, -14px);
-  width: 150px;
-}
-.pg-overview .as-surface[data-view="assembled"] .as-metric {
-  transform: translate(28px, 33px);
-  width: 194px;
-}
-.pg-overview .as-surface[data-view="assembled"] button.as-chart {
-  transform: translate(-108px, -11px);
-  width: 245px;
-}
-.pg-overview .as-surface[data-view="assembled"] .as-list {
-  transform: translate(70px, -6px);
-  width: 194px;
-}
-.pg-overview .as-surface[data-view="assembled"] .as-actions {
-  transform: translate(-108px, -3px);
-  width: 245px;
-}
-.pg-overview .as-surface[data-view="assembled"] .as-piece {
-  box-shadow: none;
-  border-color: var(--border-soft);
-}
-.pg-overview .as-surface[data-view="assembled"] .as-piece[aria-pressed="true"] {
-  border-color: var(--accent);
-}
-.pg-overview .as-surface[data-view="assembled"] .as-connections,
-.pg-overview .as-surface[data-view="assembled"] .as-part-label {
-  opacity: 0;
-}
-.pg-overview .as-surface[data-view="wireframe"] .as-piece {
-  transform: rotate(0);
-  background: transparent;
-  box-shadow: none;
-  border-style: dashed;
-}
-.pg-overview .as-surface[data-view="wireframe"] .as-piece-content {
+.pg-overview .ov-tab-chart i {
+  flex: 1;
+  background: var(--accent);
   opacity: 0.65;
+  border-radius: 2px 2px 0 0;
 }
-.pg-overview .as-surface[data-view="wireframe"] .as-ground {
-  opacity: 0.8;
+.pg-overview .ov-tab-chart i:nth-child(3n) {
+  opacity: 0.28;
 }
-.pg-overview .as-surface[data-view="wireframe"] .as-corner {
-  opacity: 1;
-}
-.pg-overview .as-inspector {
-  min-height: 70px;
+.pg-overview .ov-activity-row {
   display: flex;
   align-items: center;
-  gap: var(--s-4);
-  padding: var(--s-3) var(--s-5);
-  background: var(--surface);
-  border-top: 1px solid var(--border-soft);
+  gap: 8px;
+  min-height: 39px;
+  font-size: 10px;
+  border-bottom: 1px solid var(--border-soft);
 }
-.pg-overview .as-selection {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  min-width: 200px;
-  margin-right: auto;
-}
-.pg-overview .as-selection > div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.pg-overview .as-selection strong {
-  font-size: 12px;
-  font-weight: 600;
-}
-.pg-overview .as-selection [data-as-source] {
-  font: 9px var(--font-mono);
-  color: var(--text-3);
-}
-.pg-overview .as-selection-icon {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
+.pg-overview .ov-activity-row > .ic {
   color: var(--accent-text);
+  flex: none;
 }
-.pg-overview .as-radius {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.pg-overview .ov-activity-row small {
+  margin-left: auto;
+  font: 8px var(--font-mono);
   color: var(--text-3);
-  font: 10px var(--font-mono);
 }
-.pg-overview .as-radius input {
-  accent-color: var(--accent);
-  width: 92px;
-  cursor: ew-resize;
-}
-.pg-overview .as-radius output {
-  min-width: 16px;
-  font-variant-numeric: tabular-nums;
-  color: var(--text);
-}
-.pg-overview .as-status {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-}
-.pg-overview .ov-opening-foot {
+.pg-overview .ov-preview-setting {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  height: 40px;
   font-size: 11px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.pg-overview .ov-preview-setting input {
+  appearance: none;
+  width: 30px;
+  height: 18px;
+  padding: 2px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  background: var(--surface);
+  transition:
+    background var(--d-base),
+    border-color var(--d-base);
+}
+.pg-overview .ov-preview-setting input::before {
+  content: "";
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: var(--text-3);
+  border-radius: 50%;
+  transition:
+    transform var(--d-base) var(--spring-smooth),
+    background var(--d-base);
+}
+.pg-overview .ov-preview-setting input:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.pg-overview .ov-preview-setting input:checked::before {
+  background: var(--accent-contrast);
+  transform: translateX(12px);
+}
+.pg-overview .ov-icon-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 44px);
+  justify-content: center;
+  gap: 12px;
+}
+.pg-overview .ov-icon-preview-grid button {
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  display: grid;
+  place-items: center;
+  color: var(--text-2);
+  background: var(--surface);
+  transition:
+    border-color var(--d-base),
+    background var(--d-base),
+    color var(--d-base);
+}
+.pg-overview .ov-icon-preview-grid button:hover,
+.pg-overview .ov-icon-preview-grid button:focus-visible {
+  color: var(--accent-text);
+  border-color: var(--accent-ring);
+  background: var(--accent-soft);
+}
+.pg-overview .ov-icon-caption {
+  text-align: center;
+  font: 9px var(--font-mono);
   color: var(--text-3);
+  margin-top: var(--s-4);
+  min-height: 12px;
 }
-.pg-overview .ov-opening-foot b {
-  font-weight: 600;
-  color: var(--text);
+.pg-overview .ov-live-counter {
+  align-items: center;
+  gap: var(--s-5);
 }
-.pg-overview .ov-opening-foot > span > span {
-  padding: 0 8px;
-  color: var(--text-4);
-}
-.pg-overview .ov-opening-foot > a {
+.pg-overview .ov-counter-controls {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--s-4);
+}
+.pg-overview .ov-counter-controls > button {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
   color: var(--text-2);
+  transition:
+    border-color var(--d-base),
+    background var(--d-base);
 }
-@media (min-width: 1600px) {
-  .pg-overview .as-stage {
-    height: 480px;
-  }
+.pg-overview .ov-counter-controls > button:hover {
+  border-color: var(--accent-ring);
+  background: var(--accent-soft);
 }
-@media (max-width: 1100px) {
-  .pg-overview .ov-wordmark {
-    font-size: 76px;
-  }
-  .pg-overview .ov-opening-links {
-    flex-direction: column;
-    align-items: flex-end;
-  }
-  .pg-overview .as-stage {
-    height: 390px;
-  }
-  .pg-overview .ov-opening-foot > span:nth-child(2) {
-    display: none;
-  }
+.pg-overview .ov-counter-number {
+  font-size: 65px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+  justify-content: center;
 }
-@media (max-width: 600px) {
-  .pg-overview .ov-opening {
-    gap: 20px;
-  }
-  .pg-overview .ov-opening-head {
-    display: block;
-  }
-  .pg-overview .ov-wordmark {
-    font-size: 68px;
-  }
-  .pg-overview .ov-opening-links {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0;
-    margin-top: 18px;
-  }
-  .pg-overview .ov-opening-links > .btn {
-    font-size: 11px;
-  }
-  .pg-overview .as-surface-bar {
-    height: auto;
-    min-height: 82px;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 12px;
-    gap: 12px;
-  }
-  .pg-overview .as-view-switch {
-    align-self: stretch;
-  }
-  .pg-overview .as-view-switch button {
-    flex: 1;
-    padding: 7px;
-  }
-  .pg-overview .as-stage {
-    height: 250px;
-  }
-  .pg-overview .as-plane {
-    --as-mobile: 1;
-  }
-  .pg-overview .as-inspector {
-    padding: 12px;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .pg-overview .as-selection {
-    min-width: 0;
-  }
-  .pg-overview .as-radius {
-    width: 100%;
-    order: 4;
-    justify-content: space-between;
-    border-top: 1px solid var(--border-soft);
-    padding-top: 12px;
-  }
-  .pg-overview .as-radius input {
-    flex: 1;
-    width: auto;
-    max-width: none;
-  }
-  .pg-overview .as-inspector > .btn {
-    font-size: 10px;
-  }
-  .pg-overview .as-replay {
-    display: none;
-  }
-  .pg-overview .ov-opening-foot {
-    font-size: 10px;
-    align-items: flex-start;
-  }
-  .pg-overview .ov-opening-foot > span:first-child {
-    max-width: 170px;
-  }
-  .pg-overview .ov-opening-foot > a {
-    max-width: 95px;
-    line-height: 1.5;
-  }
-  .pg-overview .as-selection [data-as-source] {
-    font-size: 8px;
-  }
-  .pg-overview .as-selection-icon {
-    width: 26px;
-    height: 26px;
-  }
-}
-
-.pg-overview .as-part-switch {
-  display: none;
+.pg-overview .ov-counter-reset {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-3);
+  font: 9px var(--font-mono);
 }
 @media (max-width: 600px) {
-  .pg-overview .as-part-switch {
-    display: flex;
-    justify-content: space-around;
-    padding: 4px 8px 12px;
-    gap: 3px;
-  }
-  .pg-overview .as-part-switch button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    padding: 9px 5px;
-    border-radius: var(--r-md);
-    flex: 1;
-    color: var(--text-3);
-    font-size: 8px;
-  }
-  .pg-overview .as-part-switch button[aria-pressed="true"] {
-    background: var(--accent-soft);
-    color: var(--accent-text);
-  }
-  .pg-overview .as-stage {
-    height: 280px;
-  }
-  .pg-overview .as-surface:not([data-view="assembled"]) .as-plane {
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    transform: none;
-  }
-  .pg-overview .as-surface:not([data-view="assembled"]) .as-ground {
-    width: 1000px;
-    height: 450px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .pg-overview .as-surface:not([data-view="assembled"]) .as-connections {
-    display: none;
-  }
-  .pg-overview .as-surface:not([data-view="assembled"]) .as-piece {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0.84);
-    opacity: 0;
-    pointer-events: none;
-    transition:
-      opacity var(--d-base),
-      transform var(--d-slow) var(--spring-smooth),
-      border-radius var(--d-moderate);
-    visibility: hidden;
-  }
-  .pg-overview
-    .as-surface:not([data-view="assembled"])
-    .as-piece[aria-pressed="true"] {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-    pointer-events: auto;
-    visibility: visible;
-  }
-  .pg-overview
-    .as-surface:not([data-view="assembled"])
-    .as-navigation[aria-pressed="true"] {
-    height: 225px;
-    width: 210px;
-  }
-  .pg-overview
-    .as-surface:not([data-view="assembled"])
-    .as-navigation
-    .as-nav-brand {
-    margin-bottom: 10px;
-  }
-  .pg-overview
-    .as-surface:not([data-view="assembled"])
-    .as-metric[aria-pressed="true"] {
-    width: 260px;
-    height: 160px;
-  }
-  .pg-overview
-    .as-surface:not([data-view="assembled"])
-    button.as-chart[aria-pressed="true"] {
-    width: 270px;
+  .pg-overview .ov-live-preview {
     height: 210px;
   }
-  .pg-overview
-    .as-surface:not([data-view="assembled"])
-    .as-list[aria-pressed="true"] {
-    width: 270px;
+  .pg-overview .ov-chart-amount {
+    font-size: 32px;
   }
-  .pg-overview
-    .as-surface:not([data-view="assembled"])
-    .as-actions[aria-pressed="true"] {
-    width: 270px;
+  .pg-overview .ov-live-sort {
+    padding: 20px;
+  }
+  .pg-overview .ov-gallery-task {
+    height: 42px;
+    font-size: 12px;
+  }
+  .pg-overview .ov-task-grip {
+    width: 30px;
+    height: 34px;
+  }
+  .pg-overview .ov-gallery-task input {
+    width: 15px;
+    height: 15px;
+  }
+  .pg-overview .ov-gallery-tabs .seg-btn {
+    font-size: 11px;
+  }
+  .pg-overview .ov-preview-setting {
+    font-size: 12px;
+  }
+  .pg-overview .ov-activity-row {
+    font-size: 12px;
   }
 }
-
-.pg-overview .as-surface[data-view="wireframe"] .as-piece-content {
-  opacity: 0.95;
-  background: color-mix(in oklab, var(--surface-2) 92%, transparent);
-}
-@media (max-width: 600px) {
-  .pg-overview .ov-wordmark {
-    font-size: clamp(50px, 17vw, 68px);
-  }
-  .pg-overview .as-stage {
-    height: 300px;
-  }
-  .pg-overview
-    .as-surface:not([data-view="assembled"])
-    .as-navigation[aria-pressed="true"] {
-    height: 250px;
-  }
+@media(max-width:360px){
+  .pg-overview .ov-header{gap:var(--s-2)}
+  .pg-overview .ov-title{font-size:22px}
+  .pg-overview .ov-filters{gap:var(--s-1)}
+  .pg-overview .ov-filters button{font-size:11px;padding:9px var(--s-2);min-height:40px}
 }
 
 </style>
@@ -9133,6 +8776,9 @@ html[data-motion="reduced"] .pg-overview *::after {
     "Project direction carousel": "chevrons-up-down",
     "Button hierarchy": "cursor",
     "A size for the moment": "ruler",
+    "Action button": "play",
+    "Tabs": "window",
+    "Animated icons": "cursor",
     "Pending → resolved": "check-circle",
     "Copy with certainty": "copy",
     "A deliberate confirmation": "lock",
@@ -10212,251 +9858,385 @@ html[data-motion="reduced"] .pg-overview *::after {
 
 </script>
   <!-- pages: each file registers itself with Schematic.page({...}) -->
-  <script data-source="js/assembly.js">
+  <script data-source="js/gallery-previews.js">
 (() => {
-  const S = window.Schematic;
-  const icon = (name, size = 16) => S.icon(name, { size });
-  const parts = [
-    {
-      id: "navigation",
-      title: "Navigation",
-      source: "components/sidebar",
-      icon: "sidebar",
-      value: "6 destinations",
-      path: "navigation",
-    },
-    {
-      id: "metric",
-      title: "Metric",
-      source: "data/metric-card",
-      icon: "trending",
-      value: "$24,680",
-      path: "data",
-    },
-    {
-      id: "chart",
-      title: "Chart",
-      source: "data/line-chart",
-      icon: "trending",
-      value: "7 data points",
-      path: "data",
-    },
-    {
-      id: "list",
-      title: "Task list",
-      source: "primitives/sortable",
-      icon: "grip",
-      value: "3 items",
-      path: "primitives",
-    },
-    {
-      id: "actions",
-      title: "Actions",
-      source: "components/button",
-      icon: "cursor",
-      value: "4 states",
-      path: "components",
-    },
-  ];
-  const contents = {
-    navigation: `<span class="as-nav-brand">${icon("cube", 19)} <b>Atlas</b></span><span class="as-nav-item is-current">${icon("home", 14)} Overview</span><span class="as-nav-item">${icon("layers", 14)} Projects <i>08</i></span><span class="as-nav-item">${icon("users", 14)} Team</span><span class="as-nav-item">${icon("chart-bar", 14)} Reports</span><span class="as-nav-foot"><span class="as-avatar">JD</span> Jamie Davis ${icon("chevron-down", 12)}</span>`,
-    metric: `<span class="as-small">Monthly revenue ${icon("arrow-up-right", 14)}</span><span class="as-number">$24,680<span class="as-change">+12.8%</span></span><span class="as-mini-bars" aria-hidden="true">${[24, 38, 29, 50, 43, 65, 56, 74, 68, 86, 77, 100].map((h, i) => `<i style="height:${h}%;--bar:${i}"></i>`).join("")}</span>`,
-    chart: `<span class="as-small"><b>Revenue</b><span>7 days</span></span><span class="as-chart-value">$6,240 <small>Today</small></span><svg class="as-chart" viewBox="0 0 260 110" fill="none" aria-hidden="true"><path class="as-chart-grid" d="M0 20H260M0 55H260M0 90H260"/><path class="as-chart-area" d="M0 90C16 90 18 54 38 58S62 83 79 59 95 62 115 39 138 57 157 29 178 46 195 24 217 37 235 13 248 21 260 7V110H0Z"/><path class="as-chart-line" pathLength="1" d="M0 90C16 90 18 54 38 58S62 83 79 59 95 62 115 39 138 57 157 29 178 46 195 24 217 37 235 13 248 21 260 7"/><circle class="as-chart-dot" cx="260" cy="7" r="3"/></svg><span class="as-axis"><span>MON</span><span>WED</span><span>FRI</span><span>SUN</span></span>`,
-    list: `<span class="as-small"><b>Release checklist</b><span>1 / 3</span></span>${[
-      ["Define tokens", true],
-      ["Build components", false],
-      ["Review interactions", false],
-    ]
-      .map(
-        ([t, checked]) =>
-          `<span class="as-list-row">${icon("grip", 12)}<i class="as-checkbox ${checked ? "is-done" : ""}">${checked ? icon("check", 10) : ""}</i><span>${t}</span>${icon("chevron-right", 12)}</span>`,
-      )
-      .join("")}`,
-    actions: `<span class="as-action-primary">${icon("plus", 14)} New project</span><span class="as-action-icon">${icon("search", 16)}</span><span class="as-action-icon">${icon("bell", 16)}</span>`,
+  const S = window.Schematic,
+    icon = (name, size = 16) => S.icon(name, { size });
+  const kinds = {
+    "components-2": "action",
+    "data-0": "chart",
+    "primitives-3": "sort",
+    "components-10": "tabs",
+    "icons-0": "icons",
+    "primitives-5": "counter",
   };
-  S.assembly = {
-    render() {
-      return `<section class="ov-opening" aria-label="Interactive component assembly">
-        <header class="ov-opening-head"><div><span class="ov-edition">INTERFACE LIBRARY <span>/</span> 0.4</span><h1 class="ov-wordmark" tabindex="-1">Schematic<span>.</span></h1></div><div class="ov-opening-links"><a class="btn btn-ghost btn-sm" href="https://github.com/Dodothereal/schematic" target="_blank" rel="noreferrer">Source ${icon("arrow-up-right", 14)}</a><button class="btn btn-primary" data-as-browse>Browse components ${icon("arrow-down", 16)}</button></div></header>
-        <div class="as-surface" data-assembly data-view="exploded" data-selected="chart" style="--as-radius:14px">
-          <div class="as-surface-bar"><span class="as-caption">01 <span>/</span> COMPONENT ASSEMBLY</span><div class="as-view-switch" role="group" aria-label="Assembly view">${[
-            ["assembled", "Assemble"],
-            ["exploded", "Explode"],
-            ["wireframe", "Wireframe"],
-          ]
-            .map(
-              ([id, label]) =>
-                `<button type="button" data-as-view="${id}" aria-pressed="${id === "exploded"}">${label}</button>`,
-            )
-            .join("")}</div></div>
-          <div class="as-stage" data-as-stage><div class="as-plane" data-as-plane>
-            <svg class="as-ground" viewBox="0 0 1000 450" aria-hidden="true"><defs><pattern id="as-grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M12 9V15M9 12H15"/></pattern></defs><path fill="url(#as-grid)" d="M0 0H1000V450H0Z"/><path class="as-axis-line" d="M500 0V450M0 225H1000"/></svg>
-            <div class="as-window" aria-hidden="true"><span class="as-window-top">${icon("cube", 13)} Atlas <i>workspace / overview</i><span>•••</span></span></div>
-            <svg class="as-connections" viewBox="0 0 1000 450" fill="none" aria-hidden="true"><path pathLength="1" d="M204 150H267V84H326"/><path pathLength="1" d="M564 84H617V140H666"/><path pathLength="1" d="M204 230H234V286H286"/><path pathLength="1" d="M560 286H610V356H666"/><path class="as-dimension" d="M35 403H957M35 398V408M957 398V408"/><text x="498" y="421" text-anchor="middle">SPACING / 24</text></svg>
-            ${parts.map((part, i) => `<button type="button" class="as-piece as-${part.id}" data-as-piece="${part.id}" aria-label="Inspect ${part.title}" aria-pressed="${part.id === "chart"}" style="--part:${i}"><span class="as-part-label" aria-hidden="true"><span>0${i + 1}</span>${part.title}${icon("arrow-up-right", 11)}</span><span class="as-piece-content">${contents[part.id]}</span><span class="as-corner as-corner-tl"></span><span class="as-corner as-corner-br"></span></button>`).join("")}
-          </div></div>
-          <div class="as-part-switch" role="group" aria-label="Select component">${parts.map((part) => `<button type="button" data-as-select="${part.id}" aria-pressed="${part.id === "chart"}">${icon(part.icon, 14)}<span>${part.title}</span></button>`).join("")}</div>
-          <div class="as-inspector"><div class="as-selection"><span class="as-selection-icon" data-as-icon>${icon("chart-bar", 18)}</span><div><strong data-as-title>Chart</strong><span data-as-source>data/line-chart</span></div></div><label class="as-radius">Radius <input type="range" min="0" max="24" value="14" data-as-radius aria-label="Component corner radius"><output data-as-radius-value>14</output></label><button class="btn btn-ghost btn-sm as-replay" data-as-replay aria-label="Replay component assembly">${icon("refresh", 15)}</button><a class="btn btn-secondary btn-sm" href="#/data" data-specimen="0" data-as-open>Open example ${icon("arrow-up-right", 14)}</a></div>
-          <span class="as-status" role="status" data-as-status></span>
-        </div><div class="ov-opening-foot"><span><b>${S.catalog().length}</b> examples <span>/</span> HTML · CSS · JavaScript</span><span>Select a component. Change its shape.</span><a href="#/workspace">Coding workspace ${icon("arrow-up-right", 14)}</a></div>
-      </section>`;
+  const priority = Object.keys(kinds);
+  S.galleryEntries = () =>
+    [...S.catalog()].sort((a, b) => {
+      const ai = priority.indexOf(a.id),
+        bi = priority.indexOf(b.id);
+      return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
+    });
+  const scenes = {
+    action: () =>
+      `<div class="ov-action-state"><span class="ov-preview-eyebrow"><i></i><span data-gallery-action-status role="status">Ready</span></span><button class="ov-run-action" data-gallery-action><span data-gallery-action-icon>${icon("play", 17)}</span><span data-gallery-action-label>Run action</span><span class="ov-action-progress" aria-hidden="true" data-gallery-progress></span></button><span class="ov-action-caption" data-gallery-action-caption></span></div>`,
+    chart: () =>
+      `<div class="ov-chart-head"><div><span class="ov-chart-amount" data-gallery-chart-value>$4,190</span><span class="ov-chart-caption" data-gallery-chart-caption>7 days</span></div><div class="ov-chart-ranges" role="group" aria-label="Revenue preview period"><button data-gallery-range="7" aria-pressed="true">7D</button><button data-gallery-range="30" aria-pressed="false">30D</button></div></div><svg class="ov-gallery-chart" data-gallery-chart viewBox="0 0 300 116" preserveAspectRatio="none" fill="none" tabindex="0" role="img" aria-label="Revenue preview. Use Left and Right to inspect a day."><path class="ov-mini-grid" d="M8 25H292M8 65H292M8 105H292"/><path data-gallery-area class="ov-mini-area"/><path data-gallery-line class="ov-mini-line" pathLength="1"/><g class="ov-chart-inspect" data-gallery-inspect hidden><path data-gallery-crosshair/><circle data-gallery-dot r="4"/></g></svg>`,
+    sort: () =>
+      `<div class="ov-sort-head"><span>Release checklist</span><output data-gallery-task-count>1 / 3</output></div><div class="ov-gallery-sort" data-gallery-sort aria-label="Release tasks">${["Design tokens", "Component API", "Keyboard review"].map((title, i) => `<div class="ov-gallery-task" data-gallery-task="${i}"><button class="ov-task-grip" data-sortable-handle aria-label="Move ${title}">${icon("grip", 15)}</button><label><input type="checkbox" ${i === 0 ? "checked" : ""} data-gallery-task-check><span>${title}</span></label>${icon("chevron-right", 12)}</div>`).join("")}</div>`,
+    tabs: () =>
+      `<div class="seg seg-block ov-gallery-tabs" role="group" aria-label="Preview tabs">${["Overview", "Activity", "Settings"].map((title, i) => `<button class="seg-btn" data-value="${i}">${title}</button>`).join("")}</div><div class="ov-gallery-panels"><div data-gallery-panel="0"><span class="ov-preview-eyebrow">Weekly activity</span><div class="ov-tab-chart" aria-hidden="true">${[32, 48, 37, 63, 52, 78, 91, 72, 84, 61, 94, 100].map((h) => `<i style="height:${h}%"></i>`).join("")}</div></div><div data-gallery-panel="1" hidden><span class="ov-activity-row">${icon("check-circle", 16)}<span>Build completed</span><small>2m</small></span><span class="ov-activity-row">${icon("git-pull-request", 16)}<span>Review requested</span><small>8m</small></span></div><div data-gallery-panel="2" hidden><label class="ov-preview-setting">Email updates<input type="checkbox" checked></label><label class="ov-preview-setting">Weekly digest<input type="checkbox"></label></div></div>`,
+    icons: () =>
+      `<div class="ov-icon-preview-grid">${["send", "check", "bell", "trash", "lock", "folder", "heart", "download"].map((name) => `<button data-gallery-icon="${name}" aria-label="Play ${name} icon" data-tip="${name}">${icon(name, 25)}</button>`).join("")}</div><span class="ov-icon-caption" data-gallery-icon-name>Hover or focus</span>`,
+    counter: () =>
+      `<div class="ov-counter-controls"><button data-gallery-step="-1" aria-label="Decrease preview counter">${icon("minus", 18)}</button><output class="ov-counter-number" data-gallery-counter aria-live="polite">024</output><button data-gallery-step="1" aria-label="Increase preview counter">${icon("plus", 18)}</button></div><button class="ov-counter-reset" data-gallery-counter-reset>Reset ${icon("refresh", 12)}</button>`,
+  };
+  S.galleryPreview = {
+    render(id) {
+      const kind = kinds[id];
+      return kind
+        ? `<div class="ov-live-preview ov-live-${kind}" data-gallery-kind="${kind}">${scenes[kind]()}</div>`
+        : "";
     },
-    mount(root, browse) {
-      const host = root.querySelector("[data-assembly]");
-      const stage = host.querySelector("[data-as-stage]"),
-        plane = host.querySelector("[data-as-plane]");
+    mount(root) {
       let active = false,
-        visible = true,
-        replayed = false,
-        motion = new Set(),
-        pointerFrame = 0,
-        pending = null;
-      const $ = (s) => host.querySelector(s),
-        $$ = (s) => [...host.querySelectorAll(s)];
-      const settle = () => {
-        motion.forEach((a) => a.cancel());
-        motion.clear();
-        cancelAnimationFrame(pointerFrame);
-        pointerFrame = 0;
-        plane.style.removeProperty("--as-px");
-        plane.style.removeProperty("--as-py");
+        job = 0,
+        chartAnimation = null,
+        chartStarted = false,
+        areaAnimation = null,
+        tabAnimations = new Set(),
+        range = 7,
+        points = [],
+        selected = -1,
+        counter = 24,
+        started = 0;
+      const $ = (s) => root.querySelector(s),
+        $$ = (s) => [...root.querySelectorAll(s)];
+      const cards = $$(".ov-specimen-card[data-has-preview]"),
+        visibility = new Map(cards.map((el) => [el, false]));
+      const allowed = (kind) =>
+        active &&
+        !document.hidden &&
+        !!$(`[data-gallery-kind="${kind}"]`)?.closest(
+          ".ov-specimen-card:not([hidden])",
+        ) &&
+        visibility.get(
+          $(`[data-gallery-kind="${kind}"]`).closest(".ov-specimen-card"),
+        ) !== false;
+      const money = (v) => "$" + Math.round(v).toLocaleString("en-US");
+      const resetAction = (label = "") => {
+        cancelAnimationFrame(job);
+        job = 0;
+        $("[data-gallery-action]").disabled = false;
+        $("[data-gallery-action]").removeAttribute("data-state");
+        $("[data-gallery-action-icon]").innerHTML = icon("play", 17);
+        $("[data-gallery-action-label]").textContent = "Run action";
+        $("[data-gallery-action-status]").textContent = "Ready";
+        $("[data-gallery-action-caption]").textContent = label;
+        $("[data-gallery-progress]").style.transform = "scaleX(0)";
       };
-      const animate = (el, frames, options = {}) => {
-        if (!active || !visible || document.hidden || S.reduced()) return;
-        const a = el.animate(frames, {
-          duration: S.dur(850),
-          easing: S.curve.outExpo,
-          ...options,
-        });
-        motion.add(a);
-        a.finished.catch(() => {}).finally(() => motion.delete(a));
-      };
-      const replay = () => {
-        settle();
-        if (S.reduced()) return;
-        $$("[data-as-piece]").forEach((el, i) =>
-          animate(
-            el,
+      $("[data-gallery-action]").addEventListener("click", () => {
+        if (!allowed("action") || job) return;
+        const button = $("[data-gallery-action]");
+        $("[data-gallery-progress]").style.transform = "scaleX(0)";
+        button.disabled = true;
+        button.dataset.state = "running";
+        $("[data-gallery-action-icon]").innerHTML = icon("loader", 17);
+        $("[data-gallery-action-status]").textContent = "Running";
+        $("[data-gallery-action-caption]").textContent = "Local preview";
+        started = performance.now();
+        const tick = (t) => {
+          if (!allowed("action")) {
+            resetAction("Cancelled");
+            return;
+          }
+          const p = Math.min(1, (t - started) / 1300);
+          $("[data-gallery-action-label]").textContent =
+            `Working ${Math.floor(p * 100)}%`;
+          $("[data-gallery-progress]").style.transform = `scaleX(${p})`;
+          if (p < 1) {
+            job = requestAnimationFrame(tick);
+            return;
+          }
+          job = 0;
+          button.disabled = false;
+          button.dataset.state = "complete";
+          $("[data-gallery-action-icon]").innerHTML = icon("check", 17);
+          $("[data-gallery-action-label]").textContent = "Complete";
+          $("[data-gallery-action-status]").textContent = "Done";
+          $("[data-gallery-action-caption]").textContent = "Click to replay";
+          S.playIcon($("[data-gallery-action-icon] svg"));
+        };
+        job = requestAnimationFrame(tick);
+      });
+      const base = [38, 53, 48, 68, 52, 76, 84];
+      function drawChart(trace = true) {
+        if (trace && allowed("chart")) chartStarted = true;
+        points = Array.from({ length: range }, (_, i) => ({
+          x: 8 + (i * 284) / (range - 1),
+          value:
+            range === 7
+              ? base[i]
+              : Math.round(
+                  48 +
+                    Math.sin(i * 0.68) * 13 +
+                    i * 0.65 +
+                    Math.cos(i * 1.7) * 9,
+                ),
+        }));
+        const min = Math.min(...points.map((p) => p.value)) - 12,
+          max = Math.max(...points.map((p) => p.value)) + 10;
+        points.forEach(
+          (p) => (p.y = 105 - ((p.value - min) / (max - min)) * 91),
+        );
+        let path = `M${points[0].x},${points[0].y}`;
+        for (let i = 1; i < points.length; i++) {
+          const a = points[Math.max(0, i - 2)],
+            b = points[i - 1],
+            c = points[i],
+            d = points[Math.min(points.length - 1, i + 1)];
+          path += `C${b.x + (c.x - a.x) / 6},${b.y + (c.y - a.y) / 6} ${c.x - (d.x - b.x) / 6},${c.y - (d.y - b.y) / 6} ${c.x},${c.y}`;
+        }
+        $("[data-gallery-line]").setAttribute("d", path);
+        $("[data-gallery-area]").setAttribute("d", path + "L292 116H8Z");
+        selected = -1;
+        showPoint();
+        chartAnimation?.cancel();
+        chartAnimation = null;
+        areaAnimation?.cancel();
+        areaAnimation = null;
+        if (trace && allowed("chart") && !S.reduced()) {
+          const a = $("[data-gallery-line]").animate(
+            [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }],
+            { duration: S.dur(950), easing: S.curve.out },
+          );
+          const area = $("[data-gallery-area]").animate(
             [
-              {
-                opacity: 0,
-                translate: `${500 - el.offsetLeft - el.offsetWidth / 2}px ${225 - el.offsetTop - el.offsetHeight / 2}px`,
-                filter: "blur(4px)",
-              },
-              { opacity: 1, translate: "0 0", filter: "blur(0)" },
+              { clipPath: "inset(0 100% 0 0)" },
+              { clipPath: "inset(0 0% 0 0)" },
             ],
-            { delay: S.dur(i * 58) },
-          ),
+            { duration: S.dur(950), easing: S.curve.out },
+          );
+          areaAnimation = area;
+          area.finished.then(
+            () => {
+              if (areaAnimation === area) {
+                areaAnimation = null;
+                area.cancel();
+              }
+            },
+            () => {},
+          );
+          chartAnimation = a;
+          a.finished.then(
+            () => {
+              if (chartAnimation === a) {
+                chartAnimation = null;
+                a.cancel();
+              }
+            },
+            () => {},
+          );
+        }
+      }
+      function showPoint() {
+        const p = points[selected];
+        $("[data-gallery-inspect]").toggleAttribute("hidden", !p);
+        $("[data-gallery-chart-value]").textContent = money(
+          p ? p.value * 10 : points.reduce((n, p) => n + p.value * 10, 0),
         );
-        $$(".as-connections path:not(.as-dimension),.as-chart-line").forEach(
-          (el) =>
-            animate(el, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], {
-              duration: S.dur(1100),
-              delay: S.dur(160),
-            }),
-        );
-      };
-      const select = (id) => {
-        const part = parts.find((p) => p.id === id);
-        if (!part) return;
-        host.dataset.selected = id;
-        $$("[data-as-piece],[data-as-select]").forEach((el) =>
-          el.setAttribute(
-            "aria-pressed",
-            String((el.dataset.asPiece || el.dataset.asSelect) === id),
-          ),
-        );
-        $("[data-as-title]").textContent = part.title;
-        $("[data-as-source]").textContent = part.source;
-        $("[data-as-icon]").innerHTML = icon(part.icon, 18);
-        $("[data-as-open]").href = `#/${part.path}`;
-        $("[data-as-open]").dataset.specimen = String(id === "list" ? 3 : 0);
-        $("[data-as-status]").textContent =
-          `${part.title} selected. ${part.value}.`;
-      };
-      $$("[data-as-piece],[data-as-select]").forEach((el) =>
-        el.addEventListener("click", () =>
-          select(el.dataset.asPiece || el.dataset.asSelect),
-        ),
-      );
-      $$("[data-as-view]").forEach((button) =>
+        $("[data-gallery-chart-caption]").textContent = p
+          ? `Day ${selected + 1} of ${range}`
+          : `${range} days`;
+        if (p) {
+          $("[data-gallery-crosshair]").setAttribute("d", `M${p.x} 6V112`);
+          $("[data-gallery-dot]").setAttribute("cx", p.x);
+          $("[data-gallery-dot]").setAttribute("cy", p.y);
+        }
+      }
+      $$("[data-gallery-range]").forEach((button) =>
         button.addEventListener("click", () => {
-          settle();
-          host.dataset.view = button.dataset.asView;
-          $$("[data-as-view]").forEach((el) =>
+          range = +button.dataset.galleryRange;
+          $$("[data-gallery-range]").forEach((el) =>
             el.setAttribute("aria-pressed", String(el === button)),
           );
-          $("[data-as-status]").textContent = `${button.textContent} view.`;
+          drawChart();
         }),
       );
-      $("[data-as-radius]").addEventListener("input", (e) => {
-        host.style.setProperty("--as-radius", `${e.target.value}px`);
-        $("[data-as-radius-value]").value = e.target.value;
-        $("[data-as-radius-value]").textContent = e.target.value;
+      $("[data-gallery-chart]").addEventListener("pointermove", (e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        selected = Math.max(
+          0,
+          Math.min(
+            points.length - 1,
+            Math.round(
+              ((((e.clientX - r.left) / r.width) * 300 - 8) / 284) *
+                (points.length - 1),
+            ),
+          ),
+        );
+        showPoint();
       });
-      $("[data-as-replay]").addEventListener("click", replay);
-      root.querySelector("[data-as-browse]").addEventListener("click", browse);
-      const resize = new ResizeObserver(() => {
-        plane.style.setProperty(
-          "--as-scale",
-          Math.min(1, stage.clientWidth / 1000),
+      $("[data-gallery-chart]").addEventListener("pointerleave", () => {
+        selected = -1;
+        showPoint();
+      });
+      $("[data-gallery-chart]").addEventListener("keydown", (e) => {
+        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
+        e.preventDefault();
+        selected =
+          e.key === "Home"
+            ? 0
+            : e.key === "End"
+              ? points.length - 1
+              : Math.max(
+                  0,
+                  Math.min(
+                    points.length - 1,
+                    (selected < 0 ? 0 : selected) +
+                      (e.key === "ArrowRight" ? 1 : -1),
+                  ),
+                );
+        showPoint();
+      });
+      drawChart(false);
+      const sortable = S.sortable($("[data-gallery-sort]"), {
+        items: "[data-gallery-task]",
+        label: (el) => el.querySelector("label span").textContent,
+      });
+      $$("[data-gallery-task-check]").forEach((input) =>
+        input.addEventListener("change", () => {
+          $("[data-gallery-task-count]").textContent =
+            `${$$("[data-gallery-task-check]:checked").length} / 3`;
+        }),
+      );
+      S.segmented($(".ov-gallery-tabs"), {
+        value: "0",
+        onChange: (value) => {
+          tabAnimations.forEach((a) => a.cancel());
+          tabAnimations.clear();
+          $$("[data-gallery-panel]").forEach((panel) => {
+            const current = panel.dataset.galleryPanel === value;
+            panel.hidden = !current;
+            if (current && allowed("tabs") && !S.reduced()) {
+              const a = panel.animate(
+                [
+                  { opacity: 0, transform: "translateX(12px)" },
+                  { opacity: 1, transform: "none" },
+                ],
+                { duration: S.dur(320), easing: S.curve.out },
+              );
+              tabAnimations.add(a);
+              a.finished.catch(() => {}).finally(() => tabAnimations.delete(a));
+            }
+          });
+        },
+      });
+      $$("[data-gallery-icon]").forEach((button) => {
+        const update = () => {
+          $("[data-gallery-icon-name]").textContent =
+            button.dataset.galleryIcon;
+        };
+        button.addEventListener("pointerenter", update);
+        button.addEventListener("focus", update);
+        button.addEventListener("click", () =>
+          S.playIcon(button.querySelector("svg")),
         );
       });
-      resize.observe(stage);
-      stage.addEventListener("pointermove", (e) => {
-        if (!active || !visible || S.reduced() || e.pointerType === "touch")
-          return;
-        const r = stage.getBoundingClientRect();
-        pending = {
-          x: ((e.clientX - r.left - r.width / 2) / r.width) * 8,
-          y: ((e.clientY - r.top - r.height / 2) / r.height) * 6,
-        };
-        if (pointerFrame) return;
-        pointerFrame = requestAnimationFrame(() => {
-          pointerFrame = 0;
-          plane.style.setProperty("--as-px", `${pending.x}px`);
-          plane.style.setProperty("--as-py", `${pending.y}px`);
-        });
-      });
-      stage.addEventListener("pointerleave", () => {
-        plane.style.setProperty("--as-px", "0px");
-        plane.style.setProperty("--as-py", "0px");
-      });
-      const intersection = new IntersectionObserver(
-        (entries) => {
-          visible = entries[0].isIntersecting;
-          if (!visible) settle();
-        },
-        { threshold: 0.05 },
+      const roll = () =>
+        S.roll($("[data-gallery-counter]"), String(counter).padStart(3, "0"));
+      roll();
+      $$("[data-gallery-step]").forEach((button) =>
+        button.addEventListener("click", () => {
+          counter = Math.min(
+            999,
+            Math.max(0, counter + +button.dataset.galleryStep),
+          );
+          roll();
+        }),
       );
-      intersection.observe(host);
-      const observer = new MutationObserver(() => {
-        if (S.reduced()) settle();
+      $("[data-gallery-counter-reset]").addEventListener("click", () => {
+        counter = 24;
+        roll();
       });
-      observer.observe(document.documentElement, {
+      const stop = () => {
+        if (job) resetAction("Cancelled");
+        chartAnimation?.cancel();
+        chartAnimation = null;
+        areaAnimation?.cancel();
+        areaAnimation = null;
+        tabAnimations.forEach((a) => a.cancel());
+        tabAnimations.clear();
+        sortable.setEnabled(false);
+        $$("[data-gallery-counter] .roll-strip").forEach((el) =>
+          el.getAnimations().forEach((a) => a.cancel()),
+        );
+      };
+      const sync = () => {
+        if (!allowed("action") && job) resetAction("Cancelled");
+        if (!allowed("chart")) {
+          chartStarted = false;
+          chartAnimation?.cancel();
+          chartAnimation = null;
+          areaAnimation?.cancel();
+          areaAnimation = null;
+        }
+        sortable.setEnabled(allowed("sort"));
+        if (!allowed("tabs")) {
+          tabAnimations.forEach((a) => a.cancel());
+          tabAnimations.clear();
+        }
+        if (!allowed("counter"))
+          $$("[data-gallery-counter] .roll-strip").forEach((el) =>
+            el.getAnimations().forEach((a) => a.cancel()),
+          );
+      };
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) visibility.set(e.target, e.isIntersecting);
+          sync();
+          if (allowed("chart") && !chartStarted) drawChart();
+        },
+        { threshold: 0.08 },
+      );
+      cards.forEach((el) => observer.observe(el));
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stop();
+        else {
+          sync();
+          if (allowed("chart") && !chartStarted) drawChart();
+        }
+      });
+      const motion = () => {
+        if (S.reduced()) {
+          chartAnimation?.cancel();
+          chartAnimation = null;
+          areaAnimation?.cancel();
+          areaAnimation = null;
+          tabAnimations.forEach((a) => a.cancel());
+          tabAnimations.clear();
+        }
+      };
+      new MutationObserver(motion).observe(document.documentElement, {
         attributes: true,
         attributeFilter: ["data-motion"],
       });
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden) settle();
-      });
       window
         .matchMedia("(prefers-reduced-motion: reduce)")
-        .addEventListener("change", () => {
-          if (S.reduced()) settle();
-        });
+        .addEventListener("change", motion);
       return {
         enter() {
+          chartStarted = false;
           active = true;
-          if (!replayed) {
-            replayed = true;
-            replay();
-          }
+          sync();
+          drawChart();
         },
         leave() {
           active = false;
-          settle();
+          stop();
         },
+        sync,
+        stop,
       };
     },
   };
@@ -10480,10 +10260,17 @@ html[data-motion="reduced"] .pg-overview *::after {
   ];
 
   const render = () => {
-    const catalog = S.catalog();
+    const catalog = S.galleryEntries();
     return `<div class="pg-overview">
-      ${S.assembly.render()}
-      <section class="sec ov-browser" id="ov-library" data-toc="Components"><div class="ov-library-tools"><label class="ov-search">${icon("search", 18)}<input type="search" data-catalog-search placeholder="Search accordion, spring, button…" aria-label="Search the component library" autocomplete="off"><kbd class="kbd" aria-hidden="true">/</kbd></label><div class="ov-filters" role="group" aria-label="Filter specimens">${categories.map(([value, label], i) => `<button type="button" data-catalog-filter="${value}" aria-pressed="${i === 0}">${label}</button>`).join("")}</div></div><div class="ov-result-head"><span class="t-caption" role="status" data-catalog-count>${catalog.length} examples</span><button type="button" class="btn btn-ghost btn-sm" data-catalog-clear hidden>Clear filters ${icon("x", 12)}</button></div><div class="ov-catalog">${catalog.map((entry) => `<a class="ov-specimen" href="#/${entry.page}" data-specimen="${entry.index}" data-catalog-id="${entry.id}"><span class="ov-specimen-icon">${icon(entry.icon, 20)}</span><span class="ov-specimen-copy"><span class="t-eyebrow">${entry.collection}</span><strong>${S.esc(entry.title)}</strong><span class="ov-specimen-desc">${S.esc(entry.desc || "")}</span></span><span class="ov-specimen-go">${icon("arrow-up-right", 16)}</span></a>`).join("")}</div><div class="ov-empty" data-catalog-empty hidden>${icon("search", 24)}<h3>No matches.</h3><p>Try another search or clear the filters.</p></div><div class="ov-load-row"><button type="button" class="btn btn-secondary" data-catalog-more>Show more ${icon("plus", 16)}</button></div></section>
+      <header class="ov-header"><h1 class="ov-title" tabindex="-1">Component <span class="ov-title-accent">library</span></h1><a class="btn btn-secondary btn-sm" href="https://github.com/Dodothereal/schematic" target="_blank" rel="noreferrer">Source ${icon("arrow-up-right", 14)}</a></header>
+      <section class="sec ov-browser" id="ov-library" data-toc="Components"><div class="ov-library-tools"><label class="ov-search">${icon("search", 18)}<input type="search" data-catalog-search placeholder="Search accordion, spring, button…" aria-label="Search the component library" autocomplete="off"><kbd class="kbd" aria-hidden="true">/</kbd></label><div class="ov-filters" role="group" aria-label="Filter specimens">${categories.map(([value, label], i) => `<button type="button" data-catalog-filter="${value}" aria-pressed="${i === 0}">${label}</button>`).join("")}</div></div><div class="ov-result-head"><span class="t-caption" role="status" data-catalog-count>${catalog.length} examples</span><button type="button" class="btn btn-ghost btn-sm" data-catalog-clear hidden>Clear filters ${icon("x", 12)}</button></div><div class="ov-catalog">${catalog
+        .map((entry) => {
+          const preview = S.galleryPreview.render(entry.id);
+          return `<article class="ov-specimen-card${preview ? " is-preview" : ""}" ${preview ? "data-has-preview" : ""} data-gallery-card="${entry.id}">${preview}<a class="ov-specimen" href="#/${entry.page}" data-specimen="${entry.index}" data-catalog-id="${entry.id}"><span class="ov-specimen-icon">${icon(entry.icon, 20)}</span><span class="ov-specimen-copy"><span class="t-eyebrow">${entry.collection}</span><strong>${S.esc(entry.title)}</strong><span class="ov-specimen-desc">${S.esc(entry.desc || "")}</span></span><span class="ov-specimen-go">${icon("arrow-up-right", 16)}</span></a></article>`;
+        })
+        .join(
+          "",
+        )}</div><div class="ov-empty" data-catalog-empty hidden>${icon("search", 24)}<h3>No matches.</h3><p>Try another search or clear the filters.</p></div><div class="ov-load-row"><button type="button" class="btn btn-secondary" data-catalog-more>Show more ${icon("plus", 16)}</button></div></section>
       <section class="sec ov-previews" id="ov-preview" data-toc="Preview"><h2 class="t-h2">Preview</h2><div class="ov-workbench" aria-label="Component previews">
           <div class="seg seg-block ov-study-tabs" role="group" aria-label="Choose an interaction study">${studies.map((label, i) => `<button class="seg-btn" data-value="${i}">${label}</button>`).join("")}</div>
           <div class="ov-study-stage">
@@ -10559,10 +10346,11 @@ html[data-motion="reduced"] .pg-overview *::after {
         el.getAnimations().forEach((a) => a.cancel()),
       );
     };
-    state.stop = stop;
-    state.assembly = S.assembly.mount(root, () =>
-      $("[data-browse-library]").click(),
-    );
+    state.gallery = S.galleryPreview.mount(page);
+    state.stop = () => {
+      stop();
+      state.gallery.stop();
+    };
     $("[data-open-cmdk-ov]").addEventListener("click", () => S.cmdk.open());
     $("[data-browse-library]").addEventListener("click", () => {
       const v = document.querySelector("#viewport"),
@@ -10671,7 +10459,7 @@ html[data-motion="reduced"] .pg-overview *::after {
       });
       $("[data-study-status]").textContent = "Previews reset.";
     });
-    const entries = S.catalog(),
+    const entries = S.galleryEntries(),
       elements = new Map(
         $$("[data-catalog-id]").map((el) => [el.dataset.catalogId, el]),
       );
@@ -10685,7 +10473,11 @@ html[data-motion="reduced"] .pg-overview *::after {
             .includes(query),
       );
       const visible = new Set(matches.slice(0, state.limit).map((e) => e.id));
-      elements.forEach((el, id) => (el.hidden = !visible.has(id)));
+      elements.forEach((el, id) => {
+        el.hidden = !visible.has(id);
+        el.closest(".ov-specimen-card").hidden = el.hidden;
+      });
+      state.gallery.sync();
       $("[data-catalog-count]").textContent =
         `${matches.length} ${matches.length === 1 ? "example" : "examples"}`;
       $("[data-catalog-empty]").hidden = matches.length !== 0;
@@ -10751,14 +10543,14 @@ html[data-motion="reduced"] .pg-overview *::after {
       const state = instances.get(root);
       if (state) {
         state.active = true;
-        state.assembly.enter();
+        state.gallery.enter();
       }
     },
     leave(root) {
       const state = instances.get(root);
       if (state) {
         state.active = false;
-        state.assembly.leave();
+        state.gallery.leave();
         state.stop();
       }
     },
@@ -10944,7 +10736,7 @@ html[data-motion="reduced"] .pg-overview *::after {
           id: "ic-usage", num: "03", title: "Usage",
           body: `<div class="grid cols-2">
             ${S.demo({
-              title: "Inside controls", desc: "Any button, link, label or [data-ic-trigger] plays its icons on hover, focus and touch.",
+              title: "Animated icons", desc: "Any button, link, label or [data-ic-trigger] plays its icons on hover, focus and touch.",
               specs: ["auto-trigger", "plays to end"],
               body: `<button class="btn btn-primary">${S.icon("send")} Send</button><button class="btn btn-secondary">${S.icon("download")} Export</button><button class="btn btn-ghost btn-icon" data-tip="Notifications">${S.icon("bell")}</button><button class="btn btn-ghost btn-icon" data-tip="Delete">${S.icon("trash")}</button>`,
             })}
@@ -11047,7 +10839,7 @@ S.playIcon(el.querySelector(<span class="accent-text">".ic"</span>));</code></pr
     </div>` })}
 
     ${S.section({ id: "cp-states", num: "02", title: "Action states", body: `<div class="grid cols-2">
-      ${demo("Pending → resolved", "Two deterministic simulations. The second fails once, then succeeds on retry. Nothing is sent.", `<div class="cp-async-row"><div class="cp-async-item"><span class="t-eyebrow">Success path</span><button type="button" class="btn btn-primary cp-async" data-async="save">${icon("document")} Save sample</button></div><div class="cp-async-item"><span class="t-eyebrow">Recovery path</span><button type="button" class="btn btn-secondary cp-async" data-async="retry">${icon("refresh")} Test recovery</button></div></div>${note("async", "Ready. Each simulated request takes about one second.")}`, ["idle / busy / result"])}
+      ${demo("Action button", "Two deterministic simulations. The second fails once, then succeeds on retry. Nothing is sent.", `<div class="cp-async-row"><div class="cp-async-item"><span class="t-eyebrow">Success path</span><button type="button" class="btn btn-primary cp-async" data-async="save">${icon("document")} Save sample</button></div><div class="cp-async-item"><span class="t-eyebrow">Recovery path</span><button type="button" class="btn btn-secondary cp-async" data-async="retry">${icon("refresh")} Test recovery</button></div></div>${note("async", "Ready. Each simulated request takes about one second.")}`, ["idle / busy / result"])}
       ${demo("Copy with certainty", "Confirmation appears only if the shared clipboard helper reports success.", `<div class="cp-copy-field"><span class="t-eyebrow">Sample text</span><p data-copy-text>${COPY_TEXT}</p></div><button type="button" class="btn btn-secondary" data-copy>${icon("copy")} Copy text</button>${note("copy", "Copy the sample, or select the text above manually.")}`, ["real clipboard"])}
       ${demo("A deliberate confirmation", "Hold with a pointer, Space or Enter. Release early, leave the button or press Escape to cancel.", `<div class="cp-hold-object"><span class="cp-object-icon">${icon("folder", 24)}</span><div><strong>Explorations</strong><p class="t-caption">A local sample folder</p></div><span class="badge" data-folder-state>Active</span></div><button type="button" class="btn btn-danger btn-lg cp-hold" data-hold aria-describedby="cp-hold-help"><span class="cp-hold-fill" aria-hidden="true"></span><span class="cp-hold-label">${icon("lock")} <span data-hold-label>Hold to archive</span></span></button><p class="cp-hold-help" id="cp-hold-help">Hold for 1.5 seconds. Releasing early cancels.</p><progress class="cp-hold-progress" data-hold-progress max="100" value="0" aria-label="Archive confirmation progress"></progress><button type="button" class="btn btn-secondary btn-sm" data-restore-folder hidden>${icon("refresh")} Restore folder</button>${note("hold", "No action until the full hold completes.")}`, ["1.5s / fixed action time"])}
       ${demo("A little appreciation", "One favourite per visitor. The count and the button describe the same state.", `<div class="cp-favourite-card"><div class="cp-favourite-art" aria-hidden="true"><span></span><span></span><span></span><span></span></div><div class="cp-favourite-meta"><span class="t-eyebrow">Collection 004</span><strong>Useful little details</strong><span class="t-caption">Motion, made purposeful.</span></div><div class="cp-favourite-wrap"><button type="button" class="btn btn-secondary cp-favourite" data-favourite aria-pressed="false" aria-label="Favourite Useful little details">${icon("heart")} <span data-favourite-word>Favourite</span><span class="cp-fav-count t-num" data-favourite-count aria-hidden="true">128</span></button><div class="cp-particles" data-particles aria-hidden="true"></div></div></div>${note("favourite", "128 favourites. Yours is not added yet.")}`, ["count / particles"])}
@@ -11064,7 +10856,7 @@ S.playIcon(el.querySelector(<span class="accent-text">".ic"</span>));</code></pr
     </div>` })}
 
     ${S.section({ id: "cp-collections", num: "05", title: "Tabs, chips and avatars", body: `<div class="stack">
-      ${demo("Tabs with a sense of direction", "Left and right arrows choose a tab. Home and End jump to the edges. Tab moves into the selected panel.", `<div class="cp-tabs-shell"><div class="cp-tablist" role="tablist" aria-label="Component collection" data-tabs>${[["overview", "Overview", "grid"], ["anatomy", "Anatomy", "layers"], ["behavior", "Behavior", "cursor"]].map(([id, label, ic], i) => `<button type="button" role="tab" id="cp-tab-${id}" aria-controls="cp-panel-${id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-tab="${id}">${icon(ic)}${label}</button>`).join("")}<span class="cp-tab-underline" aria-hidden="true"></span></div><div class="cp-tab-panels"><div role="tabpanel" id="cp-panel-overview" aria-labelledby="cp-tab-overview" tabindex="0" data-panel="overview"><div class="cp-tab-feature"><div class="cp-tab-drawing" aria-hidden="true"><span class="cp-drawing-button">${icon("plus")} Create something</span><span class="cp-drawing-caption t-mono">intent → action → feedback</span></div><div><span class="t-eyebrow">01 / The whole picture</span><h3>One familiar gesture.<br>A complete response.</h3><p>A control is more than its resting state. It has a focus, a press, a pending moment and a result.</p><span class="badge badge-accent">Made to be used</span></div></div></div><div role="tabpanel" id="cp-panel-anatomy" aria-labelledby="cp-tab-anatomy" tabindex="0" data-panel="anatomy" hidden><div class="cp-anatomy-grid">${[["01", "Container", "A surface defines the target and its emphasis."], ["02", "Label", "A verb explains what pressing will do."], ["03", "Icon", "A visual cue reinforces the label."], ["04", "Feedback", "A visible state confirms what happened."]].map(([n, label, text]) => `<div><span class="cp-anatomy-no t-mono">${n}</span><strong>${label}</strong><p>${text}</p></div>`).join("")}</div></div><div role="tabpanel" id="cp-panel-behavior" aria-labelledby="cp-tab-behavior" tabindex="0" data-panel="behavior" hidden><div class="cp-behavior-flow">${[["cursor", "Focus", "The next action is clear."], ["plus", "Press", "The target acknowledges input."], ["check-circle", "Resolve", "The outcome stays visible."]].map(([ic, label, text]) => `<div><span>${icon(ic, 22)}</span><strong>${label}</strong><p>${text}</p></div>`).join("")}</div><p class="cp-tab-access">Reduced motion keeps each state and its meaning, with no directional travel.</p></div></div></div>`, ["roving focus", "direction / out"])}
+      ${demo("Tabs", "Left and right arrows choose a tab. Home and End jump to the edges. Tab moves into the selected panel.", `<div class="cp-tabs-shell"><div class="cp-tablist" role="tablist" aria-label="Component collection" data-tabs>${[["overview", "Overview", "grid"], ["anatomy", "Anatomy", "layers"], ["behavior", "Behavior", "cursor"]].map(([id, label, ic], i) => `<button type="button" role="tab" id="cp-tab-${id}" aria-controls="cp-panel-${id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-tab="${id}">${icon(ic)}${label}</button>`).join("")}<span class="cp-tab-underline" aria-hidden="true"></span></div><div class="cp-tab-panels"><div role="tabpanel" id="cp-panel-overview" aria-labelledby="cp-tab-overview" tabindex="0" data-panel="overview"><div class="cp-tab-feature"><div class="cp-tab-drawing" aria-hidden="true"><span class="cp-drawing-button">${icon("plus")} Create something</span><span class="cp-drawing-caption t-mono">intent → action → feedback</span></div><div><span class="t-eyebrow">01 / The whole picture</span><h3>One familiar gesture.<br>A complete response.</h3><p>A control is more than its resting state. It has a focus, a press, a pending moment and a result.</p><span class="badge badge-accent">Made to be used</span></div></div></div><div role="tabpanel" id="cp-panel-anatomy" aria-labelledby="cp-tab-anatomy" tabindex="0" data-panel="anatomy" hidden><div class="cp-anatomy-grid">${[["01", "Container", "A surface defines the target and its emphasis."], ["02", "Label", "A verb explains what pressing will do."], ["03", "Icon", "A visual cue reinforces the label."], ["04", "Feedback", "A visible state confirms what happened."]].map(([n, label, text]) => `<div><span class="cp-anatomy-no t-mono">${n}</span><strong>${label}</strong><p>${text}</p></div>`).join("")}</div></div><div role="tabpanel" id="cp-panel-behavior" aria-labelledby="cp-tab-behavior" tabindex="0" data-panel="behavior" hidden><div class="cp-behavior-flow">${[["cursor", "Focus", "The next action is clear."], ["plus", "Press", "The target acknowledges input."], ["check-circle", "Resolve", "The outcome stays visible."]].map(([ic, label, text]) => `<div><span>${icon(ic, 22)}</span><strong>${label}</strong><p>${text}</p></div>`).join("")}</div><p class="cp-tab-access">Reduced motion keeps each state and its meaning, with no directional travel.</p></div></div></div>`, ["roving focus", "direction / out"])}
       <div class="grid cols-2">
         ${demo("Labels that make room", "Select a chip to include it. Remove one and its neighbors move into the space.", `<div class="cp-chip-list" data-chips role="group" aria-label="Collection labels">${tags.map((tag, i) => `<span class="cp-chip" data-chip="${tag}"><button type="button" data-chip-select aria-pressed="${i < 2}"><span class="cp-chip-dot" aria-hidden="true"></span>${tag}</button><button type="button" data-chip-remove aria-label="Remove ${tag}">${icon("x", 12)}</button></span>`).join("")}</div><div class="cp-chip-tools"><span class="t-caption" data-chip-count>2 labels selected</span><button type="button" class="btn btn-ghost btn-sm" data-reset-chips>${icon("refresh")} Restore labels</button></div>${note("chips", "Interface and Motion are selected.")}`, ["select / remove", "FLIP / snappy"])}
         ${demo("People, with presence", "Initials keep this demo entirely local. Choose a person to see their role and availability.", `<div class="cp-avatars" role="group" aria-label="Collection collaborators">${people.map((p, i) => `<button type="button" class="cp-avatar cp-avatar-${p.tone}" data-person="${i}" aria-label="${p.name}, ${p.status}" aria-pressed="${i === 0}" data-tip="${p.name} · ${p.status}"><span>${p.initials}</span><i class="cp-status-dot" aria-hidden="true"></i></button>`).join("")}</div><div class="cp-person-card" data-person-card><span class="cp-person-initials cp-avatar-success" data-person-initials>AL</span><div><strong data-person-name>Alex Lin</strong><span class="t-caption" data-person-role>Design systems</span></div><span class="cp-presence" data-person-status data-tone="success">Available</span></div><label class="cp-availability-label" for="cp-availability">Your availability</label><select id="cp-availability" class="cp-select" data-availability><option>Available</option><option>Focusing</option><option>Away</option></select>${note("people", "Alex Lin · Design systems · Available.")}`, ["status / text + colour"])}

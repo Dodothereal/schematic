@@ -503,6 +503,36 @@ try {
     "Manual regression fails again without a cached repair flag",
     "document.querySelectorAll('.ws-check-row[data-status=failed]').length===1&&document.querySelector('[data-ws-merge]').disabled",
   );
+  await b.size(1440, 1000);
+  await ev('Schematic.setMotion("reduced");void 0');
+  await delay(50);
+  await check(
+    "Immersive workspace removes hidden library links from focus",
+    "document.querySelector('.sidebar').inert&&document.querySelector('.sidebar').getBoundingClientRect().right<=0",
+  );
+  await ev('document.querySelector("#menu-btn").click();void 0');
+  await delay(25);
+  await check(
+    "Desktop workspace can reopen library navigation",
+    "!document.querySelector('.sidebar').inert&&document.querySelector('.sidebar').getBoundingClientRect().left===0&&!!document.activeElement.closest('.sidebar')",
+  );
+  await key("Tab", "Tab", 9, 8);
+  await check(
+    "Immersive navigation contains reverse Tab",
+    "(()=>{const a=[...document.querySelector('.sidebar').querySelectorAll('a[href],button:not(:disabled),input:not(:disabled)')].filter(e=>e.offsetParent!==null);return document.activeElement===a.at(-1)})()",
+  );
+  await key("Escape", "Escape", 27);
+  await delay(25);
+  await check(
+    "Immersive navigation Escape restores its trigger",
+    "document.activeElement.id==='menu-btn'&&document.querySelector('.sidebar').inert",
+  );
+  await ev('Schematic.navigate("overview");void 0');
+  await delay(100);
+  await check(
+    "Returning to the library restores desktop navigation",
+    "!document.querySelector('.sidebar').inert&&document.querySelector('.sidebar').getBoundingClientRect().left===0",
+  );
   await check(
     "No browser exceptions or console errors",
     b.failures.length === 0,

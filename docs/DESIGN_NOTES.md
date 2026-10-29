@@ -1,23 +1,20 @@
 # Implementation notes
 
-The home page starts with a component assembly, followed by search and examples.
+The home page follows the v3 layout, with search and working component previews.
 Names describe the component or its action. Instructions cover operation and keyboard controls; repeated intro
 banners and promotional copy have been removed.
-
-## Component assembly
-
-Five HTML components sit on an SVG drafting grid. Assembled, exploded and
-wireframe views share the same elements, so switching views moves the parts
-instead of replacing them. Selection updates the inspector and example link.
-Radius changes update the actual geometry. A mobile picker keeps each selected
-component at readable size. Entry and chart tracing stop offscreen, on navigation
-and under reduced motion. No rendering package or external asset is required.
 
 ## Catalog
 
 The catalog reads names, descriptions and icons from the actual specimens.
 Results open and focus the corresponding example. A full application example
 can register its application frame as one specimen without a second page header.
+
+The first six catalog cards contain working action states, a chart, a sortable
+checklist, tabs, animated icons and a rolling counter. They use the shared
+segmented controls, sortable helper, icon registry and motion tokens. Preview
+controls and example links have separate targets. Filtering removes the entire
+card; hidden work is cancelled and component state is retained.
 
 ## Dragging
 

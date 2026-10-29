@@ -2,7 +2,7 @@
 
 The release is checked against the actual offline reference in isolated Chrome profiles.
 
-- 439 browser assertions passed: 55 routing/layout/runtime, 27 interactions, 23 motion/palette refinements, 15 onboarding behavior checks, 42 onboarding motion checks, 133 library checks, 47 drag-sorting checks, 68 coding-workspace checks and 29 assembly/integration checks.
+- 438 browser assertions passed: 55 routing/layout/runtime, 27 interactions, 23 motion/palette refinements, 15 onboarding behavior checks, 42 onboarding motion checks, 133 library checks, 47 drag-sorting checks, 73 coding-workspace and integration checks, and 23 live-gallery checks.
 - Ten structural checks validate JavaScript and inline scripts, local asset links, the 153-token manifest, zero npm/runtime network dependencies, and byte-for-byte deterministic builds.
 - Checks cover all eleven routes, state retention, Back/Forward, interrupted and unsupported View Transitions, keyboard controls, mobile focus and reduced motion.
 - Interaction checks exercise retries, cancellation, validation, OTP paste, local profile save/reset, file selection, chart inspection, table sorting/filtering/selection and overlay cleanup.
@@ -12,7 +12,7 @@ The release is checked against the actual offline reference in isolated Chrome p
 - Expanded-library checks cover all sixteen new specimens, twenty recorded motion traces, catalog counts/search/filters/exact-example focus, the home playground, native keyboard activation, validation, retained state, and cleanup. All eleven routes are checked at 320px and 390px in dark Mono. Reversals sample displayed geometry; reduced motion applies final states immediately.
 - Drag checks use trusted mouse, touch and keyboard input. They cover cross-group moves, sorting, edge scrolling, Escape and pointer cancellation, exact rollback, focus preservation, reduced motion and cleanup.
 - Coding-workspace checks exercise highlighted source, real local editing and cursor retention, split-diff alignment and scroll synchronization, failing CI logs, assistant and manual repairs, regression after removing a repair, revision-aware approval, cancellation, merge gating, independent sessions and mobile Editor/Assistant/Checks views. All AI, Git and CI behavior is a local simulation; the edited TypeScript is not compiled or executed.
-- Assembly checks inspect intermediate reassembly and chart-tracing frames, wireframe view, actual radius changes, keyboard selection, retained state, navigation cleanup and full-size mobile components. Integration checks cover the workspace's full-width layout and the library navigation's inertness, focus containment and restoration.
+- Gallery checks cover real action progress and cancellation, chart tracing and inspection, sorting, checkboxes, tab state, counter frames, icon focus, reduced motion, cleanup and narrow layouts.
 - The catalog contains 69 specimens across eleven routes. The shared registry contains 82 animated icons.
 - Primary and destructive labels and caption tokens meet the tested 4.5:1 threshold in both appearances and the tested hue presets. This is not a full accessibility certification.
 - Local browser verification used Chrome on macOS. The public CI workflow repeats the suite on Linux Chrome.
@@ -32,18 +32,18 @@ The harness creates its own browser profile, closes its browser process and remo
 ## Walkthrough media
 
 - The video records real controls in the generated offline application.
-- The v0.4 walkthrough records the component assembly, rebuilt editor and CI console, drag sorting, guide and component collections.
+- The walkthrough records the component browser, editor and CI console, drag sorting, guide and component collections.
 - H.264 video, 1440 x 1008 at 30 fps; AAC narration at 48 kHz.
-- Runtime: approximately 4 minutes 18 seconds; 16 seekable chapters and 64 caption cues.
+- Runtime: approximately 4 minutes 22 seconds; 16 seekable chapters and 64 caption cues.
 - English captions and a written transcript accompany the recording.
 - Encoded samples from the opening, coding workspace, dragging, charts and closing were inspected. Playback and chapter seeking were tested. The watch page embeds captions so they also load from a local file.
 - Narration is synthetic, generated locally with the installed macOS Samantha voice. No third-party footage or user desktop was recorded.
 
 ## Artifact integrity
 
-- `dist/schematic.html` — 874,093 bytes; SHA-256 `7b4b0516d007a9ed72cdc47e92bff8d34ac5d7242fe0d8a4ad709c3ab27fee24`.
-- `dist/schematic-mono.html` — 874,092 bytes; SHA-256 `92181080a200f77fc0e7e877660084e7d16165e2773f7380d998bd0a88cce033`.
-- `docs/assets/schematic-walkthrough.mp4` — 20,873,206 bytes; SHA-256 `35c1686e6c944d11d93e8addd8cb5f3d8f1c019a7c3ce9048d302746525ebf86`.
+- `dist/schematic.html` — 871,301 bytes; SHA-256 `108400a14b51de2c595fd6f8d5593ebecdaaf5cfb3e5217e3c4e9a8b620b55a0`.
+- `dist/schematic-mono.html` — 871,300 bytes; SHA-256 `597ecbc6de40c03d5d1185e6fb1b9f5ae85fa163d77655addd003082c4fa2909`.
+- `docs/assets/schematic-walkthrough.mp4` — 20,165,969 bytes; SHA-256 `3fd6c24b20ddb7e2d0a4cd60be6903d25561b38601a8ec4099c77d9b1f61b91a`.
 
 ## Limits
 
@@ -52,7 +52,7 @@ Safari, Firefox, touch hardware and VoiceOver were not independently verified. A
 GitHub Actions supplies the current remote build status. See the [CI workflow](https://github.com/Dodothereal/schematic/actions/workflows/ci.yml) and [Pages workflow](https://github.com/Dodothereal/schematic/actions/workflows/pages.yml).
 
 The preceding hosted release was verified for route navigation, the Guide API,
-caption loading, seeking/playback and runtime errors. The v0.4 local recording
+caption loading, seeking/playback and runtime errors. The v0.4.1 local recording
 and player were checked with 16 chapters and 64 loaded caption cues. The
 inherited account-level custom domain currently serves the Pages site over HTTP;
 direct HTTPS on that domain fails hostname verification. GitHub repository and

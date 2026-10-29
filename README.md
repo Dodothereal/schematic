@@ -1,7 +1,7 @@
 # Schematic
 
 An offline component library built with HTML, CSS, JavaScript and SVG.
-Recompose the opening component assembly, browse examples and inspect the source.
+Browse working component previews, test interactions and inspect the source.
 
 [Try the live reference](http://dodothereal.me/schematic/) ·
 [Quick start](docs/QUICKSTART.md) ·
@@ -44,7 +44,6 @@ visit with an automatic modal. You can close and reopen it at any time.
 
 | Area | What you can actually do |
 | --- | --- |
-| **Component assembly** | Recompose five components, select a piece, change its radius and open its full example. |
 | **Foundations** | Inspect semantic colours, type, spacing and surfaces; export a resolved token snapshot. |
 | **Motion Lab** | Compare and scrub easing curves, tune a physical spring, copy its sampled curve and replay choreography. |
 | **Icons** | Search 82 animated SVG icons, change size and stroke, play a wave and copy usage. |
@@ -56,14 +55,15 @@ visit with an automatic modal. You can close and reopen it at any time.
 | **Overlays & Feedback** | Open origin-aware dialogs, drawers and sheets; try menus, tooltips, toasts and loading states. |
 | **Coding workspace** | Edit highlighted source, compare split diffs, inspect CI logs, request a simulated repair, review and merge a PR. |
 
-The reference has eleven routes including Overview. Recompose the opening
-assembly, select a piece or change its radius, then browse the catalog below.
-Catalog results come from the actual specimens and open their working example. Pages prepare on intent and
+The reference has eleven routes including Overview. The home page starts with
+search and working component previews. Run an action, inspect a chart, drag
+tasks, switch tabs or try the icons and counter directly in the catalog.
+Each result also opens its full working example. Pages prepare on intent and
 during idle time, retain their DOM and restore scroll position on return.
 Cmd/Ctrl-K opens the command palette.
 
-Version 0.4 adds the component assembly and rebuilds the coding workspace around
-a code editor, split diff and CI console. Chat sits beside the code.
+The coding workspace uses a code editor, split diff and CI console. Chat sits
+beside the code.
 The coding workspace is local: it does not contact an AI, Git or CI service.
 Primitives and Navigation contain sixteen standalone specimens.
 Their motion studies take inspiration from
