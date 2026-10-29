@@ -345,7 +345,7 @@ impl Sortable {
                     r,
                     crate::ui::rounded(8. * rt.tokens.radius),
                     rt.tokens.bg_sunken,
-                    Stroke::new(1., rt.tokens.border_soft),
+                    Stroke::new(1.0_f32, rt.tokens.border_soft),
                     egui::StrokeKind::Inside,
                 );
                 ui.painter().text(
@@ -403,7 +403,7 @@ impl Sortable {
                         rt.tokens.surface
                     },
                     Stroke::new(
-                        if source { 2. } else { 1. },
+                        if source { 2. } else { 1.0_f32 },
                         if source {
                             rt.tokens.accent_ring
                         } else {
@@ -456,7 +456,7 @@ impl Sortable {
                     child.painter().rect_stroke(
                         grip_rect,
                         4.,
-                        Stroke::new(2., rt.tokens.accent_ring),
+                        Stroke::new(2.0_f32, rt.tokens.accent_ring),
                         egui::StrokeKind::Outside,
                     );
                 }
@@ -594,7 +594,7 @@ impl Sortable {
         {
             ui.painter().line_segment(
                 [rect.left_top(), rect.right_top()],
-                Stroke::new(2., rt.tokens.accent),
+                Stroke::new(2.0_f32, rt.tokens.accent),
             );
         }
         let ghost = self
@@ -633,7 +633,7 @@ impl Sortable {
                     ui.set_width(rect.width());
                     egui::Frame::new()
                         .fill(rt.tokens.surface_raised)
-                        .stroke(Stroke::new(1., rt.tokens.accent_ring))
+                        .stroke(Stroke::new(1.0_f32, rt.tokens.accent_ring))
                         .corner_radius(crate::ui::rounded(10. * rt.tokens.radius))
                         .inner_margin(8.)
                         .show(ui, |ui| {

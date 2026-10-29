@@ -38,7 +38,7 @@ fn range(ui: &mut egui::Ui, rt: &Runtime, slider: egui::Slider<'_>, width: f32) 
         ui.spacing_mut().slider_width = width;
         let visuals = ui.visuals_mut();
         visuals.widgets.inactive.bg_fill = rt.tokens.surface3;
-        visuals.widgets.inactive.bg_stroke = Stroke::new(1.0, rt.tokens.border_strong);
+        visuals.widgets.inactive.bg_stroke = Stroke::new(1.0_f32, rt.tokens.border_strong);
         visuals.widgets.hovered.bg_fill = rt.tokens.accent;
         visuals.widgets.active.bg_fill = rt.tokens.accent;
         visuals.selection.bg_fill = rt.tokens.accent;
@@ -145,20 +145,20 @@ impl State {
         for y in [40.0, 110.0, 180.0] {
             p.line_segment(
                 [map(30.0, y), map(330.0, y)],
-                Stroke::new(1.0, rt.tokens.border_soft),
+                Stroke::new(1.0_f32, rt.tokens.border_soft),
             );
         }
         for x in [30.0, 180.0, 330.0] {
             p.line_segment(
                 [map(x, 40.0), map(x, 180.0)],
-                Stroke::new(1.0, rt.tokens.border_soft),
+                Stroke::new(1.0_f32, rt.tokens.border_soft),
             );
         }
         let a = map(30.0, 180.0);
         let b = map(330.0, 40.0);
         p.add(Shape::dashed_line(
             &[a, b],
-            Stroke::new(1.0, rt.tokens.border_strong),
+            Stroke::new(1.0_f32, rt.tokens.border_strong),
             3.0,
             5.0,
         ));
@@ -168,7 +168,7 @@ impl State {
                 .enumerate()
                 .map(|(i, v)| map(30.0 + i as f32 * 2.5, 180.0 - v * 140.0))
                 .collect(),
-            Stroke::new(2.5, rt.tokens.accent),
+            Stroke::new(2.5_f32, rt.tokens.accent),
         ));
         p.circle(
             map(
@@ -177,7 +177,7 @@ impl State {
             ),
             5.0,
             rt.tokens.surface,
-            Stroke::new(3.0, rt.tokens.accent),
+            Stroke::new(3.0_f32, rt.tokens.accent),
         );
         for (point, text) in [
             (map(30.0, 205.0), "0"),
@@ -324,7 +324,7 @@ impl Page for State {
                 p.rect_stroke(
                     goal,
                     8.0,
-                    Stroke::new(1.0, rt.tokens.accent_ring),
+                    Stroke::new(1.0_f32, rt.tokens.accent_ring),
                     StrokeKind::Inside,
                 );
                 let travel = Rect::from_min_size(
@@ -384,7 +384,7 @@ impl Page for State {
                         pos2(rect.left() + 16.0, rect.center().y),
                         pos2(rect.right() - 16.0, rect.center().y),
                     ],
-                    Stroke::new(1.0, rt.tokens.border_strong),
+                    Stroke::new(1.0_f32, rt.tokens.border_strong),
                 );
                 let goal = Rect::from_center_size(
                     pos2(rect.right() - 40.0, rect.center().y),
@@ -393,7 +393,7 @@ impl Page for State {
                 p.rect_stroke(
                     goal,
                     12.0 * rt.prefs.radius,
-                    Stroke::new(1.0, rt.tokens.accent_ring),
+                    Stroke::new(1.0_f32, rt.tokens.accent_ring),
                     StrokeKind::Inside,
                 );
                 let object = Rect::from_min_size(
@@ -407,7 +407,7 @@ impl Page for State {
                     object,
                     12.0 * rt.prefs.radius,
                     rt.tokens.surface,
-                    Stroke::new(1.0, rt.tokens.accent_ring),
+                    Stroke::new(1.0_f32, rt.tokens.accent_ring),
                     StrokeKind::Inside,
                 );
                 icons::paint(
@@ -544,7 +544,7 @@ impl Page for State {
                         rect,
                         12.0 * rt.prefs.radius,
                         rt.tokens.surface,
-                        Stroke::new(1.0, rt.tokens.border),
+                        Stroke::new(1.0_f32, rt.tokens.border),
                         StrokeKind::Inside,
                     );
                     let icon_rect = Rect::from_min_size(

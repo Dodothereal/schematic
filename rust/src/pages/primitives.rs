@@ -553,7 +553,7 @@ impl State {
             ui.painter().line_segment(
                 [egui::pos2(x, rule.top()), egui::pos2(x + 22., rule.top())],
                 Stroke::new(
-                    2.,
+                    2.0_f32,
                     if i == 0 {
                         rt.tokens.accent
                     } else {
@@ -776,7 +776,7 @@ impl State {
             } else {
                 rt.tokens.surface
             },
-            Stroke::new(1., rt.tokens.border),
+            Stroke::new(1.0_f32, rt.tokens.border),
             egui::StrokeKind::Inside,
         );
         let mut content = ui.new_child(
@@ -805,7 +805,7 @@ impl State {
                     egui::pos2(art.left() + 20., art.center().y),
                     20.,
                     rt.tokens.accent_soft,
-                    Stroke::new(1., rt.tokens.accent_ring),
+                    Stroke::new(1.0_f32, rt.tokens.accent_ring),
                 );
                 p.rect(
                     Rect::from_center_size(
@@ -829,7 +829,7 @@ impl State {
                         se: 4,
                     },
                     rt.tokens.accent_soft,
-                    Stroke::new(1., rt.tokens.accent_ring),
+                    Stroke::new(1.0_f32, rt.tokens.accent_ring),
                     egui::StrokeKind::Inside,
                 );
                 ui.add_space(12.);
@@ -963,7 +963,7 @@ impl State {
             mark,
             ui::rounded(10. * rt.tokens.radius),
             rt.tokens.accent_soft,
-            Stroke::new(1., rt.tokens.accent_ring),
+            Stroke::new(1.0_f32, rt.tokens.accent_ring),
             egui::StrokeKind::Inside,
         );
         ui.painter().text(
@@ -1004,13 +1004,13 @@ impl State {
         });
         ui.painter().add(egui::Shape::line(
             points.to_vec(),
-            Stroke::new(1.6, rt.tokens.text3),
+            Stroke::new(1.6_f32, rt.tokens.text3),
         ));
         if b.has_focus() {
             ui.painter().rect_stroke(
                 trigger,
                 ui::rounded(10. * rt.tokens.radius),
-                Stroke::new(2., rt.tokens.accent_ring),
+                Stroke::new(2.0_f32, rt.tokens.accent_ring),
                 egui::StrokeKind::Inside,
             );
         }

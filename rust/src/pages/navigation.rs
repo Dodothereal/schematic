@@ -745,7 +745,7 @@ impl State {
                     egui::pos2(start.x + x, target.bottom() + 2.),
                     egui::pos2(start.x + x + w, target.bottom() + 2.),
                 ],
-                Stroke::new(2., rt.tokens.accent),
+                Stroke::new(2.0_f32, rt.tokens.accent),
             );
         }
         ui.add_space(18.);
@@ -1518,7 +1518,7 @@ impl State {
                     egui::pos2(base + x, target.bottom() + 2.),
                     egui::pos2(base + x + target.width(), target.bottom() + 2.),
                 ],
-                Stroke::new(2., rt.tokens.accent),
+                Stroke::new(2.0_f32, rt.tokens.accent),
             );
         }
         self.status(ui, rt, 5);
@@ -2112,7 +2112,7 @@ fn native_button(
         ui.painter().rect_stroke(
             r.expand(2.),
             ui::rounded(7. * rt.tokens.radius),
-            Stroke::new(2., rt.tokens.accent_ring),
+            Stroke::new(2.0_f32, rt.tokens.accent_ring),
             egui::StrokeKind::Outside,
         );
     }
@@ -2199,7 +2199,7 @@ fn option_row(
         ui.painter().rect_stroke(
             r,
             ui::rounded(6. * rt.tokens.radius),
-            Stroke::new(2., rt.tokens.accent_ring),
+            Stroke::new(2.0_f32, rt.tokens.accent_ring),
             egui::StrokeKind::Inside,
         );
     }
@@ -2276,7 +2276,7 @@ fn direction_art(ui: &mut egui::Ui, rt: &Runtime, index: usize) {
                         egui::pos2(r.center().x + 28., y),
                         egui::pos2(r.right() - 24., y),
                     ],
-                    Stroke::new(2., rt.tokens.border_strong),
+                    Stroke::new(2.0_f32, rt.tokens.border_strong),
                 );
             }
         }
@@ -2290,7 +2290,7 @@ fn direction_art(ui: &mut egui::Ui, rt: &Runtime, index: usize) {
             for pair in [[0, 1], [0, 2], [1, 3], [2, 3]] {
                 p.line_segment(
                     [points[pair[0]], points[pair[1]]],
-                    Stroke::new(1., rt.tokens.border_strong),
+                    Stroke::new(1.0_f32, rt.tokens.border_strong),
                 );
             }
             for point in points {
@@ -2298,7 +2298,7 @@ fn direction_art(ui: &mut egui::Ui, rt: &Runtime, index: usize) {
                     Rect::from_center_size(point, egui::vec2(50., 34.)),
                     6.,
                     rt.tokens.surface,
-                    Stroke::new(1., rt.tokens.accent_ring),
+                    Stroke::new(1.0_f32, rt.tokens.accent_ring),
                     egui::StrokeKind::Inside,
                 );
             }
@@ -2318,7 +2318,7 @@ fn direction_art(ui: &mut egui::Ui, rt: &Runtime, index: usize) {
                         rt.tokens.surface
                     },
                     Stroke::new(
-                        1.,
+                        1.0_f32,
                         if i == 1 {
                             rt.tokens.accent_ring
                         } else {

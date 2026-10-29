@@ -471,7 +471,7 @@ impl State {
                     rect,
                     8.0 * rt.tokens.radius,
                     rt.tokens.surface2,
-                    Stroke::new(1.0, rt.tokens.border_strong),
+                    Stroke::new(1.0_f32, rt.tokens.border_strong),
                     StrokeKind::Inside,
                 );
                 for (row_index, row) in rows.iter().enumerate() {
@@ -504,7 +504,7 @@ impl State {
                             r,
                             4.0 * rt.tokens.radius,
                             rt.tokens.accent_soft.linear_multiply(progress),
-                            Stroke::new(1.0, rt.tokens.accent_ring.linear_multiply(progress)),
+                            Stroke::new(1.0_f32, rt.tokens.accent_ring.linear_multiply(progress)),
                             StrokeKind::Inside,
                         );
                         ui.painter().text(
@@ -615,7 +615,7 @@ impl State {
                                     .collect();
                                 ui.painter().add(egui::Shape::line(
                                     points,
-                                    Stroke::new(1.8, rt.tokens.text2),
+                                    Stroke::new(1.8_f32, rt.tokens.text2),
                                 ));
                             }
                             rt.record(if i == 0 { "cp-save" } else { "cp-retry" }, &r);
@@ -831,7 +831,7 @@ impl State {
                             rt.tokens.surface3,
                             rt.tokens.accent_soft,
                         ][i],
-                        Stroke::new(1.0, rt.tokens.accent_ring),
+                        Stroke::new(1.0_f32, rt.tokens.accent_ring),
                         StrokeKind::Inside,
                     );
                 }
@@ -1047,7 +1047,7 @@ impl State {
                 });
                 egui::Frame::new()
                     .fill(rt.tokens.surface2)
-                    .stroke(Stroke::new(1.0, rt.tokens.border_strong))
+                    .stroke(Stroke::new(1.0_f32, rt.tokens.border_strong))
                     .corner_radius(8.0 * rt.tokens.radius)
                     .inner_margin(12.0)
                     .show(ui, |ui| {
@@ -1196,7 +1196,7 @@ impl State {
                     shape,
                     4.0 * rt.tokens.radius,
                     rt.tokens.accent_soft,
-                    Stroke::new(1.0, rt.tokens.accent_ring),
+                    Stroke::new(1.0_f32, rt.tokens.accent_ring),
                     StrokeKind::Inside,
                 );
                 for mode in 0..4 {
@@ -1215,7 +1215,7 @@ impl State {
                             ui.painter().rect_stroke(
                                 shape.expand(4.0),
                                 0.0,
-                                Stroke::new(1.0, color),
+                                Stroke::new(1.0_f32, color),
                                 StrokeKind::Outside,
                             );
                         }
@@ -1230,7 +1230,7 @@ impl State {
                                 })
                                 .collect();
                             ui.painter()
-                                .add(egui::Shape::line(points, Stroke::new(2.0, color)));
+                                .add(egui::Shape::line(points, Stroke::new(2.0_f32, color)));
                         }
                         2 => {
                             let r = Rect::from_min_size(
@@ -1307,7 +1307,7 @@ impl State {
                     } else {
                         rt.tokens.surface
                     },
-                    Stroke::new(1.0, rt.tokens.border),
+                    Stroke::new(1.0_f32, rt.tokens.border),
                     StrokeKind::Inside,
                 );
                 let guides = rt.animate(
@@ -1320,7 +1320,7 @@ impl State {
                     let x = r.left() + r.width() * i as f32 / 8.0;
                     ui.painter().line_segment(
                         [Pos2::new(x, r.top()), Pos2::new(x, r.bottom())],
-                        Stroke::new(1.0, rt.tokens.accent_ring.linear_multiply(guides)),
+                        Stroke::new(1.0_f32, rt.tokens.accent_ring.linear_multiply(guides)),
                     );
                 }
                 if self.layers[0] {
@@ -1401,7 +1401,7 @@ impl State {
                         ui.allocate_exact_size(Vec2::new(ui.available_width(), h), Sense::hover());
                     ui.painter().line_segment(
                         [r.left_bottom(), r.right_bottom()],
-                        Stroke::new(1.0, rt.tokens.border_soft),
+                        Stroke::new(1.0_f32, rt.tokens.border_soft),
                     );
                     ui.painter().text(
                         r.left_center() + Vec2::new(4.0, 0.0),
@@ -1518,7 +1518,7 @@ impl State {
                             ui.painter().rect_stroke(
                                 rect.shrink(1.0),
                                 5.0 * rt.tokens.radius,
-                                Stroke::new(2.0, rt.tokens.accent_ring),
+                                Stroke::new(2.0_f32, rt.tokens.accent_ring),
                                 StrokeKind::Inside,
                             );
                         }
@@ -1584,7 +1584,7 @@ impl State {
                     ui.painter().rect_stroke(
                         panel.response.rect.expand(3.0),
                         5.0,
-                        Stroke::new(2.0, rt.tokens.accent_ring),
+                        Stroke::new(2.0_f32, rt.tokens.accent_ring),
                         StrokeKind::Outside,
                     );
                 }
@@ -1674,7 +1674,7 @@ impl State {
                             .surface
                             .lerp_to_gamma(rt.tokens.accent_soft, amount),
                         Stroke::new(
-                            1.0,
+                            1.0_f32,
                             if selected {
                                 rt.tokens.accent_ring
                             } else {
@@ -1726,7 +1726,7 @@ impl State {
                         ui.painter().rect_stroke(
                             rect.expand(2.0),
                             19.0 * rt.tokens.radius,
-                            Stroke::new(2.0, rt.tokens.accent_ring),
+                            Stroke::new(2.0_f32, rt.tokens.accent_ring),
                             StrokeKind::Outside,
                         );
                     }
@@ -1821,7 +1821,7 @@ impl State {
                                 if self.person == i || response.has_focus() {
                                     2.0
                                 } else {
-                                    1.0
+                                    1.0_f32
                                 },
                                 if self.person == i {
                                     rt.tokens.accent_ring
@@ -1862,7 +1862,7 @@ impl State {
                 }
                 egui::Frame::new()
                     .fill(rt.tokens.surface2)
-                    .stroke(Stroke::new(1.0, rt.tokens.border))
+                    .stroke(Stroke::new(1.0_f32, rt.tokens.border))
                     .corner_radius(8.0 * rt.tokens.radius)
                     .inner_margin(12.0)
                     .show(ui, |ui| {
@@ -2451,7 +2451,7 @@ fn sized_button(
             rt.tokens.surface
         },
         Stroke::new(
-            1.0,
+            1.0_f32,
             if response.hovered() {
                 rt.tokens.border_strong
             } else {
@@ -2482,7 +2482,7 @@ fn sized_button(
         ui.painter().rect_stroke(
             rect.expand(2.0),
             8.0 * rt.tokens.radius,
-            Stroke::new(2.0, rt.tokens.accent_ring),
+            Stroke::new(2.0_f32, rt.tokens.accent_ring),
             StrokeKind::Outside,
         );
     }
@@ -2544,7 +2544,7 @@ fn toolbar_button(
         ui.painter().rect_stroke(
             rect,
             5.0 * rt.tokens.radius,
-            Stroke::new(2.0, rt.tokens.accent_ring),
+            Stroke::new(2.0_f32, rt.tokens.accent_ring),
             StrokeKind::Inside,
         );
     }
@@ -2600,7 +2600,7 @@ fn radio_pair(
                 center,
                 7.0,
                 Stroke::new(
-                    1.0,
+                    1.0_f32,
                     if yes {
                         rt.tokens.accent
                     } else {
@@ -2624,8 +2624,11 @@ fn radio_pair(
                 rt.tokens.text,
             );
             if r.has_focus() {
-                ui.painter()
-                    .circle_stroke(center, 10.0, Stroke::new(2.0, rt.tokens.accent_ring));
+                ui.painter().circle_stroke(
+                    center,
+                    10.0,
+                    Stroke::new(2.0_f32, rt.tokens.accent_ring),
+                );
             }
             rt.record(&format!("{id}-{i}"), &r);
             responses.push(r);

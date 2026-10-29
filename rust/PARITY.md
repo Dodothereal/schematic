@@ -110,7 +110,7 @@ acceptance testing.
 | `overlays-14` | Skeleton → content |
 | `workspace-0` | Coding workspace |
 
-## Checked locally for native v0.1.0
+## Checked locally for native v0.1.1
 
 - 170 library tests and seven whole-application integration tests pass on macOS
   Apple Silicon. Clippy passes with warnings denied, and formatting passes.

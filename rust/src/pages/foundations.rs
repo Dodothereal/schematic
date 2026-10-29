@@ -45,7 +45,7 @@ fn control_button(ui: &mut egui::Ui, rt: &mut Runtime, size: &str, height: f32) 
         8.0 * rt.prefs.radius,
         crate::ui::mix(rt.tokens.surface, rt.tokens.surface2, amount),
         Stroke::new(
-            1.0,
+            1.0_f32,
             if engaged {
                 rt.tokens.border_strong
             } else {
@@ -76,7 +76,7 @@ fn control_button(ui: &mut egui::Ui, rt: &mut Runtime, size: &str, height: f32) 
         ui.painter().rect_stroke(
             rect.expand(2.0),
             8.0 * rt.prefs.radius,
-            Stroke::new(2.0, rt.tokens.accent_ring),
+            Stroke::new(2.0_f32, rt.tokens.accent_ring),
             StrokeKind::Outside,
         );
     }
@@ -387,7 +387,7 @@ impl Page for State {
                         8.0 * rt.prefs.radius,
                         rt.tokens.surface,
                         Stroke::new(
-                            1.0,
+                            1.0_f32,
                             if engaged {
                                 rt.tokens.accent
                             } else {
@@ -401,7 +401,7 @@ impl Page for State {
                             .with_max_y(rect.top() + 72.0),
                         6.0 * rt.prefs.radius,
                         *color,
-                        Stroke::new(1.0, rt.tokens.border_soft),
+                        Stroke::new(1.0_f32, rt.tokens.border_soft),
                         StrokeKind::Inside,
                     );
                     painter.text(
@@ -611,7 +611,7 @@ impl Page for State {
             for (i, name) in ["SM", "MD", "LG"].iter().enumerate() {
                 egui::Frame::new()
                     .fill(rt.tokens.surface)
-                    .stroke(Stroke::new(1.0, rt.tokens.border))
+                    .stroke(Stroke::new(1.0_f32, rt.tokens.border))
                     .corner_radius(((6 + i * 3) as f32 * rt.prefs.radius) as u8)
                     .inner_margin(24.0)
                     .shadow(egui::epaint::Shadow {

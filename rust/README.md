@@ -147,7 +147,7 @@ notarization and does not establish Gatekeeper distribution trust. The script
 does not change security policy, remove quarantine attributes or install the
 app into an Applications directory.
 
-Native releases use the separate tag `native-v0.1.0`. A maintainer creating that
+Native releases use the separate tag `native-v0.1.1`. A maintainer creating that
 release with `gh release create` must pass `--latest=false`, so the web release
 `v0.4.2` and its latest-HTML download links keep their existing meaning. The
 native CI workflow only uploads run artifacts; it does not create a release,

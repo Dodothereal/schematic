@@ -294,7 +294,7 @@ impl Guide {
                         pos2(bounds.left(), footer_top - 10.0),
                         pos2(bounds.right(), footer_top - 10.0),
                     ],
-                    Stroke::new(1.0, t.border_soft),
+                    Stroke::new(1.0_f32, t.border_soft),
                 );
                 let footer = Rect::from_min_max(pos2(bounds.left(), footer_top), bounds.max);
                 rt.anchor("guide-footer", "Guide controls", footer);
@@ -455,7 +455,7 @@ fn draw_step(
             let right = rect.right() - 22.0;
             ui.painter().line_segment(
                 [pos2(left, rect.center().y), pos2(right, rect.center().y)],
-                Stroke::new(2.0, t.border),
+                Stroke::new(2.0_f32, t.border),
             );
             let p = rt.animate(
                 "guide-sample",

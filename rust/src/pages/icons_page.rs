@@ -518,7 +518,7 @@ fn ring(ui: &Ui, rt: &Runtime, r: &Response, radius: f32) {
         ui.painter().rect_stroke(
             r.rect.shrink(1.),
             ui::rounded(radius * rt.tokens.radius),
-            Stroke::new(2., rt.tokens.accent_ring),
+            Stroke::new(2.0_f32, rt.tokens.accent_ring),
             StrokeKind::Inside,
         );
     }
@@ -581,7 +581,7 @@ impl State {
             rect,
             ui::rounded(6. * rt.tokens.radius),
             rt.tokens.surface,
-            Stroke::new(1., rt.tokens.border),
+            Stroke::new(1.0_f32, rt.tokens.border),
             StrokeKind::Inside,
         );
         let mut input_ui = ui.new_child(
@@ -619,7 +619,7 @@ impl State {
             ui.painter().rect_stroke(
                 rect,
                 ui::rounded(6. * rt.tokens.radius),
-                Stroke::new(2., rt.tokens.accent_ring),
+                Stroke::new(2.0_f32, rt.tokens.accent_ring),
                 StrokeKind::Inside,
             );
         }
@@ -733,7 +733,7 @@ impl State {
             ui::rounded(10. * rt.tokens.radius),
             ui::mix(rt.tokens.surface, rt.tokens.accent_soft, hover),
             Stroke::new(
-                1.,
+                1.0_f32,
                 ui::mix(rt.tokens.border_soft, rt.tokens.accent_ring, hover),
             ),
             StrokeKind::Inside,
@@ -1106,7 +1106,7 @@ impl State {
             rect,
             ui::rounded(6. * rt.tokens.radius),
             fill,
-            Stroke::new(1., border),
+            Stroke::new(1.0_f32, border),
             StrokeKind::Inside,
         );
         ring(ui, rt, &response, 6.);
@@ -1220,7 +1220,7 @@ impl State {
                     ui::rounded(12. * rt.tokens.radius),
                     rt.tokens.surface,
                     Stroke::new(
-                        1.,
+                        1.0_f32,
                         if engaged {
                             rt.tokens.accent_ring
                         } else {

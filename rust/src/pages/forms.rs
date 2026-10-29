@@ -1235,7 +1235,7 @@ impl State {
                 ui.painter().circle_stroke(
                     thumb,
                     if r.has_focus() { 10.0 } else { 8.0 },
-                    Stroke::new(2.0, rt.tokens.accent),
+                    Stroke::new(2.0_f32, rt.tokens.accent),
                 );
                 ui.horizontal(|ui| {
                     ui.small("Silent");
@@ -1357,7 +1357,7 @@ impl State {
                     ui.painter().circle_stroke(
                         center,
                         if response.has_focus() { 10.0 } else { 8.0 },
-                        Stroke::new(2.0, rt.tokens.accent),
+                        Stroke::new(2.0_f32, rt.tokens.accent),
                     );
                     ui.painter().text(
                         Pos2::new(center.x, area.top() + 15.0),
@@ -1429,7 +1429,7 @@ impl State {
         let frame = egui::Frame::new()
             .fill(fill)
             .stroke(Stroke::new(
-                1.0,
+                1.0_f32,
                 if hovered {
                     rt.tokens.accent
                 } else {
@@ -1919,7 +1919,7 @@ impl State {
                     rect,
                     4.0,
                     Stroke::new(
-                        1.0,
+                        1.0_f32,
                         if error {
                             rt.tokens.danger
                         } else {
@@ -2023,8 +2023,9 @@ fn edit(
     let response = ui
         .scope(|ui| {
             if error.is_some() {
-                ui.visuals_mut().widgets.inactive.bg_stroke = Stroke::new(1.0, rt.tokens.danger);
-                ui.visuals_mut().widgets.hovered.bg_stroke = Stroke::new(1.0, rt.tokens.danger);
+                ui.visuals_mut().widgets.inactive.bg_stroke =
+                    Stroke::new(1.0_f32, rt.tokens.danger);
+                ui.visuals_mut().widgets.hovered.bg_stroke = Stroke::new(1.0_f32, rt.tokens.danger);
             }
             ui.add(
                 egui::TextEdit::singleline(value)
@@ -2769,13 +2770,13 @@ fn form_style(ui: &mut egui::Ui, rt: &Runtime) {
     visuals.override_text_color = Some(rt.tokens.text);
     visuals.text_edit_bg_color = Some(rt.tokens.surface);
     visuals.selection.bg_fill = rt.tokens.accent_soft2;
-    visuals.selection.stroke = Stroke::new(1.0, rt.tokens.accent);
+    visuals.selection.stroke = Stroke::new(1.0_f32, rt.tokens.accent);
     for widget in [
         &mut visuals.widgets.inactive,
         &mut visuals.widgets.hovered,
         &mut visuals.widgets.active,
     ] {
-        widget.bg_stroke = Stroke::new(1.0, rt.tokens.border_strong);
+        widget.bg_stroke = Stroke::new(1.0_f32, rt.tokens.border_strong);
         widget.corner_radius = egui::CornerRadius::same((6.0 * rt.tokens.radius) as u8);
         widget.fg_stroke.color = rt.tokens.text;
     }
@@ -2849,7 +2850,7 @@ fn radio_pair(
                 center,
                 7.0,
                 Stroke::new(
-                    1.0,
+                    1.0_f32,
                     if yes {
                         rt.tokens.accent
                     } else {
@@ -2873,8 +2874,11 @@ fn radio_pair(
                 rt.tokens.text,
             );
             if r.has_focus() {
-                ui.painter()
-                    .circle_stroke(center, 10.0, Stroke::new(2.0, rt.tokens.accent_ring));
+                ui.painter().circle_stroke(
+                    center,
+                    10.0,
+                    Stroke::new(2.0_f32, rt.tokens.accent_ring),
+                );
             }
             rt.record(&format!("{id}-{i}"), &r);
             responses.push(r);

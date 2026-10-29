@@ -1526,7 +1526,8 @@ fn child(ui: &mut Ui, rect: Rect, id: impl std::hash::Hash) -> Ui {
     child
 }
 fn separator(ui: &Ui, a: Pos2, b: Pos2, color: Color32) {
-    ui.painter().line_segment([a, b], Stroke::new(1., color));
+    ui.painter()
+        .line_segment([a, b], Stroke::new(1.0_f32, color));
 }
 #[derive(Clone, Copy)]
 struct Control<'a> {
@@ -1655,7 +1656,7 @@ impl State {
             ui.painter().rect_stroke(
                 rect.shrink(1.),
                 3. * tokens.radius,
-                Stroke::new(1.5, tokens.accent),
+                Stroke::new(1.5_f32, tokens.accent),
                 egui::StrokeKind::Inside,
             );
         }
@@ -2487,7 +2488,7 @@ impl State {
                                 row.left_top() + Vec2::new(1., 0.),
                                 row.left_bottom() + Vec2::new(1., 0.),
                             ],
-                            Stroke::new(2., tokens.danger_text),
+                            Stroke::new(2.0_f32, tokens.danger_text),
                         );
                         let start = output.galley_pos.x
                             + line.chars().take_while(|c| c.is_whitespace()).count() as f32
@@ -2503,7 +2504,7 @@ impl State {
                             .collect::<Vec<_>>();
                         painter.add(egui::Shape::line(
                             points,
-                            Stroke::new(1., tokens.danger_text),
+                            Stroke::new(1.0_f32, tokens.danger_text),
                         ));
                     }
                     painter.text(
@@ -3337,7 +3338,7 @@ impl State {
         let max_height = (ctx.content_rect().height() - 96.).max(160.);
         let frame = egui::Frame::new()
             .fill(tokens.surface)
-            .stroke(Stroke::new(1., tokens.border_strong))
+            .stroke(Stroke::new(1.0_f32, tokens.border_strong))
             .corner_radius(10. * tokens.radius)
             .inner_margin(16.);
         self.drawn_dialog = Some(dialog.kind);

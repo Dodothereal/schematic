@@ -143,14 +143,14 @@ impl SchematicApp {
         style.visuals.extreme_bg_color = t.bg_sunken;
         style.visuals.faint_bg_color = t.surface2;
         style.visuals.code_bg_color = t.surface2;
-        style.visuals.window_stroke = Stroke::new(1.0, t.border);
+        style.visuals.window_stroke = Stroke::new(1.0_f32, t.border);
         style.visuals.window_corner_radius = ui::rounded(16.0 * t.radius);
         style.visuals.selection.bg_fill = t.accent_soft2;
-        style.visuals.selection.stroke = Stroke::new(1.0, t.accent_text);
+        style.visuals.selection.stroke = Stroke::new(1.0_f32, t.accent_text);
         style.visuals.hyperlink_color = t.accent_text;
         style.visuals.widgets.noninteractive.bg_fill = t.surface;
-        style.visuals.widgets.noninteractive.bg_stroke = Stroke::new(1.0, t.border);
-        style.visuals.widgets.noninteractive.fg_stroke = Stroke::new(1.0, t.text2);
+        style.visuals.widgets.noninteractive.bg_stroke = Stroke::new(1.0_f32, t.border);
+        style.visuals.widgets.noninteractive.fg_stroke = Stroke::new(1.0_f32, t.text2);
         for widget in [
             &mut style.visuals.widgets.inactive,
             &mut style.visuals.widgets.hovered,
@@ -158,14 +158,14 @@ impl SchematicApp {
             &mut style.visuals.widgets.open,
         ] {
             widget.corner_radius = ui::rounded(6.0 * t.radius);
-            widget.fg_stroke = Stroke::new(1.0, t.text);
-            widget.bg_stroke = Stroke::new(1.0, t.border);
+            widget.fg_stroke = Stroke::new(1.0_f32, t.text);
+            widget.bg_stroke = Stroke::new(1.0_f32, t.border);
             widget.bg_fill = t.surface;
         }
         style.visuals.widgets.hovered.bg_fill = t.surface2;
-        style.visuals.widgets.hovered.bg_stroke = Stroke::new(1.0, t.border_strong);
+        style.visuals.widgets.hovered.bg_stroke = Stroke::new(1.0_f32, t.border_strong);
         style.visuals.widgets.active.bg_fill = t.accent_soft;
-        style.visuals.widgets.active.bg_stroke = Stroke::new(1.0, t.accent_ring);
+        style.visuals.widgets.active.bg_stroke = Stroke::new(1.0_f32, t.accent_ring);
         style.spacing.item_spacing = vec2(12.0, 12.0);
         style.spacing.button_padding = vec2(12.0, 8.0);
         style.spacing.interact_size = vec2(34.0, 34.0);
@@ -249,7 +249,7 @@ impl SchematicApp {
                     active,
                     ui::rounded(8.0 * t.radius),
                     t.surface,
-                    Stroke::new(1.0, t.border),
+                    Stroke::new(1.0_f32, t.border),
                     StrokeKind::Inside,
                 );
                 ui.painter().line_segment(
@@ -257,7 +257,7 @@ impl SchematicApp {
                         pos2(active.left() - 3.0, active.top() + 10.0),
                         pos2(active.left() - 3.0, active.bottom() - 10.0),
                     ],
-                    Stroke::new(2.0, t.accent),
+                    Stroke::new(2.0_f32, t.accent),
                 );
             } else if hover > 0.0 {
                 ui.painter().rect_filled(
@@ -305,7 +305,7 @@ impl SchematicApp {
         }
         Frame::new()
             .fill(t.surface)
-            .stroke(Stroke::new(1.0, t.border))
+            .stroke(Stroke::new(1.0_f32, t.border))
             .corner_radius(ui::rounded(10.0 * t.radius))
             .inner_margin(8)
             .show(ui, |ui| {
@@ -619,7 +619,7 @@ impl SchematicApp {
             .frame(
                 Frame::new()
                     .fill(t.surface_raised)
-                    .stroke(Stroke::new(1.0, t.border))
+                    .stroke(Stroke::new(1.0_f32, t.border))
                     .corner_radius(ui::rounded(12.0 * t.radius))
                     .inner_margin(16),
             )
@@ -787,7 +787,7 @@ impl SchematicApp {
                     Frame::new()
                         .fill(self.rt.tokens.bg_sunken)
                         .inner_margin(Margin::symmetric(16, 24))
-                        .stroke(Stroke::new(1.0, self.rt.tokens.border_soft)),
+                        .stroke(Stroke::new(1.0_f32, self.rt.tokens.border_soft)),
                 )
                 .show(ctx, |ui| self.sidebar(ui));
         }

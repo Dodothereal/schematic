@@ -603,7 +603,7 @@ impl State {
                 ui.painter().rect_stroke(
                     rect,
                     t.radius * 12.,
-                    Stroke::new(1., if r.has_focus() { t.accent } else { t.border }),
+                    Stroke::new(1.0_f32, if r.has_focus() { t.accent } else { t.border }),
                     egui::StrokeKind::Inside,
                 );
                 let art = Rect::from_min_size(rect.min, vec2(rect.width(), 140.));
@@ -720,7 +720,7 @@ impl State {
                     ui.painter().rect_stroke(
                         drawn.expand(2.),
                         rt.tokens.radius * 8.,
-                        Stroke::new(2., rt.tokens.accent_ring),
+                        Stroke::new(2.0_f32, rt.tokens.accent_ring),
                         egui::StrokeKind::Outside,
                     );
                 }
@@ -749,7 +749,7 @@ impl State {
                     ui.painter().rect_stroke(
                         r.rect.shrink(1.),
                         rt.tokens.radius * 6.,
-                        Stroke::new(1., rt.tokens.accent),
+                        Stroke::new(1.0_f32, rt.tokens.accent),
                         egui::StrokeKind::Inside,
                     );
                 }
@@ -1775,7 +1775,7 @@ kit::demo(
             |ui, rt| {
                 let frame = Frame::new()
                     .fill(rt.tokens.surface2)
-                    .stroke(Stroke::new(1., rt.tokens.border))
+                    .stroke(Stroke::new(1.0_f32, rt.tokens.border))
                     .inner_margin(20.)
                     .corner_radius(rt.tokens.radius * 8.)
                     .show(ui, |ui| {
@@ -2113,7 +2113,7 @@ kit::demo(
 fn frame(rt: &Runtime) -> Frame {
     Frame::new()
         .fill(rt.tokens.surface_raised)
-        .stroke(Stroke::new(1., rt.tokens.border))
+        .stroke(Stroke::new(1.0_f32, rt.tokens.border))
         .corner_radius(rt.tokens.radius * 10.)
         .inner_margin(16.)
 }
@@ -2240,7 +2240,7 @@ fn edge_preview(ui: &mut Ui, rt: &Runtime, sheet: bool) {
                     y,
                 ),
             ],
-            Stroke::new(3., rt.tokens.border),
+            Stroke::new(3.0_f32, rt.tokens.border),
         );
     }
 }
@@ -2251,14 +2251,14 @@ fn project_art(ui: &mut Ui, rt: &Runtime, rect: Rect, engaged: f32) {
         let x = rect.left() + rect.width() * n as f32 / 8.;
         painter.line_segment(
             [pos2(x, rect.top()), pos2(x, rect.bottom())],
-            Stroke::new(0.5, rt.tokens.accent_ring),
+            Stroke::new(0.5_f32, rt.tokens.accent_ring),
         );
     }
     for n in 1..4 {
         let y = rect.top() + rect.height() * n as f32 / 4.;
         painter.line_segment(
             [pos2(rect.left(), y), pos2(rect.right(), y)],
-            Stroke::new(0.5, rt.tokens.accent_ring),
+            Stroke::new(0.5_f32, rt.tokens.accent_ring),
         );
     }
     let center = rect.center();
@@ -2271,14 +2271,14 @@ fn project_art(ui: &mut Ui, rt: &Runtime, rect: Rect, engaged: f32) {
     painter.rect_stroke(
         back,
         8.,
-        Stroke::new(1., rt.tokens.accent_ring),
+        Stroke::new(1.0_f32, rt.tokens.accent_ring),
         egui::StrokeKind::Inside,
     );
     painter.rect_filled(front, 8., rt.tokens.surface_raised);
     painter.rect_stroke(
         front,
         8.,
-        Stroke::new(1., rt.tokens.accent_ring),
+        Stroke::new(1.0_f32, rt.tokens.accent_ring),
         egui::StrokeKind::Inside,
     );
     for (n, width) in [0.45, 0.75, 0.58].iter().enumerate() {
@@ -2287,7 +2287,7 @@ fn project_art(ui: &mut Ui, rt: &Runtime, rect: Rect, engaged: f32) {
                 front.min + vec2(14., 20. + n as f32 * 12.),
                 front.min + vec2(front.width() * width, 20. + n as f32 * 12.),
             ],
-            Stroke::new(2., rt.tokens.border_strong),
+            Stroke::new(2.0_f32, rt.tokens.border_strong),
         );
     }
     crate::icons::paint(

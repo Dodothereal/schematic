@@ -766,7 +766,7 @@ fn chart_focus(ui: &egui::Ui, rt: &Runtime, response: &Response) {
         ui.painter().rect_stroke(
             response.rect,
             6.0,
-            Stroke::new(2.0, rt.tokens.accent_ring),
+            Stroke::new(2.0_f32, rt.tokens.accent_ring),
             StrokeKind::Inside,
         );
     }
@@ -799,7 +799,7 @@ impl State {
                         rect,
                         16.0 * rt.prefs.radius,
                         rt.tokens.surface,
-                        Stroke::new(1.0, rt.tokens.border),
+                        Stroke::new(1.0_f32, rt.tokens.border),
                         StrokeKind::Inside,
                     );
                     p.text(
@@ -886,7 +886,7 @@ impl State {
                         &p,
                         points,
                         spark.min.to_vec2(),
-                        Stroke::new(2.0, rt.tokens.charts[i]),
+                        Stroke::new(2.0_f32, rt.tokens.charts[i]),
                     );
                     p.text(
                         rect.min + vec2(20.0, 152.0),
@@ -987,7 +987,7 @@ impl State {
                 for (y, label) in &self.geometry.grid {
                     p.line_segment(
                         [rect.min + vec2(48.0, *y), rect.min + vec2(width - 18.0, *y)],
-                        Stroke::new(1.0, rt.tokens.border_soft),
+                        Stroke::new(1.0_f32, rt.tokens.border_soft),
                     );
                     p.text(
                         rect.min + vec2(38.0, *y + 4.0),
@@ -1041,13 +1041,18 @@ impl State {
                     if prior.len() > 1 {
                         p.add(Shape::dashed_line(
                             &prior,
-                            Stroke::new(1.8, rt.tokens.charts[1].gamma_multiply(0.85)),
+                            Stroke::new(1.8_f32, rt.tokens.charts[1].gamma_multiply(0.85)),
                             4.0,
                             5.0,
                         ));
                     }
                 }
-                line_shape(&p, points, offset, Stroke::new(2.5, rt.tokens.charts[0]));
+                line_shape(
+                    &p,
+                    points,
+                    offset,
+                    Stroke::new(2.5_f32, rt.tokens.charts[0]),
+                );
                 if progress > 0.0 && progress < 1.0 {
                     let alpha = (progress * 10.0).min(1.0) * ((1.0 - progress) * 10.0).min(1.0);
                     p.circle_filled(
@@ -1059,7 +1064,7 @@ impl State {
                         head + offset,
                         3.5,
                         rt.tokens.surface,
-                        Stroke::new(2.0, rt.tokens.charts[0].gamma_multiply(alpha)),
+                        Stroke::new(2.0_f32, rt.tokens.charts[0].gamma_multiply(alpha)),
                     );
                 }
                 if (response.hovered() || response.dragged())
@@ -1082,7 +1087,7 @@ impl State {
                         ui.spacing_mut().slider_width = (ui.available_width() - 16.0).max(100.0);
                         ui.visuals_mut().widgets.inactive.bg_fill = rt.tokens.surface3;
                         ui.visuals_mut().widgets.inactive.bg_stroke =
-                            Stroke::new(1.0, rt.tokens.border_strong);
+                            Stroke::new(1.0_f32, rt.tokens.border_strong);
                         ui.visuals_mut().selection.bg_fill = rt.tokens.accent;
                         ui.add(
                             egui::Slider::new(&mut self.day_index, 0..=self.period - 1)
@@ -1142,7 +1147,7 @@ impl State {
                         );
                     p.add(Shape::dashed_line(
                         &[pos2(point.x, rect.top() + 22.0), pos2(point.x, bottom)],
-                        Stroke::new(1.0, rt.tokens.text3),
+                        Stroke::new(1.0_f32, rt.tokens.text3),
                         3.0,
                         5.0,
                     ));
@@ -1151,7 +1156,7 @@ impl State {
                             pos2(rect.left() + 48.0, point.y),
                             pos2(rect.right() - 18.0, point.y),
                         ],
-                        Stroke::new(1.0, rt.tokens.text3.gamma_multiply(0.35)),
+                        Stroke::new(1.0_f32, rt.tokens.text3.gamma_multiply(0.35)),
                         3.0,
                         5.0,
                     ));
@@ -1160,7 +1165,7 @@ impl State {
                         point,
                         4.0,
                         rt.tokens.charts[0],
-                        Stroke::new(2.0, rt.tokens.surface),
+                        Stroke::new(2.0_f32, rt.tokens.surface),
                     );
                     let text = if self.compare {
                         format!(
@@ -1191,7 +1196,7 @@ impl State {
                         tip,
                         8.0 * rt.prefs.radius,
                         rt.tokens.surface_raised,
-                        Stroke::new(1.0, rt.tokens.border_strong),
+                        Stroke::new(1.0_f32, rt.tokens.border_strong),
                         StrokeKind::Inside,
                     );
                     p.galley(tip.min + vec2(12.0, 8.0), galley, rt.tokens.text);
@@ -1319,7 +1324,7 @@ impl State {
                     let y = top + (base - top) * i as f32 / 3.0;
                     p.line_segment(
                         [pos2(rect.left() + 44.0, y), pos2(rect.right() - 10.0, y)],
-                        Stroke::new(1.0, rt.tokens.border_soft),
+                        Stroke::new(1.0_f32, rt.tokens.border_soft),
                     );
                     p.text(
                         pos2(rect.left() + 35.0, y + 4.0),
@@ -1586,7 +1591,7 @@ impl State {
                             row,
                             12.0 * rt.prefs.radius,
                             rt.tokens.surface2.gamma_multiply(amount),
-                            Stroke::new(1.0, rt.tokens.border.gamma_multiply(amount)),
+                            Stroke::new(1.0_f32, rt.tokens.border.gamma_multiply(amount)),
                             StrokeKind::Inside,
                         );
                     }
@@ -1829,7 +1834,7 @@ impl State {
                             rt.tokens.surface
                         },
                         Stroke::new(
-                            1.0,
+                            1.0_f32,
                             if emphasized {
                                 rt.tokens.border_strong
                             } else {
@@ -1894,7 +1899,7 @@ impl State {
                         .value(rect, ui, rt, 1.15, 0.0, Curve::InOut)
                 };
                 let p = ui.painter();
-                p.circle_stroke(center, radius, Stroke::new(22.0, rt.tokens.surface3));
+                p.circle_stroke(center, radius, Stroke::new(22.0_f32, rt.tokens.surface3));
                 let mut offset = 0.0;
                 for (i, share) in shares.iter().copied().enumerate() {
                     let selected = highlight == Some(i);
@@ -2069,11 +2074,11 @@ impl State {
                             row.shrink(3.0),
                             16.0 * rt.prefs.radius,
                             rt.tokens.surface2.gamma_multiply(highlight),
-                            Stroke::new(1.0, rt.tokens.border.gamma_multiply(highlight)),
+                            Stroke::new(1.0_f32, rt.tokens.border.gamma_multiply(highlight)),
                             StrokeKind::Inside,
                         );
                     }
-                    p.circle_stroke(center, radius, Stroke::new(7.0, rt.tokens.surface3));
+                    p.circle_stroke(center, radius, Stroke::new(7.0_f32, rt.tokens.surface3));
                     arc(
                         p,
                         center,
@@ -2092,7 +2097,7 @@ impl State {
                             3.5 * (1.0 + highlight * 0.4),
                             rt.tokens.charts[*color]
                                 .gamma_multiply(((progress - 0.7) / 0.3).min(1.0)),
-                            Stroke::new(2.0, rt.tokens.surface),
+                            Stroke::new(2.0_f32, rt.tokens.surface),
                         );
                     }
                     p.text(
@@ -2272,11 +2277,11 @@ impl State {
             let columns=[("name","Customer",48.0,330.0),("status","Status",330.0,438.0),("orders","Orders",438.0,535.0),("revenue","Revenue",535.0,665.0),("growth","Growth",665.0,width)];for(key,label,start,end)in columns{let rect=Rect::from_min_max(pos2(header.left()+start,header.top()),pos2(header.left()+end,header.bottom()));let response=ui.interact(rect,ui.id().with(("dt-sort",key)),Sense::click());rt.record(&format!("dt-table-sort-{key}"),&response);let active=self.sort==key;let next=if active&&self.ascending{"descending"}else{"ascending"};response.widget_info(||egui::WidgetInfo::labeled(egui::WidgetType::Button,true,format!("{label}, sort {next}")));if activated(ui,&response){self.ascending=if active{!self.ascending}else{true};self.sort=key.into();}ui.painter().text(rect.left_center()+vec2(12.0,0.0),Align2::LEFT_CENTER,label,FontId::proportional(11.0),rt.tokens.text2);icons::paint(ui.painter(),if active{if self.ascending{"arrow-up"}else{"arrow-down"}}else{"chevrons-up-down"},Rect::from_center_size(rect.right_center()-vec2(16.0,0.0),vec2(12.0,12.0)),if active{rt.tokens.accent_text}else{rt.tokens.text3},1.5,0.0);chart_focus(ui,rt,&response);}
             let(table_rect,_)=ui.allocate_exact_size(vec2(width,visible.len() as f32*72.0),Sense::hover());let mut focus_next=None;
             for(position,index)in visible.iter().copied().enumerate(){let account=self.accounts[index].clone();let target=position as f32*72.0;let previous=self.row_positions.insert(account.id.clone(),target);let y=if previous.is_some(){rt.animate(("dt-row-y",&account.id),target,0.47,Curve::SpringSnappy)}else{target};let row=Rect::from_min_size(table_rect.min+vec2(0.0,y),vec2(width,72.0));let response=ui.interact(row,ui.id().with(("dt-row",&account.id)),Sense::click());rt.record(&format!("dt-account-{}",account.id),&response);let is_selected=self.selected.contains(&account.id);response.widget_info(||egui::WidgetInfo::selected(egui::WidgetType::SelectableLabel,true,is_selected,format!("{}, press Space to select; {} {}, {} orders, {} revenue, {} growth",account.name,account.channel,account.status,account.orders,money(account.revenue),signed(account.growth))));let selection=rt.animate(("dt-row-selected",&account.id),if is_selected{1.0}else{0.0},0.32,Curve::Out);if !previous_visible.contains(&account.id){rt.animate(("dt-row-enter",&account.id),0.0,0.0,Curve::Out);}let arrival=rt.animate(("dt-row-enter",&account.id),1.0,0.32,Curve::Out);let row_clip=table_rect.intersect(row.with_max_y(row.top()+row.height()*arrival));let mut p=ui.painter().with_clip_rect(row_clip);p.set_opacity(arrival);if response.hovered(){p.rect_filled(row,0.0,rt.tokens.surface2);}
-if selection>0.0{p.rect_filled(Rect::from_min_size(row.min,vec2(row.width()*selection,row.height())),0.0,rt.tokens.accent_soft);}p.line_segment([row.left_bottom(),row.right_bottom()],Stroke::new(1.0,rt.tokens.border_soft));
+if selection>0.0{p.rect_filled(Rect::from_min_size(row.min,vec2(row.width()*selection,row.height())),0.0,rt.tokens.accent_soft);}p.line_segment([row.left_bottom(),row.right_bottom()],Stroke::new(1.0_f32,rt.tokens.border_soft));
                 let check_rect=Rect::from_center_size(pos2(row.left()+24.0,row.center().y),vec2(24.0,24.0));let check=table_check(ui,rt,format!("dt-select-{}",account.id),check_rect,is_selected,false,true,&format!("Select {}",account.name),Some((row_clip,arrival)));let extend=ui.input(|i|i.modifiers.shift);let pointer_in_check=ui.ctx().pointer_interact_pos().is_some_and(|p|check_rect.contains(p));
                 if check.clicked(){self.toggle_row(&account.id,false)}else if response.clicked()&&(!response.clicked_by(egui::PointerButton::Primary)||!pointer_in_check){self.toggle_row(&account.id,extend);response.request_focus();}
                 if response.has_focus(){let down=ui.input_mut(|i|i.consume_key(egui::Modifiers::NONE,Key::ArrowDown));let up=ui.input_mut(|i|i.consume_key(egui::Modifiers::NONE,Key::ArrowUp));if down||up{let next=if down{(position+1).min(visible.len()-1)}else{position.saturating_sub(1)};focus_next=Some(self.accounts[visible[next]].id.clone());}}
-                chart_focus(ui,rt,&response);let avatar=Rect::from_center_size(pos2(row.left()+72.0,row.center().y),vec2(32.0,32.0));p.rect(avatar,8.0*rt.prefs.radius,if is_selected{rt.tokens.accent}else{rt.tokens.accent_soft},Stroke::new(1.0,rt.tokens.border_soft),StrokeKind::Inside);let initials=account.name.split_whitespace().take(2).filter_map(|s|s.chars().next()).collect::<String>();p.text(avatar.center(),Align2::CENTER_CENTER,initials,FontId::monospace(11.0),if is_selected{rt.tokens.accent_contrast}else{rt.tokens.accent_text});p.text(row.min+vec2(100.0,27.0),Align2::LEFT_CENTER,&account.name,FontId::proportional(12.0),rt.tokens.text);p.text(row.min+vec2(100.0,47.0),Align2::LEFT_CENTER,format!("{} · {}",account.channel,account.id),FontId::proportional(10.0),rt.tokens.text2);let(status_color,status_bg)=match account.status.as_str(){"Active"=>(rt.tokens.success_text,rt.tokens.success_soft),"Trial"=>(rt.tokens.info_text,rt.tokens.info_soft),_=>(rt.tokens.text2,rt.tokens.surface2)};let badge=Rect::from_min_size(pos2(row.left()+342.0,row.center().y-12.0),vec2(66.0,24.0));p.rect_filled(badge,6.0*rt.prefs.radius,status_bg);p.text(badge.center(),Align2::CENTER_CENTER,&account.status,FontId::proportional(11.0),status_color);p.text(row.min+vec2(510.0,36.0),Align2::RIGHT_CENTER,number(account.orders),FontId::monospace(12.0),rt.tokens.text);p.text(row.min+vec2(640.0,36.0),Align2::RIGHT_CENTER,money(account.revenue),FontId::monospace(12.0),rt.tokens.text);p.text(row.min+vec2(width-24.0,36.0),Align2::RIGHT_CENTER,signed(account.growth),FontId::monospace(12.0),if account.growth>=0.0{rt.tokens.success_text}else{rt.tokens.danger_text});
+                chart_focus(ui,rt,&response);let avatar=Rect::from_center_size(pos2(row.left()+72.0,row.center().y),vec2(32.0,32.0));p.rect(avatar,8.0*rt.prefs.radius,if is_selected{rt.tokens.accent}else{rt.tokens.accent_soft},Stroke::new(1.0_f32,rt.tokens.border_soft),StrokeKind::Inside);let initials=account.name.split_whitespace().take(2).filter_map(|s|s.chars().next()).collect::<String>();p.text(avatar.center(),Align2::CENTER_CENTER,initials,FontId::monospace(11.0),if is_selected{rt.tokens.accent_contrast}else{rt.tokens.accent_text});p.text(row.min+vec2(100.0,27.0),Align2::LEFT_CENTER,&account.name,FontId::proportional(12.0),rt.tokens.text);p.text(row.min+vec2(100.0,47.0),Align2::LEFT_CENTER,format!("{} · {}",account.channel,account.id),FontId::proportional(10.0),rt.tokens.text2);let(status_color,status_bg)=match account.status.as_str(){"Active"=>(rt.tokens.success_text,rt.tokens.success_soft),"Trial"=>(rt.tokens.info_text,rt.tokens.info_soft),_=>(rt.tokens.text2,rt.tokens.surface2)};let badge=Rect::from_min_size(pos2(row.left()+342.0,row.center().y-12.0),vec2(66.0,24.0));p.rect_filled(badge,6.0*rt.prefs.radius,status_bg);p.text(badge.center(),Align2::CENTER_CENTER,&account.status,FontId::proportional(11.0),status_color);p.text(row.min+vec2(510.0,36.0),Align2::RIGHT_CENTER,number(account.orders),FontId::monospace(12.0),rt.tokens.text);p.text(row.min+vec2(640.0,36.0),Align2::RIGHT_CENTER,money(account.revenue),FontId::monospace(12.0),rt.tokens.text);p.text(row.min+vec2(width-24.0,36.0),Align2::RIGHT_CENTER,signed(account.growth),FontId::monospace(12.0),if account.growth>=0.0{rt.tokens.success_text}else{rt.tokens.danger_text});
             }
             if let Some(id)=focus_next{ui.memory_mut(|memory|memory.request_focus(ui.id().with(("dt-row",id))));}
         });
@@ -2399,7 +2404,7 @@ fn table_check(
             rt.tokens.surface
         },
         Stroke::new(
-            1.0,
+            1.0_f32,
             if checked || mixed {
                 rt.tokens.accent
             } else {
@@ -2414,7 +2419,7 @@ fn table_check(
                 face.center() - vec2(4.0, 0.0),
                 face.center() + vec2(4.0, 0.0),
             ],
-            Stroke::new(2.0, rt.tokens.accent_contrast),
+            Stroke::new(2.0_f32, rt.tokens.accent_contrast),
         );
     } else if progress > 0.0 {
         let points = [
@@ -2426,7 +2431,7 @@ fn table_check(
         let (points, _) = trace.prefix(progress);
         p.add(Shape::line(
             points,
-            Stroke::new(1.8, rt.tokens.accent_contrast),
+            Stroke::new(1.8_f32, rt.tokens.accent_contrast),
         ));
     }
     chart_focus(ui, rt, &response);

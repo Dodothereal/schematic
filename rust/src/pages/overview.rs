@@ -637,7 +637,7 @@ fn block_tabs(
         } else {
             rt.tokens.surface2
         },
-        Stroke::new(1., rt.tokens.border_soft),
+        Stroke::new(1.0_f32, rt.tokens.border_soft),
         StrokeKind::Inside,
     );
     let mut responses = Vec::new();
@@ -681,7 +681,7 @@ fn block_tabs(
         } else {
             rt.tokens.surface
         },
-        Stroke::new(1., rt.tokens.border_soft),
+        Stroke::new(1.0_f32, rt.tokens.border_soft),
         StrokeKind::Inside,
     );
     for (i, (label, response)) in labels.iter().zip(responses).enumerate() {
@@ -744,7 +744,7 @@ fn focus_ring(ui: &Ui, rt: &Runtime, response: &Response, radius: f32) {
         ui.painter().rect_stroke(
             response.rect.expand(3.),
             radius,
-            Stroke::new(2., rt.tokens.accent_ring),
+            Stroke::new(2.0_f32, rt.tokens.accent_ring),
             StrokeKind::Outside,
         );
     }
@@ -861,7 +861,7 @@ impl State {
         ui.painter().rect_stroke(
             source,
             rounded(rt, 6.),
-            Stroke::new(1., rt.tokens.border),
+            Stroke::new(1.0_f32, rt.tokens.border),
             StrokeKind::Inside,
         );
         text(
@@ -924,7 +924,7 @@ impl State {
                 rect,
                 rounded(rt, 8.),
                 Stroke::new(
-                    1.,
+                    1.0_f32,
                     if focused {
                         rt.tokens.accent_ring
                     } else {
@@ -951,14 +951,14 @@ impl State {
         field_ui.painter().circle_stroke(
             center + rotate(vec2(-1.5, -1.5)),
             5.3,
-            Stroke::new(1.5, rt.tokens.text3),
+            Stroke::new(1.5_f32, rt.tokens.text3),
         );
         field_ui.painter().line_segment(
             [
                 center + rotate(vec2(2.4, 2.4)),
                 center + rotate(vec2(6.6, 6.6)),
             ],
-            Stroke::new(1.5, rt.tokens.text3),
+            Stroke::new(1.5_f32, rt.tokens.text3),
         );
         let empty = self.query.is_empty();
         let reset = Rect::from_center_size(rect.right_center() - vec2(20., 0.), Vec2::splat(28.));
@@ -1106,7 +1106,7 @@ impl State {
             displayed,
             rounded(rt, 6.),
             rt.tokens.surface,
-            Stroke::new(1., rt.tokens.border_strong),
+            Stroke::new(1.0_f32, rt.tokens.border_strong),
             StrokeKind::Inside,
         );
         if travel.moving(rt.now) {
@@ -1443,7 +1443,7 @@ impl State {
             painter.rect_stroke(
                 results,
                 rounded(rt, 12.),
-                Stroke::new(1., rt.tokens.border_strong),
+                Stroke::new(1.0_f32, rt.tokens.border_strong),
                 StrokeKind::Inside,
             );
         }
@@ -1469,7 +1469,7 @@ impl State {
             rect,
             radius,
             rt.tokens.surface,
-            Stroke::new(1., rt.tokens.border),
+            Stroke::new(1.0_f32, rt.tokens.border),
             StrokeKind::Inside,
         );
         if preview {
@@ -1523,7 +1523,7 @@ impl State {
         if preview {
             ui.painter().line_segment(
                 [link.left_top(), link.right_top()],
-                Stroke::new(1., rt.tokens.border_soft),
+                Stroke::new(1.0_f32, rt.tokens.border_soft),
             );
         }
         let padding = if preview { 16. } else { 20. };
@@ -1658,7 +1658,7 @@ impl State {
             button,
             rounded(rt, 8.),
             fill,
-            Stroke::new(1., foreground.gamma_multiply(0.16)),
+            Stroke::new(1.0_f32, foreground.gamma_multiply(0.16)),
             StrokeKind::Inside,
         );
         if running {
@@ -1729,7 +1729,7 @@ impl State {
             ranges,
             rounded(rt, 6.),
             rt.tokens.surface,
-            Stroke::new(1., rt.tokens.border_soft),
+            Stroke::new(1.0_f32, rt.tokens.border_soft),
             StrokeKind::Inside,
         );
         for (i, range) in [7, 30].iter().enumerate() {
@@ -1811,7 +1811,7 @@ impl State {
         for segment in &self.revenue.grid {
             ui.painter().line_segment(
                 [map(segment[0]), map(segment[1])],
-                Stroke::new(0.65, rt.tokens.border),
+                Stroke::new(0.65_f32, rt.tokens.border),
             );
         }
         let p = self.finite(rt, self.chart_started, 0.95, 0.);
@@ -1839,7 +1839,8 @@ impl State {
             .map(map)
             .collect();
         if line.len() > 1 {
-            ui.painter().add(Shape::line(line, Stroke::new(2., color)));
+            ui.painter()
+                .add(Shape::line(line, Stroke::new(2.0_f32, color)));
         }
         if let Some(i) = self.revenue.selected {
             let point = self.revenue.points[i];
@@ -1850,11 +1851,11 @@ impl State {
                         map(pos2(point.x, y as f32)),
                         map(pos2(point.x, (y + 3).min(112) as f32)),
                     ],
-                    Stroke::new(0.7, rt.tokens.text4),
+                    Stroke::new(0.7_f32, rt.tokens.text4),
                 );
             }
             ui.painter()
-                .circle(pos, 4., rt.tokens.surface, Stroke::new(2., color));
+                .circle(pos, 4., rt.tokens.surface, Stroke::new(2.0_f32, color));
         }
     }
     fn sort_preview(&mut self, ui: &mut Ui, rt: &mut Runtime) {
@@ -1914,7 +1915,7 @@ impl State {
                     rounded(rt, 3.),
                     ui::mix(rt.tokens.surface, rt.tokens.accent, fraction),
                     Stroke::new(
-                        1.,
+                        1.0_f32,
                         ui::mix(rt.tokens.border_strong, rt.tokens.accent, fraction),
                     ),
                     StrokeKind::Inside,
@@ -1930,7 +1931,7 @@ impl State {
                     };
                     ui.painter().add(Shape::line(
                         points,
-                        Stroke::new(1.5, rt.tokens.accent_contrast),
+                        Stroke::new(1.5_f32, rt.tokens.accent_contrast),
                     ));
                 }
                 let color = if checks[item] {
@@ -1947,7 +1948,7 @@ impl State {
                             text_pos + vec2(0., galley.size().y * 0.52),
                             text_pos + vec2(galley.size().x, galley.size().y * 0.52),
                         ],
-                        Stroke::new(0.65, rt.tokens.text4),
+                        Stroke::new(0.65_f32, rt.tokens.text4),
                     );
                 }
                 icons::paint(
@@ -2045,7 +2046,7 @@ impl State {
                     );
                     panel.painter().line_segment(
                         [r.left_bottom(), r.right_bottom()],
-                        Stroke::new(1., rt.tokens.border_soft),
+                        Stroke::new(1.0_f32, rt.tokens.border_soft),
                     );
                 }
             }
@@ -2101,7 +2102,7 @@ impl State {
                     highlight,
                 ),
                 Stroke::new(
-                    1.,
+                    1.0_f32,
                     if engaged {
                         rt.tokens.accent_ring
                     } else {
@@ -2178,7 +2179,7 @@ impl State {
                     rt.tokens.surface
                 },
                 Stroke::new(
-                    1.,
+                    1.0_f32,
                     if response.hovered() {
                         rt.tokens.accent_ring
                     } else {
@@ -2285,7 +2286,7 @@ impl State {
         let width = ui.available_width().min(600.);
         let outer = egui::Frame::new()
             .fill(rt.tokens.surface)
-            .stroke(Stroke::new(1., rt.tokens.border))
+            .stroke(Stroke::new(1.0_f32, rt.tokens.border))
             .corner_radius(rounded(rt, 16.))
             .inner_margin(if width < 400. { 16. } else { 20. });
         let result = outer.show(ui, |ui| {
@@ -2409,7 +2410,7 @@ impl State {
                     rt.tokens.surface2
                 },
                 Stroke::new(
-                    1.,
+                    1.0_f32,
                     if self.study_tasks[i] {
                         rt.tokens.accent_ring
                     } else if response.hovered() {
@@ -2431,7 +2432,7 @@ impl State {
                     rt.tokens.surface
                 },
                 Stroke::new(
-                    1.,
+                    1.0_f32,
                     if self.study_tasks[i] {
                         rt.tokens.accent
                     } else {
@@ -2451,7 +2452,7 @@ impl State {
                 };
                 ui.painter().add(Shape::line(
                     points,
-                    Stroke::new(1.7, rt.tokens.accent_contrast),
+                    Stroke::new(1.7_f32, rt.tokens.accent_contrast),
                 ));
             }
             text(
@@ -2518,7 +2519,7 @@ impl State {
                     rt.tokens.surface2
                 },
                 Stroke::new(
-                    1.,
+                    1.0_f32,
                     if self.pins[i] || highlight {
                         rt.tokens.accent_ring
                     } else {
@@ -2584,7 +2585,7 @@ impl State {
             text(ui.painter(),rect.left_center()+vec2(0.,-7.),label,13.,rt.tokens.text);
             let fraction=rt.animate(("ov-study-reveal-height",i),if self.disclosures[i]{1.}else{0.},0.32,Curve::Out);
             let icon=rect.right_center()-vec2(9.,0.);let angle=std::f32::consts::FRAC_PI_4*fraction;let x=vec2(angle.cos(),angle.sin())*5.;let y=vec2(-angle.sin(),angle.cos())*5.;
-            ui.painter().line_segment([icon-x,icon+x],Stroke::new(1.5,rt.tokens.text3));ui.painter().line_segment([icon-y,icon+y],Stroke::new(1.5,rt.tokens.text3));
+            ui.painter().line_segment([icon-x,icon+x],Stroke::new(1.5_f32,rt.tokens.text3));ui.painter().line_segment([icon-y,icon+y],Stroke::new(1.5_f32,rt.tokens.text3));
             let galley=wrapped(ui,desc,12.,rt.tokens.text2,ui.available_width()-20.,6);let target=galley.size().y+16.;
             if fraction>0.001 {
                 let (content,_)=ui.allocate_exact_size(vec2(ui.available_width(),target*fraction),Sense::hover());
@@ -2592,7 +2593,7 @@ impl State {
                 painter.galley(content.min+vec2(0.,4.-4.*fraction),galley,rt.tokens.text2);
                 if self.disclosures[i] {let answer=ui.interact(content,ui.make_persistent_id(("ov-study-answer",i)),Sense::hover());answer.widget_info(||WidgetInfo::labeled(WidgetType::Label,true,*desc));}
             }
-            ui.painter().line_segment([pos2(rect.left(),ui.cursor().min.y),pos2(rect.right(),ui.cursor().min.y)],Stroke::new(1.,rt.tokens.border_soft));
+            ui.painter().line_segment([pos2(rect.left(),ui.cursor().min.y),pos2(rect.right(),ui.cursor().min.y)],Stroke::new(1.0_f32,rt.tokens.border_soft));
         }
     }
     fn collections(&mut self, ui: &mut Ui, rt: &mut Runtime) {
@@ -2645,7 +2646,7 @@ impl State {
                     rounded(rt, 7.),
                     rt.tokens.surface,
                     Stroke::new(
-                        1.,
+                        1.0_f32,
                         if engaged {
                             rt.tokens.accent_ring
                         } else {

@@ -77,7 +77,7 @@ fn alpha(color: Color32, value: f32) -> Color32 {
 fn panel_frame(t: &Tokens) -> Frame {
     Frame::new()
         .fill(t.surface_raised)
-        .stroke(Stroke::new(1., t.border))
+        .stroke(Stroke::new(1.0_f32, t.border))
         .corner_radius(t.radius * 12.)
         .inner_margin(16.)
 }
@@ -378,7 +378,7 @@ impl State {
                         ui.painter().rect_stroke(
                             r,
                             t.radius * 12.,
-                            Stroke::new(1., t.border),
+                            Stroke::new(1.0_f32, t.border),
                             egui::StrokeKind::Inside,
                         );
                         return None;

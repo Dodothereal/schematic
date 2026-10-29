@@ -111,7 +111,7 @@ pub fn button(
         pr,
         rounded(6.0 * t.radius),
         bg,
-        Stroke::new(1.0, border),
+        Stroke::new(1.0_f32, border),
         StrokeKind::Inside,
     );
     let mut x = pr.left() + 12.0;
@@ -132,7 +132,7 @@ pub fn button(
         paint.rect_stroke(
             pr.expand(3.0),
             rounded(8.0 * t.radius),
-            Stroke::new(2.0, t.accent_ring),
+            Stroke::new(2.0_f32, t.accent_ring),
             StrokeKind::Outside,
         );
     }
@@ -178,7 +178,7 @@ pub fn icon_button(
         ui.painter().rect_stroke(
             rect.expand(2.0),
             rounded(8.0 * t.radius),
-            Stroke::new(2.0, t.accent_ring),
+            Stroke::new(2.0_f32, t.accent_ring),
             StrokeKind::Outside,
         );
     }
@@ -272,7 +272,7 @@ pub fn segmented(
         thumb,
         rounded(6.0 * t.radius),
         t.surface,
-        Stroke::new(1.0, t.border_soft),
+        Stroke::new(1.0_f32, t.border_soft),
         StrokeKind::Inside,
     );
     for (i, label) in labels.iter().enumerate() {
@@ -321,7 +321,7 @@ pub fn checkbox(
         box_rect,
         rounded(4.0 * t.radius),
         mix(t.surface, t.accent, amount),
-        Stroke::new(1.0, mix(t.border_strong, t.accent, amount)),
+        Stroke::new(1.0_f32, mix(t.border_strong, t.accent, amount)),
         StrokeKind::Inside,
     );
     if amount > 0.0 {
@@ -334,7 +334,7 @@ pub fn checkbox(
             ui.painter(),
             &points,
             amount,
-            Stroke::new(1.8, t.accent_contrast),
+            Stroke::new(1.8_f32, t.accent_contrast),
         );
     }
     ui.painter().text(
@@ -348,7 +348,7 @@ pub fn checkbox(
         ui.painter().rect_stroke(
             box_rect.expand(3.0),
             rounded(5.0 * t.radius),
-            Stroke::new(2.0, t.accent_ring),
+            Stroke::new(2.0_f32, t.accent_ring),
             StrokeKind::Outside,
         );
     }
@@ -389,7 +389,7 @@ pub fn toggle(
         track,
         rounded(12.0),
         mix(t.surface3, t.accent, p),
-        Stroke::new(1.0, mix(t.border, t.accent, p)),
+        Stroke::new(1.0_f32, mix(t.border, t.accent, p)),
         StrokeKind::Inside,
     );
     ui.painter().circle_filled(
@@ -412,7 +412,7 @@ pub fn toggle(
         ui.painter().rect_stroke(
             track.expand(3.0),
             rounded(15.0),
-            Stroke::new(2.0, t.accent_ring),
+            Stroke::new(2.0_f32, t.accent_ring),
             StrokeKind::Outside,
         );
     }
@@ -454,7 +454,7 @@ pub fn page_head(
             rect,
             rounded(12.0 * rt.tokens.radius),
             rt.tokens.surface,
-            Stroke::new(1.0, rt.tokens.border),
+            Stroke::new(1.0_f32, rt.tokens.border),
             StrokeKind::Inside,
         );
         icons::paint(
@@ -529,7 +529,7 @@ pub fn card<R>(
     ui.push_id(id, |ui| {
         Frame::new()
             .fill(t.surface)
-            .stroke(Stroke::new(1.0, t.border))
+            .stroke(Stroke::new(1.0_f32, t.border))
             .corner_radius(rounded(12.0 * t.radius))
             .inner_margin(20)
             .show(ui, |ui| body(ui, rt))
@@ -550,7 +550,7 @@ pub fn demo<R>(
         .push_id(id, |ui| {
             Frame::new()
                 .fill(t.surface)
-                .stroke(Stroke::new(1.0, t.border))
+                .stroke(Stroke::new(1.0_f32, t.border))
                 .corner_radius(rounded(16.0 * t.radius))
                 .show(ui, |ui| {
                     let value = Frame::new()

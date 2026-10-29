@@ -14,7 +14,7 @@ The native application uses Rust with eframe/egui. Layout, controls, vector icon
 state and animation are authored in Rust. It has no browser, WebView, JavaScript
 engine or HTML/CSS renderer. The web reference remains available separately.
 
-[Download for macOS Apple Silicon](https://github.com/Dodothereal/schematic/releases/tag/native-v0.1.0) ·
+[Download for macOS Apple Silicon](https://github.com/Dodothereal/schematic/releases/tag/native-v0.1.1) ·
 [Build and reuse the Rust code](rust/README.md) ·
 [Native parity and verification](rust/PARITY.md)
 
