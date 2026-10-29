@@ -13,3 +13,7 @@ node_modules/
 # Editor state.
 .idea/
 .vscode/
+
+# Native Rust build output.
+/rust/target/
+/rust/dist/

@@ -1,12 +1,35 @@
 # Schematic
 
-An offline component library built with HTML, CSS, JavaScript and SVG.
-Browse working component previews, test interactions and inspect the source.
+An offline component library with a web reference and a native Rust application.
+Browse working previews, test interactions and inspect the source.
 
 [Try the live reference](http://dodothereal.me/schematic/) ·
 [Quick start](docs/QUICKSTART.md) ·
 [Watch the walkthrough](http://dodothereal.me/schematic/watch/) ·
 [MIT license](LICENSE)
+
+## Native Rust app
+
+The native application uses Rust with eframe/egui. Layout, controls, vector icons,
+state and animation are authored in Rust. It has no browser, WebView, JavaScript
+engine or HTML/CSS renderer. The web reference remains available separately.
+
+[Download for macOS Apple Silicon](https://github.com/Dodothereal/schematic/releases/tag/native-v0.1.0) ·
+[Build and reuse the Rust code](rust/README.md) ·
+[Native parity and verification](rust/PARITY.md)
+
+```sh
+cargo run --release --manifest-path rust/Cargo.toml
+```
+
+The native app includes the eleven routes, 69 specimens, 82 animated vector icons,
+optional guide, Color/Mono palettes and local coding workspace. The workspace
+simulates repairs, CI checks, approvals and merges; it does not run a backend.
+
+[![Watch the native Rust app: guide, collections, charts and coding workspace.](rust/docs/assets/native-poster.png)](rust/docs/assets/native-walkthrough.mp4)
+
+[Watch the native recording](rust/docs/assets/native-walkthrough.mp4) ·
+[Chapters and transcript](rust/docs/WALKTHROUGH.md)
 
 [![CI](https://github.com/Dodothereal/schematic/actions/workflows/ci.yml/badge.svg)](https://github.com/Dodothereal/schematic/actions/workflows/ci.yml)
 
@@ -118,9 +141,9 @@ Page authors should read [the page contract](prototype/CONTRACT.md). It defines
 registration, pure rendering, mounting, entry and cleanup. The showcase pages
 are complete examples to adapt; they are not packaged drop-in components.
 
-**Implemented:** the HTML/CSS/JavaScript reference.
-**Planned:** React/Next.js, SwiftUI and Rust adapters. Native colour, motion,
-layout and accessibility need real mapping and runtime verification.
+**Implemented:** the web reference and [native Rust application](rust/README.md).
+**Planned:** React/Next.js and SwiftUI adapters. The [native parity ledger](rust/PARITY.md)
+records the verification scope and remaining platform checks.
 
 ## Build and verify
 

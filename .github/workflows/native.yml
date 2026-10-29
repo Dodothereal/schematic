@@ -1,0 +1,74 @@
+name: Native Rust
+
+on:
+  push:
+    paths: ['rust/**', '.github/workflows/native.yml', 'LICENSE']
+  pull_request:
+    paths: ['rust/**', '.github/workflows/native.yml', 'LICENSE']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux-checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: rust
+    steps:
+      # https://github.com/actions/checkout/releases/tag/v7.0.1
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install native X11, Wayland and OpenGL build dependencies
+        working-directory: .
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            pkg-config libssl-dev libxcb-render0-dev libxcb-shape0-dev \
+            libxcb-xfixes0-dev libxkbcommon-dev libxkbcommon-x11-0 \
+            libwayland-dev libx11-dev libxi-dev libxcursor-dev libxrandr-dev \
+            libxinerama-dev libgl1-mesa-dev libegl1-mesa-dev libudev-dev
+      - name: Install stable Rust and native lint components
+        run: |
+          rustup toolchain install stable --profile minimal --component rustfmt --component clippy
+          rustup default stable
+      - name: Check Rust formatting
+        run: cargo fmt --all -- --check
+      - name: Run Clippy on native targets
+        run: cargo clippy --locked --all-targets -- -D warnings
+      - name: Run state and headless egui integration tests
+        run: cargo test --locked --all-targets
+
+  macos-package:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install stable Rust
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+      - name: Check the macOS packager
+        run: bash -n rust/scripts/package-macos.sh
+      - name: Run native Rust tests on macOS
+        run: cargo test --manifest-path rust/Cargo.toml --locked --all-targets
+      - name: Build, ad-hoc sign and verify the host-architecture app and ZIP
+        run: bash rust/scripts/package-macos.sh
+      # https://github.com/actions/upload-artifact/releases/tag/v7.0.2
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: schematic-macos-${{ runner.arch }}
+          path: |
+            rust/dist/*.zip
+            rust/dist/*.sha256
+          if-no-files-found: error
+          retention-days: 14

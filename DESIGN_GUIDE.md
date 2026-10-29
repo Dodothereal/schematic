@@ -69,7 +69,7 @@ async behavior and never turn an operation failure into success feedback.
 | React / Next.js | CSS tokens, SVG paths, motion semantics | Components, effects/cleanup, router integration and framework QA |
 | SwiftUI | Semantic colours, spacing/type scale and interaction intent | Native assets, Dynamic Type, focus/VoiceOver and spring mapping |
 | Rust web UI / Tauri | CSS/SVG contract and page lifecycle intent | Framework wrappers, lifecycle cleanup and host integration |
-| Rust native UI | Semantic token names and behavior | Native layout, rendering, accessibility and motion implementation |
+| Rust native UI (eframe/egui) | Implemented in `rust/`: tokens, vector drawing, state and motion | Additional OS, physical touch and screen-reader verification; see `rust/PARITY.md` |
 
 CSS OKLCH values, sampled `linear()` curves and Web Animations are not native
 Swift or Rust APIs. Convert colour spaces, map springs using measured behavior,

@@ -1,6 +1,6 @@
 # Where Schematic goes next
 
-The current release is a working HTML reference. The next work should make it
+The project includes a web reference and a native Rust application. Further work should make it
 easier to use in a real product while keeping its motion and visual consistency.
 
 ## 1. From showcase to reusable recipes
@@ -27,7 +27,8 @@ after it has a real example and framework/browser checks.
 
 ## 4. Native parity
 
-Map the semantic contract into SwiftUI, then a selected Rust UI runtime. Convert
-colour spaces and measure spring behavior instead of treating CSS as a native API.
-Keep a parity table for layout, state, motion and accessibility, with explicit
-unsupported items. These adapters are planned, not part of the current release.
+The Rust implementation uses eframe/egui, native vector drawing, semantic OKLCH
+conversion and sampled spring curves. Its [parity ledger](rust/PARITY.md) records
+the implemented behavior and validation boundaries. Next, verify physical touch,
+screen readers and desktop rendering on additional operating systems. Map the
+same contracts into SwiftUI when that adapter is started.
