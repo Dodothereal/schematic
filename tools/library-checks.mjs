@@ -159,7 +159,7 @@ async function catalogChecks() {
   await click("[data-catalog-clear]");
   await focus("[data-catalog-search]");
   await key("Escape", "Escape", 27);
-  await focus(".ov-title").catch(() => {});
+  await focus(".ov-wordmark");
   await evaluate("document.activeElement.blur()"); await key("/", "Slash", 191);
   check("Slash shortcut reaches the catalog search by keyboard", await evaluate("document.activeElement.matches('[data-catalog-search]')"));
   await input("[data-catalog-search]", "accordion");

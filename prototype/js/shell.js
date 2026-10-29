@@ -77,6 +77,7 @@
     if (prevEl) { state.scroll[state.current] = viewport().scrollTop; prev.leave?.(prevEl); prevEl.hidden = true; }
     const p = byId(id), el = S.prepare(id);
     el.hidden = false;
+    document.documentElement.dataset.currentPage = id;
     if (!state.mounted.has(id)) { state.mounted.add(id); p.mount?.(el); }
     state.current = id;
     viewport().scrollTop = state.scroll[id] || 0;

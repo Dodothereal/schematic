@@ -454,3 +454,13 @@ code:not(pre code) {
   .demo-foot { flex-direction:column;gap:var(--s-3);padding:var(--s-4); }
   .demo-specs { max-width:100%;justify-content:flex-start; }
 }
+
+/* Application examples use the canvas rather than a documentation column. */
+.page-wrap:has(.page[data-page="overview"]:not([hidden])) {grid-template-columns:minmax(0,1240px);padding-top:var(--s-6)}
+.page-wrap:has(.page[data-page="overview"]:not([hidden]))>.rail{display:none}
+.app:has(.page[data-page="workspace"]:not([hidden])){grid-template-columns:1fr}
+.app:has(.page[data-page="workspace"]:not([hidden])) .sidebar{position:fixed;inset:0 auto 0 0;width:250px;transform:translateX(-102%);box-shadow:var(--shadow-xl)}
+[data-nav-open] .app:has(.page[data-page="workspace"]:not([hidden])) .sidebar{transform:none}
+.app:has(.page[data-page="workspace"]:not([hidden])) .menu-btn{display:inline-flex}
+.page-wrap:has(.page[data-page="workspace"]:not([hidden])){display:block;padding:0}
+.page-wrap:has(.page[data-page="workspace"]:not([hidden]))>.rail{display:none}

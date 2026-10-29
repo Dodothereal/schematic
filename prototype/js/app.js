@@ -214,23 +214,24 @@
     S.$("#theme-btn").addEventListener("click", (e) => S.toggleTheme(e.currentTarget));
     S.$$("[data-open-cmdk]").forEach((b) => b.addEventListener("click", () => S.cmdk.open()));
     const menu = S.$("#menu-btn"), sidebar = S.$(".sidebar"), mobile = matchMedia("(max-width: 900px)");
-    const syncSidebar = () => { sidebar.inert = mobile.matches && !root.hasAttribute("data-nav-open"); };
+    const overlayNav = () => mobile.matches || root.dataset.currentPage === "workspace";
+    const syncSidebar = () => { sidebar.inert = overlayNav() && !root.hasAttribute("data-nav-open"); };
     menu?.addEventListener("click", () => {
       const open = root.toggleAttribute("data-nav-open"); menu.setAttribute("aria-expanded", String(open)); syncSidebar();
       if (open) { sidebar.setAttribute("data-keyboard-open", ""); sidebar.querySelector("a")?.focus(); }
     });
-    const navObserver = new MutationObserver(syncSidebar); navObserver.observe(root, { attributes: true, attributeFilter: ["data-nav-open"] });
+    const navObserver = new MutationObserver(syncSidebar); navObserver.observe(root, { attributes: true, attributeFilter: ["data-nav-open", "data-current-page"] });
     mobile.addEventListener("change", syncSidebar); syncSidebar();
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && root.hasAttribute("data-nav-open")) { shell.closeMobileNav(); menu.focus(); }
-      if (e.key === "Tab" && mobile.matches && root.hasAttribute("data-nav-open")) {
+      if (e.key === "Tab" && overlayNav() && root.hasAttribute("data-nav-open")) {
         const nodes = S.$$("a[href],button:not(:disabled),input:not(:disabled)", sidebar).filter((el) => el.offsetParent !== null);
         const first = nodes[0], last = nodes[nodes.length - 1];
         if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
     });
-    document.addEventListener("pointerdown", (e) => { if (mobile.matches && !sidebar.contains(e.target) && !menu.contains(e.target)) shell.closeMobileNav(); });
+    document.addEventListener("pointerdown", (e) => { if (overlayNav() && !sidebar.contains(e.target) && !menu.contains(e.target)) shell.closeMobileNav(); });
     S.$("#viewport").addEventListener("pointerdown", () => shell.closeMobileNav());
 
     const vp = S.$("#viewport"), bar = S.$("#topbar");

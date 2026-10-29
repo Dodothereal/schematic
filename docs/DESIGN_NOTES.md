@@ -1,8 +1,17 @@
 # Implementation notes
 
-The home page starts with search and examples. Names describe the component or
-its action. Instructions cover operation and keyboard controls; repeated intro
+The home page starts with a component assembly, followed by search and examples.
+Names describe the component or its action. Instructions cover operation and keyboard controls; repeated intro
 banners and promotional copy have been removed.
+
+## Component assembly
+
+Five HTML components sit on an SVG drafting grid. Assembled, exploded and
+wireframe views share the same elements, so switching views moves the parts
+instead of replacing them. Selection updates the inspector and example link.
+Radius changes update the actual geometry. A mobile picker keeps each selected
+component at readable size. Entry and chart tracing stop offscreen, on navigation
+and under reduced motion. No rendering package or external asset is required.
 
 ## Catalog
 
@@ -22,8 +31,10 @@ owned animation work.
 
 The workspace is a local simulation with three seeded conversations. Each keeps
 its own messages, draft, changed files, check results, approval and merge state.
-Replies stream locally. Tool cards expose reads, edits and check logs. The diff
-uses a line comparison of the before and after fixtures.
+The editor occupies the center, with files on the left, chat on the right and
+check logs in a bottom console. File tabs, syntax coloring and split diffs show
+the code directly. Replies stream locally. Tool cards expose reads, edits and
+check logs. The diff compares the actual before and after files.
 
 The initial shortcut PR has a failing check. Rerunning it without a fix still
 fails. Applying the fix changes the displayed patch and reruns all three checks.

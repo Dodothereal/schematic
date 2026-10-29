@@ -1,114 +1,114 @@
 [
   {
     "id": "welcome",
-    "title": "Component library",
-    "subtitle": "Search and open a working example.",
+    "title": "Component assembly",
+    "subtitle": "Recompose, inspect and change the actual components.",
     "start": 0.001,
-    "duration": 10
+    "duration": 18.001
   },
   {
     "id": "workspace",
     "title": "Coding workspace",
     "subtitle": "Chat, diffs, pull requests, CI logs and merge.",
-    "start": 10.001,
-    "duration": 24.003
+    "start": 18.001,
+    "duration": 27.001
   },
   {
     "id": "guide",
     "title": "Guide",
     "subtitle": "Palette, motion settings and source locations.",
-    "start": 34.004,
-    "duration": 14
+    "start": 45.003,
+    "duration": 14.001
   },
   {
     "id": "foundations",
     "title": "Foundations",
     "subtitle": "Colors, typography, spacing and surfaces.",
-    "start": 48.003,
+    "start": 59.003,
     "duration": 14.001
   },
   {
     "id": "motion",
     "title": "Motion lab",
     "subtitle": "Curves, scrubbing and spring parameters.",
-    "start": 62.005,
-    "duration": 13.003
+    "start": 73.005,
+    "duration": 13.002
   },
   {
     "id": "icons",
     "title": "Animated icons",
     "subtitle": "Shared SVGs with individual animations.",
-    "start": 75.008,
+    "start": 86.007,
     "duration": 14.144
   },
   {
     "id": "components",
     "title": "Controls",
     "subtitle": "Pending, success, retry and hold-to-confirm.",
-    "start": 89.152,
-    "duration": 18.003
+    "start": 100.15,
+    "duration": 18.001
   },
   {
     "id": "primitives",
     "title": "Primitives",
     "subtitle": "Disclosure, dragging, text, counters and cards.",
-    "start": 107.155,
-    "duration": 18.003
+    "start": 118.152,
+    "duration": 18.001
   },
   {
     "id": "navigation",
     "title": "Navigation",
     "subtitle": "Menus, search, trees, pagination and flows.",
-    "start": 125.158,
-    "duration": 18.621
+    "start": 136.153,
+    "duration": 18.539
   },
   {
     "id": "forms",
     "title": "Forms",
     "subtitle": "Validation, verification codes and file selection.",
-    "start": 143.779,
+    "start": 154.692,
     "duration": 17.001
   },
   {
     "id": "charts",
     "title": "Charts",
     "subtitle": "Draw into view; redraw when the range changes.",
-    "start": 160.78,
-    "duration": 15.003
+    "start": 171.693,
+    "duration": 15.002
   },
   {
     "id": "inspect",
     "title": "Chart inspection",
     "subtitle": "Linked hover, focus and pinned values.",
-    "start": 175.782,
-    "duration": 15.003
+    "start": 186.695,
+    "duration": 15.001
   },
   {
     "id": "table",
     "title": "Table",
     "subtitle": "Filter, sort, select and export.",
-    "start": 190.786,
-    "duration": 13.11
+    "start": 201.696,
+    "duration": 13.109
   },
   {
     "id": "overlays",
     "title": "Overlays",
     "subtitle": "Dialogs, drawers, sheets and feedback.",
-    "start": 203.895,
-    "duration": 17.002
+    "start": 214.805,
+    "duration": 17.001
   },
   {
     "id": "themes",
     "title": "Theme and palette",
     "subtitle": "Color, Mono, light, dark and motion preferences.",
-    "start": 220.897,
+    "start": 231.806,
     "duration": 13.001
   },
   {
     "id": "finish",
     "title": "Source",
     "subtitle": "github.com/Dodothereal/schematic",
-    "start": 233.898,
-    "duration": 13.173
+    "start": 244.807,
+    "duration": 13.175
   }
 ]

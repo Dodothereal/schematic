@@ -62,22 +62,31 @@ async function fill(selector, value) {
 async function key(name, code, virtual) { await b.send("Input.dispatchKeyEvent", { type: "keyDown", key: name, code, windowsVirtualKeyCode: virtual, ...(name === "Enter" ? { text: "\r" } : {}) }); await b.send("Input.dispatchKeyEvent", { type: "keyUp", key: name, code, windowsVirtualKeyCode: virtual }); await delay(250); }
 const actions = {
   async welcome() {
-    await delay(1200); await b.screenshot(join(assets, "walkthrough-poster.png"));
+    await delay(1400); await b.screenshot(join(assets, "walkthrough-poster.png"));
+    await point('[data-as-view="assembled"]', {click:true,hover:1100});
+    await point('[data-as-view="wireframe"]', {click:true,hover:900});
+    await point('[data-as-view="exploded"]', {click:true,hover:900});
+    await point('[data-as-piece="metric"]', {click:true,hover:700});
+    await point('[data-as-radius]', {click:true,hover:600});
+    await point('[data-as-piece="chart"]', {click:true,hover:700});
+    await point('[data-as-browse]', {click:true,hover:600});
     await fill('[data-catalog-search]', 'workspace');
     await point('[data-catalog-id="workspace-0"]', {click:true,hover:800});
   },
   async workspace() {
-    await navigate('workspace'); await point('[data-ws-reset]',{click:true,hover:450});
-    await point('[data-ws-tab="checks"]',{click:true,hover:500});
-    await point('[data-ws-check="tests"]',{click:true,hover:1000});
-    await point('.ws-suggestions [data-ws-prompt="Fix the failed check"]',{click:true,hover:3300});
-    await point('[data-ws-tab="changes"]',{click:true,hover:500});
-    await point('.ws-file-tabs [data-ws-file="0"]',{click:true,hover:900});
-    await point('[data-ws-tab="pr"]',{click:true,hover:500});
+    await navigate('workspace'); await point('[data-ws-reset]',{click:true,hover:500});
+    await point('[data-ws-check="tests"]',{click:true,hover:1200});
+    await point('.ws-file-tabs [data-ws-file="1"]',{click:true,hover:800});
+    await point('.ws-file-tabs [data-ws-file="0"]',{click:true,hover:800});
+    await point('[data-ws-editor-mode="diff"]',{click:true,hover:1000});
+    await point('.ws-suggestions [data-ws-prompt="Fix the failed check"]',{click:true,hover:3800});
+    await point('[data-ws-editor-mode="diff"]',{click:true,hover:1000});
+    await point('[data-ws-review-toggle]',{click:true,hover:700});
     await point('[data-ws-approve]',{click:true,hover:500});
     await point('[data-ws-merge]',{click:true,hover:500});
     await point('[data-ws-confirm-merge]',{click:true,hover:800});
     await point('[data-ws-tab="activity"]',{click:true,hover:1000});
+    await key('Escape','Escape',27);
   },
   async guide() {
     await evaluate("Schematic.onboarding.open()"); await overlays(); await delay(1800);
@@ -129,13 +138,13 @@ const actions = {
 try {
   await b.open(pathToFileURL(join(workspace, "dist/schematic.html")).href);
   await evaluate(`(()=>{localStorage.clear();Schematic.setMotion('full');Schematic.setPalette('color');document.querySelector('.app').style.setProperty('height','900px','important');const s=document.createElement('style');s.textContent=\`
-  #film-notes{position:fixed;inset:auto 0 0;margin:0;width:100%;height:108px;border:0;border-top:1px solid #393a34;padding:19px 44px;background:#171914;color:#fafaf6;display:flex;gap:28px;align-items:center;max-width:none;pointer-events:none;font:14px -apple-system,BlinkMacSystemFont,sans-serif;box-sizing:border-box}
+  .pg-workspace{height:844px!important}\n  #film-notes{position:fixed;inset:auto 0 0;margin:0;width:100%;height:108px;border:0;border-top:1px solid #393a34;padding:19px 44px;background:#171914;color:#fafaf6;display:flex;gap:28px;align-items:center;max-width:none;pointer-events:none;font:14px -apple-system,BlinkMacSystemFont,sans-serif;box-sizing:border-box}
   #film-notes [data-film-count]{color:#a9b4a4;font:13px ui-monospace,monospace;border-right:1px solid #43473e;padding-right:28px}
   #film-notes strong{display:block;font-size:23px;font-weight:600;letter-spacing:-.3px;line-height:1.4}#film-notes p{margin:3px 0 0;color:#bac0b5;font-size:14px}
   #film-notes .film-brand{margin-left:auto;font:12px ui-monospace,monospace;color:#b8c4b0;letter-spacing:2px}
   #film-cursor{position:fixed;inset:0 auto auto 0;margin:0;border:0;background:none;padding:0;width:26px;height:32px;overflow:visible;pointer-events:none;transform:translate(1200px,600px);transition:transform 220ms cubic-bezier(.22,1,.36,1);max-width:none}
   #film-cursor svg{width:25px;height:31px;filter:drop-shadow(0 2px 2px #0004);transition:scale 120ms ease-out;transform-origin:top left}#film-cursor.is-press svg{scale:.85}
-  \`;document.head.append(s);const n=document.createElement('aside');n.id='film-notes';n.popover='manual';n.setAttribute('aria-hidden','true');n.innerHTML='<span data-film-count>01 / 13</span><div><strong></strong><p></p></div><span class="film-brand">SCHEMATIC</span>';document.body.append(n);n.showPopover();const c=document.createElement('div');c.id='film-cursor';c.popover='manual';c.setAttribute('aria-hidden','true');c.innerHTML='<svg viewBox="0 0 25 31"><path d="M3 2v23l6-6 5 10 4-2-5-10h9Z" fill="white" stroke="#20231e" stroke-width="1.5" stroke-linejoin="round"/></svg>';document.body.append(c);c.showPopover()})()`);
+  \`;document.head.append(s);const n=document.createElement('aside');n.id='film-notes';n.popover='manual';n.setAttribute('aria-hidden','true');n.innerHTML='<span data-film-count>01 / 16</span><div><strong></strong><p></p></div><span class="film-brand">SCHEMATIC</span>';document.body.append(n);n.showPopover();const c=document.createElement('div');c.id='film-cursor';c.popover='manual';c.setAttribute('aria-hidden','true');c.innerHTML='<svg viewBox="0 0 25 31"><path d="M3 2v23l6-6 5 10 4-2-5-10h9Z" fill="white" stroke="#20231e" stroke-width="1.5" stroke-linejoin="round"/></svg>';document.body.append(c);c.showPopover()})()`);
   if (!await evaluate("!!Schematic.onboarding?.open")) throw new Error("Build the onboarding before recording the walkthrough");
   await caption(chapters[0], 0); await delay(1000);
   b.events.splice(0); recording = true;

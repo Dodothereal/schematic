@@ -1,249 +1,257 @@
 WEBVTT
 
 1
-00:00:00.001 --> 00:00:02.479
-Schematic is an offline component library.
+00:00:00.001 --> 00:00:02.849
+The opening canvas is an interactive assembly.
 
 2
-00:00:02.479 --> 00:00:05.370
-Search or filter to find an example.
+00:00:02.849 --> 00:00:07.733
+Assemble the components into an application, separate them, or inspect the wireframe.
 
 3
-00:00:05.370 --> 00:00:09.501
-Select a result to open its controls and source context.
+00:00:07.733 --> 00:00:10.989
+Select a piece and change its corner radius.
 
 4
-00:00:10.001 --> 00:00:13.827
-The coding workspace is a local simulation.
+00:00:10.989 --> 00:00:15.873
+On a phone, the picker shows one component at a readable size.
 
 5
-00:00:13.827 --> 00:00:17.653
-Inspect the failed check and its log.
+00:00:15.873 --> 00:00:17.501
+The catalog follows below.
 
 6
-00:00:17.653 --> 00:00:22.572
-Ask for a fix, then review the changed code.
+00:00:18.001 --> 00:00:28.054
+The workspace puts the code editor in the center, project files on the left, the assistant on the right and CI below.
 
 7
-00:00:22.572 --> 00:00:29.131
-All checks and approval are required before the merge button becomes available.
+00:00:28.054 --> 00:00:33.080
+Open a file, edit its source or compare a split diff.
 
 8
-00:00:29.131 --> 00:00:33.504
-Conversations, drafts and review state are kept separately.
+00:00:33.080 --> 00:00:38.563
+Inspect the failed test, ask for a fix and review the patch.
 
 9
-00:00:34.004 --> 00:00:35.269
-Guide is optional.
+00:00:38.563 --> 00:00:42.218
+Passing checks and approval are required before merging.
 
 10
-00:00:35.269 --> 00:00:39.488
-Its four steps cover palettes, motion settings and source locations.
+00:00:42.218 --> 00:00:44.503
+This is a local simulation.
 
 11
-00:00:39.488 --> 00:00:42.441
-Back and Next keep the frame stable.
+00:00:45.003 --> 00:00:46.269
+Guide is optional.
 
 12
-00:00:42.441 --> 00:00:47.503
-Close it at any time, then reopen it from the top bar.
+00:00:46.269 --> 00:00:50.487
+Its four steps cover palettes, motion settings and source locations.
 
 13
-00:00:48.003 --> 00:00:50.504
-Foundations contains the shared tokens.
+00:00:50.487 --> 00:00:53.441
+Back and Next keep the frame stable.
 
 14
-00:00:50.504 --> 00:00:54.004
-Inspect colors, type, spacing, radii and shadows.
+00:00:53.441 --> 00:00:58.503
+Close it at any time, then reopen it from the top bar.
 
 15
-00:00:54.004 --> 00:00:58.504
-The tuning panel changes the interface palette and appearance.
+00:00:59.003 --> 00:01:01.504
+Foundations contains the shared tokens.
 
 16
-00:00:58.504 --> 00:01:01.505
-Mono keeps chart series in color.
+00:01:01.504 --> 00:01:05.004
+Inspect colors, type, spacing, radii and shadows.
 
 17
-00:01:02.005 --> 00:01:04.211
-Replay or scrub an easing curve.
+00:01:05.004 --> 00:01:09.505
+The tuning panel changes the interface palette and appearance.
 
 18
-00:01:04.211 --> 00:01:07.153
-Change the spring parameters and compare the result.
+00:01:09.505 --> 00:01:12.505
+Mono keeps chart series in color.
 
 19
-00:01:07.153 --> 00:01:11.198
-Full, slow and reduced motion are available in the tuning panel.
+00:01:13.005 --> 00:01:15.211
+Replay or scrub an easing curve.
 
 20
-00:01:11.198 --> 00:01:14.508
-System reduced motion is respected unless Full is selected.
+00:01:15.211 --> 00:01:18.153
+Change the spring parameters and compare the result.
 
 21
-00:01:15.008 --> 00:01:20.125
-Search the icon registry, adjust size and stroke, or play the collection.
+00:01:18.153 --> 00:01:22.197
+Full, slow and reduced motion are available in the tuning panel.
 
 22
-00:01:20.125 --> 00:01:22.683
-Each icon has its own animation.
+00:01:22.197 --> 00:01:25.507
+System reduced motion is respected unless Full is selected.
 
 23
-00:01:22.683 --> 00:01:28.652
-The same registry is used in navigation, controls, drag handles and coding-workspace tool results.
+00:01:26.007 --> 00:01:31.123
+Search the icon registry, adjust size and stroke, or play the collection.
 
 24
-00:01:29.152 --> 00:01:32.837
-These controls show pending, success and failure states.
+00:01:31.123 --> 00:01:33.681
+Each icon has its own animation.
 
 25
-00:01:32.837 --> 00:01:35.140
-Retry the failed local action.
+00:01:33.681 --> 00:01:39.650
+The same registry is used in navigation, controls, drag handles and coding-workspace tool results.
 
 26
-00:01:35.140 --> 00:01:38.364
-A hold can be cancelled before completion.
+00:01:40.150 --> 00:01:43.835
+These controls show pending, success and failure states.
 
 27
-00:01:38.364 --> 00:01:42.510
-Its confirmation time stays the same under reduced motion.
+00:01:43.835 --> 00:01:46.138
+Retry the failed local action.
 
 28
-00:01:42.510 --> 00:01:46.655
-Tabs, chips and menus also work with a keyboard.
+00:01:46.138 --> 00:01:49.362
+A hold can be cancelled before completion.
 
 29
-00:01:47.155 --> 00:01:52.278
-Expand a panel, then drag files between the pinned and unpinned groups.
+00:01:49.362 --> 00:01:53.507
+Its confirmation time stays the same under reduced motion.
 
 30
-00:01:52.278 --> 00:01:55.266
-Sort tasks with a pointer or keyboard.
+00:01:53.507 --> 00:01:57.652
+Tabs, chips and menus also work with a keyboard.
 
 31
-00:01:55.266 --> 00:01:59.962
-Space picks up and drops an item; Escape restores its position.
+00:01:58.152 --> 00:02:03.274
+Expand a panel, then drag files between the pinned and unpinned groups.
 
 32
-00:01:59.962 --> 00:02:04.658
-The remaining examples cover text changes, counters, flipping and expandable details.
+00:02:03.274 --> 00:02:06.262
+Sort tasks with a pointer or keyboard.
 
 33
-00:02:05.158 --> 00:02:09.577
-Switch menu content, filter collections and follow a breadcrumb path.
+00:02:06.262 --> 00:02:10.957
+Space picks up and drops an item; Escape restores its position.
 
 34
-00:02:09.577 --> 00:02:13.555
-Use arrow keys in the file tree or dock.
+00:02:10.957 --> 00:02:15.653
+The remaining examples cover text changes, counters, flipping and expandable details.
 
 35
-00:02:13.555 --> 00:02:17.091
-Pagination and the carousel keep one active panel.
+00:02:16.153 --> 00:02:20.553
+Switch menu content, filter collections and follow a breadcrumb path.
 
 36
-00:02:17.091 --> 00:02:23.279
-The workspace form validates each step and preserves its fields when you go back.
+00:02:20.553 --> 00:02:24.512
+Use arrow keys in the file tree or dock.
 
 37
-00:02:23.779 --> 00:02:28.821
-Forms includes native inputs, live validation, password controls and verification codes.
+00:02:24.512 --> 00:02:28.032
+Pagination and the carousel keep one active panel.
 
 38
-00:02:28.821 --> 00:02:31.571
-Pasting a code fills the slots.
+00:02:28.032 --> 00:02:34.192
+The workspace form validates each step and preserves its fields when you go back.
 
 39
-00:02:31.571 --> 00:02:35.238
-The profile form saves locally for the demo.
+00:02:34.692 --> 00:02:39.734
+Forms includes native inputs, live validation, password controls and verification codes.
 
 40
-00:02:35.238 --> 00:02:40.280
-File progress is simulated and does not upload the selected file.
+00:02:39.734 --> 00:02:42.484
+Pasting a code fills the slots.
 
 41
-00:02:40.780 --> 00:02:46.325
-The chart waits until it enters the viewport, then traces its finished shape.
+00:02:42.484 --> 00:02:46.151
+The profile form saves locally for the demo.
 
 42
-00:02:46.325 --> 00:02:49.311
-Changing the range starts a new draw.
+00:02:46.151 --> 00:02:51.193
+File progress is simulated and does not upload the selected file.
 
 43
-00:02:49.311 --> 00:02:52.723
-Inspect a day with the pointer or keyboard.
+00:02:51.693 --> 00:02:57.238
+The chart waits until it enters the viewport, then traces its finished shape.
 
 44
-00:02:52.723 --> 00:02:55.282
-The reference uses generated sample data.
+00:02:57.238 --> 00:03:00.224
+Changing the range starts a new draw.
 
 45
-00:02:55.782 --> 00:03:02.127
-Hover a bucket to compare values, or pin it with a click or key.
+00:03:00.224 --> 00:03:03.636
+Inspect a day with the pointer or keyboard.
 
 46
-00:03:02.127 --> 00:03:05.300
-Legend items and donut arcs respond together.
+00:03:03.636 --> 00:03:06.195
+The reference uses generated sample data.
 
 47
-00:03:05.300 --> 00:03:10.286
-Progress rings show the remaining amount while retaining the target value.
+00:03:06.695 --> 00:03:13.039
+Hover a bucket to compare values, or pin it with a click or key.
 
 48
-00:03:10.786 --> 00:03:16.250
-Filter accounts, sort columns and select a row by clicking its empty space.
+00:03:13.039 --> 00:03:16.211
+Legend items and donut arcs respond together.
 
 49
-00:03:16.250 --> 00:03:18.772
-The checkbox draws its selected state.
+00:03:16.211 --> 00:03:21.196
+Progress rings show the remaining amount while retaining the target value.
 
 50
-00:03:18.772 --> 00:03:23.395
-Keyboard selection, pagination and a local CSV export are also available.
+00:03:21.696 --> 00:03:27.160
+Filter accounts, sort columns and select a row by clicking its empty space.
 
 51
-00:03:23.895 --> 00:03:27.431
-Open a dialog, drawer or sheet.
+00:03:27.160 --> 00:03:29.682
+The checkbox draws its selected state.
 
 52
-00:03:27.431 --> 00:03:30.378
-Native modality keeps focus inside.
+00:03:29.682 --> 00:03:34.305
+Keyboard selection, pagination and a local CSV export are also available.
 
 53
-00:03:30.378 --> 00:03:34.504
-Escape closes it and restores the trigger.
+00:03:34.805 --> 00:03:38.341
+Open a dialog, drawer or sheet.
 
 54
-00:03:34.504 --> 00:03:40.397
-Other examples cover menus, tooltips, accordions, toasts and loading states.
+00:03:38.341 --> 00:03:41.287
+Native modality keeps focus inside.
 
 55
-00:03:40.897 --> 00:03:44.123
-Color and Mono both support light and dark.
+00:03:41.287 --> 00:03:45.413
+Escape closes it and restores the trigger.
 
 56
-00:03:44.123 --> 00:03:46.139
-Theme transitions include the background.
+00:03:45.413 --> 00:03:51.306
+Other examples cover menus, tooltips, accordions, toasts and loading states.
 
 57
-00:03:46.139 --> 00:03:48.559
-Preferences are saved in browser storage.
+00:03:51.806 --> 00:03:55.032
+Color and Mono both support light and dark.
 
 58
-00:03:48.559 --> 00:03:53.398
-The command palette opens pages and settings without resetting their local state.
+00:03:55.032 --> 00:03:57.048
+Theme transitions include the background.
 
 59
-00:03:53.898 --> 00:03:57.462
-Download the standalone HTML file or clone the source.
+00:03:57.048 --> 00:03:59.468
+Preferences are saved in browser storage.
 
 60
-00:03:57.462 --> 00:04:01.422
-The quick start lists the reusable files and their dependencies.
+00:03:59.468 --> 00:04:04.307
+The command palette opens pages and settings without resetting their local state.
 
 61
-00:04:01.422 --> 00:04:03.402
-The web reference is implemented.
+00:04:04.807 --> 00:04:08.372
+Download the standalone HTML file or clone the source.
 
 62
-00:04:03.402 --> 00:04:06.571
+00:04:08.372 --> 00:04:12.333
+The quick start lists the reusable files and their dependencies.
+
+63
+00:04:12.333 --> 00:04:14.313
+The web reference is implemented.
+
+64
+00:04:14.313 --> 00:04:17.482
 React, SwiftUI and Rust adapters are not included.

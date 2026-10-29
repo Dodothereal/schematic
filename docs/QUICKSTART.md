@@ -33,7 +33,8 @@ together. Use a current browser for native dialogs, OKLCH colors and modern CSS.
 ## Find the right example
 
 Use the sidebar, or **Menu** on a narrow window. **Commands** or **Cmd/Ctrl-K**
-searches pages and settings. Overview opens directly to a searchable catalog of the actual examples. Press **/** there to reach search;
+searches pages and settings. The catalog follows the opening assembly. Choose
+**Browse components** or press **/** to reach search;
 choose a result to open and focus the working example. Filter by family or use
 Show more to explore the collection.
 
@@ -98,13 +99,26 @@ For testing, call `Schematic.onboarding.open()` and
 preserves the route and returns focus on close. Only Finish writes
 `schematic:guide-completed`; `open()` returns `false` if another dialog is open.
 
+## Component assembly
+
+Use Assemble, Explode and Wireframe to recompose the opening canvas. Select a
+component to inspect it, adjust Radius and open its full example. On a phone,
+the component picker shows one piece at readable size. Browse components jumps
+to the catalog and focuses search.
+
 ## Coding workspace
 
 Open **Coding workspace** under Examples. This is a local simulation, not an AI
-or GitHub connection. The first PR has one failed check. Open **Checks** for its
-log, choose **Fix failed check**, inspect the diff, then approve and merge.
-Rerunning without the fix still fails. Stop cancels generation. Conversations
-retain separate drafts, changes and review state.
+or GitHub connection. Open files from the explorer or tabs. **Edit** changes the
+source; **Split diff** compares the before and after files. Editing makes prior
+checks stale and removes approval.
+
+The first PR has a failed unit check. Its log is in the bottom CI console. Choose
+**Fix failed check**, inspect the patch, then open the pull request to approve
+and merge. Rerunning without a fix still fails. Stop cancels generation.
+Sessions retain separate drafts, files and review state. Phones have Editor,
+Assistant and Checks tabs. Checks use fixture data; file contents are not compiled
+or executed.
 
 ## Drag controls
 
